@@ -25,11 +25,12 @@ services:
   mysql:
     image: mysql:5.7
     environment:
-      - MYSQL_ROOT_PASSWORD=verysecret
-      - MYSQL_DATABASE=yii2advanced
-      - MYSQL_USER=yii2advanced
-      - MYSQL_PASSWORD=secret
-
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=birqsil
+      - MYSQL_USER=supermetrolog
+      - MYSQL_PASSWORD=12345
+    ports:
+      - 3306:3306
   #pgsql:
   #  image: postgres:9.5
   #  environment:

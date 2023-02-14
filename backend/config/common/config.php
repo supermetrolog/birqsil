@@ -3,17 +3,10 @@
 declare(strict_types=1);
 
 return [
-    'id' => 'frontend',
-    'basePath' => realpath(__DIR__ . '/../../'),
+    'id' => 'backend',
+    'basePath' => dirname(dirname(__DIR__)),
+    'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'timeZone' => 'Europe/Moscow',
-    'controllerNamespace' => 'frontend\controllers',
-    'language' => 'ru-RU',
-    'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
-    ],
-    'container' => [],
     'components' => [
         'request' => [
             'enableCsrfValidation' => false,
@@ -22,11 +15,11 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            // this is the name of the session cookie used for login on the backend
+            'name' => 'advanced-backend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -40,5 +33,10 @@ return [
             'rules' => [],
         ],
     ],
-    'params' => []
+    'modules' => [
+        'user' => [
+            'class' => 'app\modules\user\User',
+        ],
+    ],
+    'params' => [],
 ];

@@ -4,7 +4,7 @@ return  [
     'id' => 'basic-tests',
     'components' => [
         'db' => [
-            'dsn' => 'mysql:host=localhost;dbname=crmka_test',
+            'dsn' => 'mysql:host=localhost;dbname=test_db',
         ],
         'mailer' => [
             'useFileTransport' => true,
