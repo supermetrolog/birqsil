@@ -1,16 +1,19 @@
 <?php
-$params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
-);
+
+declare(strict_types=1);
 
 return [
-    'id' => 'app-frontend',
-    'basePath' => dirname(__DIR__),
+    'id' => 'frontend',
+    'basePath' => realpath(__DIR__ . '/../../'),
     'bootstrap' => ['log'],
+    'timeZone' => 'Europe/Moscow',
     'controllerNamespace' => 'frontend\controllers',
+    'language' => 'ru-RU',
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ],
+    'container' => [],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -36,14 +39,11 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => [],
         ],
-        */
     ],
-    'params' => $params,
+    'params' => []
 ];
