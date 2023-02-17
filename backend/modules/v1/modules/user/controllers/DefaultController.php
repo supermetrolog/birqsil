@@ -2,19 +2,10 @@
 
 namespace app\modules\v1\modules\user\controllers;
 
-use yii\web\Controller;
+use common\models\User;
+use yii\rest\ActiveController;
 
-/**
- * Default controller for the `user` module
- */
-class DefaultController extends Controller
+class DefaultController extends ActiveController
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
+    public $modelClass = User::class;
 }

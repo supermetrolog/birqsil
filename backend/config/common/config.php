@@ -21,10 +21,6 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
-        'session' => [
-            // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
-        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],
@@ -33,22 +29,11 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
-            'rules' => [[
-                'class' => 'yii\rest\UrlRule',
-                'controller' => 'site',
-            ],],
+            'rules' => require __DIR__ . '/url_rules.php',
         ],
     ],
-    'modules' => [
-        'v1' => [
-            'class' => 'app\modules\v1\Module',
-            'modules' => [
-                'user' => [
-                    'class' => 'app\modules\v1\modules\user\Module'
-                ]
-            ]
-        ]
-    ],
+    'modules' => require __DIR__ . '/modules.php',
     'params' => [],
 ];
