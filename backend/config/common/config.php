@@ -11,6 +11,10 @@ return [
         'request' => [
             'enableCsrfValidation' => false,
             'enableCookieValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+            'baseUrl' => ''
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -30,13 +34,21 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'rules' => [[
+                'class' => 'yii\rest\UrlRule',
+                'controller' => 'site',
+            ],],
         ],
     ],
     'modules' => [
-        'user' => [
-            'class' => 'app\modules\user\User',
-        ],
+        'v1' => [
+            'class' => 'app\modules\v1\Module',
+            'modules' => [
+                'user' => [
+                    'class' => 'app\modules\v1\modules\user\Module'
+                ]
+            ]
+        ]
     ],
     'params' => [],
 ];
