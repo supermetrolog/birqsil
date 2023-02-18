@@ -10,7 +10,7 @@ use common\models\user\User;
 
 class SignUpTest extends Unit
 {
-    public function testSignUpCorrect()
+    public function testSignUpCorrect(): void
     {
         $model = new SignUp([
             'username' => 'nigga',

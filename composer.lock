@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b343d0a470ae50d15fa5b007c1f8a09",
+    "content-hash": "14563df4bf979d9865abf3db5cd2a320",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -26,7 +26,7 @@
             "version": "3.3.11",
             "source": {
                 "type": "git",
-                "url": "https://github.com/RobinHerbots/Inputmask.git",
+                "url": "git@github.com:RobinHerbots/Inputmask.git",
                 "reference": "5e670ad62f50c738388d4dcec78d2888505ad77b"
             },
             "dist": {
@@ -3397,6 +3397,58 @@
                 }
             ],
             "time": "2023-01-14T12:32:24+00:00"
+        },
+        {
+            "name": "proget-hq/phpstan-yii2",
+            "version": "0.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/proget-hq/phpstan-yii2.git",
+                "reference": "b9db74c3ad5637476abf442e60c904d5cc800eea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/proget-hq/phpstan-yii2/zipball/b9db74c3ad5637476abf442e60c904d5cc800eea",
+                "reference": "b9db74c3ad5637476abf442e60c904d5cc800eea",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.1.0",
+                "php": "^7.2|^8.0",
+                "phpstan/phpstan": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.1",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^8.0",
+                "yiisoft/yii2": "^2.0.42"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Proget\\PHPStan\\Yii2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arkadiusz Kondas",
+                    "email": "arkadiusz.kondas@gmail.com"
+                },
+                {
+                    "name": "Marcin Michalski",
+                    "email": "marcin@michalski.dev"
+                }
+            ],
+            "description": "Yii2 extension for PHPStan",
+            "support": {
+                "issues": "https://github.com/proget-hq/phpstan-yii2/issues",
+                "source": "https://github.com/proget-hq/phpstan-yii2/tree/0.8.0"
+            },
+            "time": "2022-01-10T14:49:26+00:00"
         },
         {
             "name": "psr/http-factory",

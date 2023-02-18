@@ -1,5 +1,16 @@
+includes:
+	- vendor/proget-hq/phpstan-yii2/extension.neon
 parameters:
+    yii2:
+        config_path: %rootDir%/../../../common/config/codeception-local.php
     level: 8
     paths:
         - backend
+        - common
+    excludePaths:
+        analyseAndScan:
+            - */tests/_output/*
+            - */tests/_support/*
     inferPrivatePropertyTypeFromConstructor: true
+    scanFiles:
+      - common/config/__autocomplete.php

@@ -1,5 +1,8 @@
 <?php
 
+use yii\BaseYii;
+use yii\web\Application;
+
 /**
  * This class only exists here for IDE (PHPStorm/Netbeans/...) autocompletion.
  * This file is never included anywhere.
@@ -11,7 +14,8 @@
  * }
  * ```
  */
-class Yii {
+class Yii extends BaseYii
+{
     /**
      * @var \yii\web\Application|\yii\console\Application|__Application
      */
@@ -21,13 +25,28 @@ class Yii {
 /**
  * @property yii\rbac\DbManager $authManager 
  * @property \yii\web\User|__WebUser $user
+ * @property yii\base\Security|__Security $security
+ * @property array $params
  * 
  */
-class __Application {
+class __Application extends Application
+{
 }
+
+// class __Response extends Response
+// {
+//     public function getStatusCode()
+//     {
+//     }
+// }
 
 /**
  * @property app\models\User $identity
  */
-class __WebUser {
+class __WebUser
+{
+}
+
+class __Security
+{
 }

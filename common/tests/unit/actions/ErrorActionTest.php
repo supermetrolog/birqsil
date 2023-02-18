@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace common\tests\unit\actions;
 
-use backend\controllers\SiteController;
+use Yii;
+use yii\web\Application;
 use Codeception\Test\Unit;
 use common\actions\ErrorAction;
-use Yii;
-use yii\base\ErrorHandler as BaseErrorHandler;
-use yii\web\ErrorHandler;
 use yii\web\NotFoundHttpException;
+use backend\controllers\SiteController;
+use yii\base\ErrorHandler as BaseErrorHandler;
 
 class ErrorActionTest extends Unit
 {
     private ErrorAction $errorAction;
-
+    private Application $app;
     public function _before(): void
     {
         $this->configureApp();
         $this->errorAction = $this->getErrorAction();
+
+        /** @var Application */
+        $app = Yii::$app;
+        $this->app = $app;
     }
 
     public function configureApp(): void
@@ -29,7 +33,7 @@ class ErrorActionTest extends Unit
         } catch (\Throwable $th) {
             $errorHandler = $this->createMock(BaseErrorHandler::class);
             $errorHandler->exception = $th;
-            Yii::$app->set('errorHandler', $errorHandler);
+            $this->app->set('errorHandler', $errorHandler);
         }
     }
 
@@ -38,16 +42,16 @@ class ErrorActionTest extends Unit
         $controller = Yii::createObject(SiteController::class);
         return new ErrorAction('error', $controller);
     }
-    public function testRun()
+    public function testRun(): void
     {
         $result = $this->errorAction->run();
 
-        $exception = Yii::$app->getErrorHandler()->exception;
-
+        /** @var \Throwable */
+        $exception = $this->app->getErrorHandler()->exception;
         verify($result)->equals([
             'message' => $exception->getMessage(),
             'code' => $exception->getCode(),
-            'status' => Yii::$app->getResponse()->getStatusCode(),
+            'status' => $this->app->getResponse()->getStatusCode(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
             'type' => get_class($exception),

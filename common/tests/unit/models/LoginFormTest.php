@@ -18,9 +18,9 @@ class LoginFormTest extends \Codeception\Test\Unit
 
 
     /**
-     * @return array
+     * @return array<string,array<string,string>>
      */
-    public function _fixtures()
+    public function _fixtures(): array
     {
         return [
             'user' => [
@@ -30,7 +30,7 @@ class LoginFormTest extends \Codeception\Test\Unit
         ];
     }
 
-    public function testLoginNoUser()
+    public function testLoginNoUser(): void
     {
         $model = new LoginForm([
             'username' => 'not_existing_username',
@@ -41,7 +41,7 @@ class LoginFormTest extends \Codeception\Test\Unit
         verify(Yii::$app->user->isGuest)->true();
     }
 
-    public function testLoginWrongPassword()
+    public function testLoginWrongPassword(): void
     {
         $model = new LoginForm([
             'username' => 'bayer.hudson',
