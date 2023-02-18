@@ -15,7 +15,7 @@ use yii\web\IdentityInterface;
  * @property integer $id
  * @property string $username
  * @property string $password_hash
- * @property string $password_reset_token
+ * @property string|null $password_reset_token
  * @property string $verification_token
  * @property string $email
  * @property string $auth_key
@@ -26,19 +26,19 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%user}}';
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             TimestampBehavior::class,
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             ['status', 'default', 'value' => StatusEnum::Inactive->value],
@@ -50,7 +50,7 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    public static function findIdentity($id)
+    public static function findIdentity($id): ?static
     {
         return static::findOne(['id' => $id, 'status' => StatusEnum::Active->value]);
     }
@@ -60,12 +60,12 @@ class User extends ActiveRecord implements IdentityInterface
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
-    public static function findByUsername($username)
+    public static function findByUsername(string $username): ?static
     {
         return static::findOne(['username' => $username, 'status' => StatusEnum::Active->value]);
     }
 
-    public static function findByPasswordResetToken($token)
+    public static function findByPasswordResetToken(string $token): ?static
     {
         if (!static::isPasswordResetTokenValid($token)) {
             return null;
@@ -77,7 +77,7 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
     }
 
-    public static function findByVerificationToken($token)
+    public static function findByVerificationToken(string $token): ?static
     {
         return static::findOne([
             'verification_token' => $token,
@@ -85,7 +85,7 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
     }
 
-    public static function isPasswordResetTokenValid($token)
+    public static function isPasswordResetTokenValid(string $token): bool
     {
         if (empty($token)) {
             return false;
@@ -96,52 +96,52 @@ class User extends ActiveRecord implements IdentityInterface
         return $timestamp + $expire >= time();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->getPrimaryKey();
     }
 
-    public function getAuthKey()
+    public function getAuthKey(): string
     {
         return $this->auth_key;
     }
 
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($authKey): bool
     {
         return $this->getAuthKey() === $authKey;
     }
 
-    public function validatePassword($password)
+    public function validatePassword(string $password): bool
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
-    public function setPassword($password)
+    public function setPassword(string $password): void
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
 
-    public function generateAuthKey()
+    public function generateAuthKey(): void
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
-    public function generatePasswordResetToken()
+    public function generatePasswordResetToken(): void
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    public function generateEmailVerificationToken()
+    public function generateEmailVerificationToken(): void
     {
         $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
-    public function removePasswordResetToken()
+    public function removePasswordResetToken(): void
     {
         $this->password_reset_token = null;
     }
 
-    public function saveOrThrow($validate = true): void
+    public function saveOrThrow(bool $validate = true): void
     {
         if (!$this->save($validate)) {
             throw new ValidateException($this);

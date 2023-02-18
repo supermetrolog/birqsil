@@ -13,7 +13,7 @@ class ValidateException extends Exception
     {
     }
 
-    public function getModel()
+    public function getModel(): Model
     {
         return $this->model;
     }

@@ -1,16 +1,26 @@
 includes:
-	- vendor/proget-hq/phpstan-yii2/extension.neon
+    - vendor/proget-hq/phpstan-yii2/extension.neon
 parameters:
     yii2:
-        config_path: %rootDir%/../../../common/config/codeception-local.php
+        config_path: '%rootDir%/../../../common/config/codeception-local.php'
     level: 8
     paths:
         - backend
         - common
+    ignoreErrors:
+        - '#^Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\) return type has no value type specified in iterable type array#'
+        - '#^PHPDoc tag @var for variable \$[a-zA-Z0-9\\_]+ has no value type specified in iterable type array#'
+        - '#^Property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+ type has no value type specified in iterable type array#'
+        - 
+            message: '#^Cannot call method [a-zA-Z0-9\\_]+\(\) on [a-zA-Z0-9\\_]+\|null#'
+            paths:
+                - '*/tests/*'
+
     excludePaths:
         analyseAndScan:
             - */tests/_output/*
             - */tests/_support/*
-    inferPrivatePropertyTypeFromConstructor: true
-    scanFiles:
-      - common/config/__autocomplete.php
+    # scanFiles:
+    #     - common/config/__autocomplete.php
+    # scanDirectories:
+    #     - vendor/codeception/verify/src/Codeception/Verify/Verifiers

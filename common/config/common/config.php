@@ -1,5 +1,7 @@
 <?php
 
+/** @var array $local */
+
 declare(strict_types=1);
 
 return [
