@@ -7,4 +7,9 @@ return [
     'modules' => [
         'gii' => 'yii\gii\Module',
     ],
+    'components' => [
+        'db' => [
+            'dsn' => 'mysql:host=localhost;dbname=' . $local['db.name'],
+        ]
+    ],
 ];

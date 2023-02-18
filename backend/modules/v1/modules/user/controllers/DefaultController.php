@@ -8,4 +8,6 @@ use yii\rest\ActiveController;
 class DefaultController extends ActiveController
 {
     public $modelClass = User::class;
+
+    private $service;
 }

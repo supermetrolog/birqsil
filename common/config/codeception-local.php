@@ -1,16 +1,12 @@
 <?php
 
-return yii\helpers\ArrayHelper::merge(
-    require __DIR__ . '/main.php',
-    require __DIR__ . '/main-local.php',
-    require __DIR__ . '/test.php',
-    require __DIR__ . '/test-local.php',
-    [
-        'components' => [
-            'request' => [
-                // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-                'cookieValidationKey' => 'z7wseat46ocVY5jV4SyPhx4N90h1y2M4',
-            ],
-        ],
-    ]
+declare(strict_types=1);
+
+use yii\helpers\ArrayHelper;
+
+$local = require __DIR__ . '/local.php';
+
+return ArrayHelper::merge(
+    require __DIR__ . "/common/config.php",
+    require __DIR__ . "/test/config.php"
 );

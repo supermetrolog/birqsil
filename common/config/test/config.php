@@ -7,11 +7,11 @@ return [
     'basePath' => dirname(__DIR__ . '/../'),
     'components' => [
         'db' => [
-            'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test',
+            'dsn' => 'mysql:host=localhost;port=3307;dbname=birqsil_test',
         ],
         'user' => [
             'class' => \yii\web\User::class,
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\user\User',
         ],
     ],
 ];

@@ -3,6 +3,7 @@
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
+use common\models\user\StatusEnum;
 use frontend\models\VerifyEmailForm;
 
 class VerifyEmailFormTest extends \Codeception\Test\Unit
@@ -25,18 +26,18 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
 
     public function testVerifyWrongToken()
     {
-        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function() {
+        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function () {
             new VerifyEmailForm('');
         });
 
-        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function() {
+        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function () {
             new VerifyEmailForm('notexistingtoken_1391882543');
         });
     }
 
     public function testAlreadyActivatedToken()
     {
-        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function() {
+        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function () {
             new VerifyEmailForm('already_used_token_1548675330');
         });
     }
@@ -49,7 +50,7 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
 
         verify($user->username)->equals('test.test');
         verify($user->email)->equals('test@mail.com');
-        verify($user->status)->equals(\common\models\User::STATUS_ACTIVE);
+        verify($user->status)->equals(StatusEnum::Active->value);
         verify($user->validatePassword('Test1234'))->true();
     }
 }

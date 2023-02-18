@@ -17,10 +17,5 @@ return [
             'namespace' => 'common\fixtures',
         ],
     ],
-    'components' => [
-        'db' => [
-            'dsn' => 'mysql:host=localhost;dbname=' . $local['db.name'],
-        ]
-    ],
     'params' => [],
 ];

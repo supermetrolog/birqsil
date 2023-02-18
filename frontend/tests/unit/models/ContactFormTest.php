@@ -7,6 +7,11 @@ use yii\mail\MessageInterface;
 
 class ContactFormTest extends \Codeception\Test\Unit
 {
+    /**
+     * @var \frontend\tests\UnitTester
+     */
+    protected $tester;
+
     public function testSendEmail()
     {
         $model = new ContactForm();

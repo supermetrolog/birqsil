@@ -31,6 +31,15 @@ services:
       - MYSQL_PASSWORD=12345
     ports:
       - 3306:3306
+  mysql_test:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=birqsil_test
+      - MYSQL_USER=supermetrolog
+      - MYSQL_PASSWORD=12345
+    ports:
+      - 3307:3306
   #pgsql:
   #  image: postgres:9.5
   #  environment:
