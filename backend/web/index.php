@@ -20,7 +20,5 @@ $config = yii\helpers\ArrayHelper::merge(
     require __DIR__ . '/../../common/config/config.php',
     require __DIR__ . '/../config/config.php',
 );
-// echo '<pre>';
-// print_r($config);
-// die;
+
 (new yii\web\Application($config))->run();
