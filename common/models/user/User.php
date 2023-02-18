@@ -42,7 +42,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => StatusEnum::Inactive->value],
-            ['status', 'in', 'range' => [StatusEnum::Active->value, StatusEnum::Inactive->value, StatusEnum::Deleted->value]],
+            ['status', 'in', 'range' => [
+                StatusEnum::Active->value,
+                StatusEnum::Inactive->value,
+                StatusEnum::Deleted->value
+            ]],
         ];
     }
 
