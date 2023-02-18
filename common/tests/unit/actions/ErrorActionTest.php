@@ -10,6 +10,7 @@ use Codeception\Test\Unit;
 use common\actions\ErrorAction;
 use yii\web\NotFoundHttpException;
 use backend\controllers\SiteController;
+use LogicException;
 use yii\base\ErrorHandler as BaseErrorHandler;
 
 class ErrorActionTest extends Unit
@@ -18,12 +19,11 @@ class ErrorActionTest extends Unit
     private Application $app;
     public function _before(): void
     {
-        $this->configureApp();
-        $this->errorAction = $this->getErrorAction();
-
         /** @var Application */
         $app = Yii::$app;
         $this->app = $app;
+        $this->configureApp();
+        $this->errorAction = $this->getErrorAction();
     }
 
     public function configureApp(): void
@@ -46,7 +46,6 @@ class ErrorActionTest extends Unit
     {
         $result = $this->errorAction->run();
 
-        /** @var \Throwable */
         $exception = $this->app->getErrorHandler()->exception;
         verify($result)->equals([
             'message' => $exception->getMessage(),
@@ -58,5 +57,11 @@ class ErrorActionTest extends Unit
             'stack-trace-string' => $exception->getTraceAsString(),
             'stack-trace' => $exception->getTrace(),
         ]);
+    }
+    public function testRunWithNullErrorHandlerException()
+    {
+        $this->app->errorHandler->exception = null;
+        $this->expectException(LogicException::class);
+        $this->errorAction->run();
     }
 }
