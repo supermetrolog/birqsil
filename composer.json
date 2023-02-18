@@ -1,5 +1,5 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
+    "name": "supermetrolog/birqsil",
     "description": "Yii 2 Advanced Project Template",
     "keywords": [
         "yii2",
@@ -8,6 +8,16 @@
         "project template"
     ],
     "homepage": "https://www.yiiframework.com/",
+    "scripts": {
+        "test": [
+            "composer phpcs",
+            "composer codecept"
+        ],
+        "codecept": "./vendor/bin/codecept run",
+        "phpstan": "./vendor/bin/phpstan analyse --xdebug",
+        "phpcs": "./vendor/bin/phpcs -p -w",
+        "phpcbf": "./vendor/bin/phpcbf -p -w"
+    },
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
