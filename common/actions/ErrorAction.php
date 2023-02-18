@@ -26,8 +26,8 @@ class ErrorAction extends Action
             $response['file'] = $exception->getFile();
             $response['line'] = $exception->getLine();
             $response['type'] = get_class($exception);
-            $response['stack_trace_string'] = $exception->getTraceAsString();
-            $response['stack_trace'] = $exception->getTrace();
+            $response['stack-trace-string'] = $exception->getTraceAsString();
+            $response['stack-trace'] = $exception->getTrace();
         }
 
         return $response;
