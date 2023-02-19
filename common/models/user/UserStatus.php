@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace common\models\user;
 
-enum StatusEnum: int
+enum UserStatus: int
 {
     case Active = 10;
     case Inactive = 9;
