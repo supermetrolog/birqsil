@@ -11,7 +11,8 @@
     "scripts": {
         "test": [
             "composer phpcs",
-            "composer codecept"
+            "composer codecept",
+            "composer phpstan"
         ],
         "codecept": "./vendor/bin/codecept run",
         "phpstan": "./vendor/bin/phpstan analyse",

@@ -15,7 +15,10 @@ parameters:
             message: '#^Cannot call method [a-zA-Z0-9\\_]+\(\) on [a-zA-Z0-9\\_]+\|null#'
             paths:
                 - '*/tests/*'
-
+        -
+            message: '#^Parameter \#[a-zA-Z0-9\\_]+ \$[a-zA-Z0-9\\_]+ of function [a-zA-Z0-9\\_]+ expects [a-zA-Z0-9\\_]+, [a-zA-Z0-9\\_]+\|null given#'
+            paths:
+                - '*/tests/*'
     excludePaths:
         analyseAndScan:
             - */tests/_output/*

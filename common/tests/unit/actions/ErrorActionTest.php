@@ -47,6 +47,8 @@ class ErrorActionTest extends Unit
         $result = $this->errorAction->run();
 
         $exception = $this->app->getErrorHandler()->exception;
+
+        verify($exception)->notNull();
         verify($result)->equals([
             'message' => $exception->getMessage(),
             'code' => $exception->getCode(),
@@ -58,7 +60,7 @@ class ErrorActionTest extends Unit
             'stack-trace' => $exception->getTrace(),
         ]);
     }
-    public function testRunWithNullErrorHandlerException()
+    public function testRunWithNullErrorHandlerException(): void
     {
         $this->app->errorHandler->exception = null;
         $this->expectException(LogicException::class);
