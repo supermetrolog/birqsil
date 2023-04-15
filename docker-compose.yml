@@ -5,7 +5,7 @@ services:
   frontend:
     build: frontend
     ports:
-      - 20080:80
+      - "20080:80"
     volumes:
       # Re-use local composer cache via host-volume
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
@@ -15,7 +15,7 @@ services:
   backend:
     build: backend
     ports:
-      - 21080:80
+      - "21080:80"
     volumes:
       # Re-use local composer cache via host-volume
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
@@ -30,7 +30,7 @@ services:
       - MYSQL_USER=supermetrolog
       - MYSQL_PASSWORD=12345
     ports:
-      - 3306:3306
+      - "3306:3306"
   mysql_test:
     image: mysql:5.7
     environment:
@@ -39,7 +39,7 @@ services:
       - MYSQL_USER=supermetrolog
       - MYSQL_PASSWORD=12345
     ports:
-      - 3307:3306
+      - "3307:3306"
   #pgsql:
   #  image: postgres:9.5
   #  environment:
