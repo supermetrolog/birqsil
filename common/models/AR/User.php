@@ -4,6 +4,7 @@ namespace common\models\AR;
 
 use common\base\model\AR;
 use common\enums\UserStatus;
+use common\models\AQ\UserQuery;
 use Yii;
 use yii\base\Exception;
 use yii\base\NotSupportedException;
@@ -14,16 +15,13 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property string $username
  * @property string $password_hash
  * @property string|null $password_reset_token
- * @property string $verification_token
  * @property string $email
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
- * @property string $password write-only password
  */
 class User extends AR implements IdentityInterface
 {
@@ -51,6 +49,8 @@ class User extends AR implements IdentityInterface
     public function rules(): array
     {
         return [
+            [['email'], 'string'],
+            ['email', 'unique'],
             ['status', 'default', 'value' => UserStatus::Inactive->value],
             ['status', 'in', 'range' => [
                 UserStatus::Active->value,
@@ -72,12 +72,11 @@ class User extends AR implements IdentityInterface
     /**
      * @param $token
      * @param $type
-     * @return mixed
-     * @throws NotSupportedException
+     * @return $this|null
      */
-    public static function findIdentityByAccessToken($token, $type = null): mixed
+    public static function findIdentityByAccessToken($token, $type = null): ?self
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['auth_key' => $token]);
     }
 
     /**
@@ -196,18 +195,17 @@ class User extends AR implements IdentityInterface
 
     /**
      * @return void
-     * @throws Exception
-     */
-    public function generateEmailVerificationToken(): void
-    {
-        $this->verification_token = Yii::$app->security->generateRandomString() . '_' . time();
-    }
-
-    /**
-     * @return void
      */
     public function removePasswordResetToken(): void
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return UserQuery
+     */
+    public static function find(): UserQuery
+    {
+        return new UserQuery(get_called_class());
     }
 }

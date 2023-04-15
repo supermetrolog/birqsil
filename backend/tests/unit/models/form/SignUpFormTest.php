@@ -6,6 +6,7 @@ use app\models\form\SignUpForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\fixtures\UserFixture;
+use common\models\AR\User;
 use yii\base\Exception;
 
 class SignUpFormTest extends Unit
@@ -26,7 +27,7 @@ class SignUpFormTest extends Unit
             [
                 'desc' => 'Valid all',
                 'data' => [
-                    'email' => 'nigga@nigga.ru',
+                    'email' => 'email@email.ru',
                     'password' => 'password1',
                     'passwordRepeat' => 'password1',
                 ],
@@ -35,7 +36,7 @@ class SignUpFormTest extends Unit
             [
                 'desc' => 'Invalid email',
                 'data' => [
-                    'email' => 'nigganigga.ru',
+                    'email' => 'test.ru',
                     'password' => 'password1',
                     'passwordRepeat' => 'password1',
                 ],
@@ -44,7 +45,7 @@ class SignUpFormTest extends Unit
             [
                 'desc' => 'Invalid repeat password',
                 'data' => [
-                    'email' => 'nigga@nigga.ru',
+                    'email' => 'email@email.ru',
                     'password' => 'password1',
                     'passwordRepeat' => 'password12',
                 ],
@@ -83,5 +84,23 @@ class SignUpFormTest extends Unit
         ]);
         $this->expectException(ValidateException::class);
         $form->signUp();
+    }
+
+    /**
+     * @return void
+     * @throws ValidateException
+     * @throws Exception
+     */
+    public function testSignUpValid(): void
+    {
+        $form = new SignUpForm();
+        $form->load([
+            'email' => 'email@email.ru',
+            'password' => 'password1',
+            'passwordRepeat' => 'password1'
+        ]);
+        $form->signUp();
+
+        verify(User::find()->byEmail('email@email.ru')->exists())->true();
     }
 }
