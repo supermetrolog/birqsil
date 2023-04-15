@@ -16,7 +16,7 @@ return [
         ],
         'db' => [
             'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=mysql;dbname=' . $local['db.name'],
+            'dsn' => 'mysql:host=' . $local['db.host'] .';dbname=' . $local['db.name'],
             'username' => $local['db.username'],
             'password' => $local['db.password'],
             'charset' => 'utf8',
@@ -38,11 +38,10 @@ return [
         ],
     ],
     'params' => [
-        'adminEmail' => 'admin@example.com',
-        'supportEmail' => 'support@example.com',
-        'senderEmail' => 'noreply@example.com',
-        'senderName' => 'Example.com mailer',
         'user.passwordResetTokenExpire' => 3600,
-        'user.passwordMinLength' => 8,
+        'user.passwordMin' => 8,
+        'user.passwordMax' => 32,
+        'user.emailMin' => 5,
+        'user.emailMax' => 64
     ]
 ];

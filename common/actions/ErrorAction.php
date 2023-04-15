@@ -19,7 +19,6 @@ class ErrorAction extends Action
     public function __construct(string $id, Controller $controller)
     {
         parent::__construct($id, $controller);
-        /** @var Application */
         $app = Yii::$app;
         $this->app = $app;
     }

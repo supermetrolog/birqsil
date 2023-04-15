@@ -7,6 +7,7 @@ return [
     'yii_env' => 'dev',
     // Debug режим: true, false
     'yii_debug' => true,
+    'db.host' => 'localhost',
     'db.name' => 'birqsil',
     'db.username' => 'root',
     'db.password' => 'root',

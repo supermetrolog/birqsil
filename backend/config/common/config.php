@@ -34,6 +34,5 @@ return [
             'rules' => require __DIR__ . '/url_rules.php',
         ],
     ],
-    'modules' => require __DIR__ . '/modules.php',
     'params' => [],
 ];
