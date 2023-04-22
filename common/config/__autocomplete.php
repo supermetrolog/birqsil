@@ -27,7 +27,8 @@ class Yii extends BaseYii
  * @property \yii\web\User|__WebUser $user
  * @property yii\base\Security|__Security $security
  * @property array $params
- * 
+ * @property \common\components\Param $param
+ *
  */
 class __Application extends Application
 {

@@ -36,6 +36,9 @@ return [
                 ],
             ],
         ],
+        'param' => [
+            'class' => \common\components\Param::class
+        ]
     ],
     'params' => [
         'senderEmail' => 'birqsil@birqsil.ru',

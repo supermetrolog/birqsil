@@ -4,6 +4,7 @@ namespace common\notifications;
 
 use common\base\interfaces\notifier\EmailNotificationInterface;
 use common\enums\AppParams;
+use Exception;
 use Yii;
 use yii\base\BaseObject;
 
@@ -21,9 +22,13 @@ class VerifyEmailNotification extends BaseObject implements EmailNotificationInt
         return 'Token: ' . $this->token;
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function getFromEmail(): string
     {
-        return Yii::$app->params[AppParams::SENDER_EMAIL->value];
+        return Yii::$app->param->get(AppParams::SENDER_EMAIL);
     }
 
     public function getFromName(): string
