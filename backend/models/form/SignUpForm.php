@@ -3,6 +3,7 @@
 namespace app\models\form;
 
 use common\base\exception\ValidateException;
+use common\base\interfaces\notifier\NotifierInterface;
 use common\base\model\Form;
 use common\models\AR\User;
 use Yii;
@@ -13,6 +14,14 @@ class SignUpForm extends Form
     public string|null $email = null;
     public string|null $password = null;
     public string|null $passwordRepeat = null;
+
+    private NotifierInterface $notifier;
+
+    public function __construct(NotifierInterface $notifier, $config = [])
+    {
+        parent::__construct($config);
+        $this->notifier = $notifier;
+    }
 
     /**
      * @return array
@@ -59,5 +68,8 @@ class SignUpForm extends Form
         $user->setPassword($this->password);
 
         $user->saveOrThrow();
+
+        // TODO: Передавать нормальное уведомление
+        $this->notifier->notify($user, null);
     }
 }

@@ -5,13 +5,27 @@ namespace app\tests\unit\models\form;
 use app\models\form\SignUpForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
+use common\base\interfaces\notifier\NotifierInterface;
 use common\enums\UserStatus;
 use common\fixtures\UserFixture;
 use common\models\AR\User;
+use PHPUnit\Framework\MockObject\MockObject;
 use yii\base\Exception;
 
 class SignUpFormTest extends Unit
 {
+    private NotifierInterface|MockObject $notifier;
+
+    public function _before(): void
+    {
+        $this->notifier = $this->createMock(NotifierInterface::class);
+    }
+
+    private function getForm(): SignUpForm
+    {
+        return new SignUpForm($this->notifier);
+    }
+
     public function _fixtures(): array
     {
         return [
@@ -64,7 +78,7 @@ class SignUpFormTest extends Unit
         ];
 
         foreach ($testCases as $tc) {
-            $form = new SignUpForm();
+            $form = $this->getForm();
             $form->load($tc['data']);
             verify($form->validate())->equals($tc['isValid'], $tc['desc']);
         }
@@ -77,7 +91,7 @@ class SignUpFormTest extends Unit
      */
     public function testSignUpInvalid(): void
     {
-        $form = new SignUpForm();
+        $form = $this->getForm();
         $form->load([
             'email' => 'email@email.ru',
             'password' => 'password1',
@@ -94,12 +108,15 @@ class SignUpFormTest extends Unit
      */
     public function testSignUpValid(): void
     {
-        $form = new SignUpForm();
+        $form = $this->getForm();
         $form->load([
             'email' => 'email@email.ru',
             'password' => 'password1',
             'passwordRepeat' => 'password1'
         ]);
+
+        $this->notifier->method('notify');
+
         $form->signUp();
 
         $user = User::find()->byEmail('email@email.ru')->one();
