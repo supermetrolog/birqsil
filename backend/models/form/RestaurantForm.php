@@ -22,7 +22,7 @@ class RestaurantForm extends Form
         return [
             [['user_id', 'name'], 'required'],
             [['user_id'], 'integer'],
-            [['name', 'legal_name', 'address'], 'string', 'max' => 255],
+            [['name', 'legalName', 'address'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
