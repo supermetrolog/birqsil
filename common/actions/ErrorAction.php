@@ -16,6 +16,10 @@ class ErrorAction extends Action
 {
     private Application $app;
 
+    /**
+     * @param string $id
+     * @param Controller $controller
+     */
     public function __construct(string $id, Controller $controller)
     {
         parent::__construct($id, $controller);
@@ -24,10 +28,17 @@ class ErrorAction extends Action
     }
 
 
+    /**
+     * @return void
+     */
     private function setJSONResponseFormat(): void
     {
         $this->app->response->format = Response::FORMAT_JSON;
     }
+
+    /**
+     * @return Throwable
+     */
     private function getExceptionOrThrow(): Throwable
     {
         $ex = $this->app->getErrorHandler()->exception;
@@ -36,10 +47,18 @@ class ErrorAction extends Action
         }
         return $ex;
     }
+
+    /**
+     * @return int
+     */
     private function getStatusCode(): int
     {
         return $this->app->getResponse()->getStatusCode();
     }
+
+    /**
+     * @return array
+     */
     public function run(): array
     {
         $this->setJSONResponseFormat();

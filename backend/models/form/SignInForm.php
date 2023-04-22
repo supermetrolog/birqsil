@@ -29,6 +29,10 @@ class SignInForm extends \common\base\model\Form
         ];
     }
 
+    /**
+     * @param string $attribute
+     * @return void
+     */
     public function validatePassword(string $attribute): void
     {
         if (!$this->hasErrors()) {
