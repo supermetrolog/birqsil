@@ -7,7 +7,6 @@ use common\enums\UserStatus;
 use common\models\AQ\UserQuery;
 use Yii;
 use yii\base\Exception;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
@@ -22,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $verification_token
  */
 class User extends AR implements IdentityInterface
 {
@@ -49,7 +49,8 @@ class User extends AR implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['email'], 'string'],
+            [['email', 'verification_token', 'password_hash'], 'required'],
+            [['email', 'verification_token'], 'string'],
             ['email', 'unique'],
             ['status', 'default', 'value' => UserStatus::Inactive->value],
             ['status', 'in', 'range' => [
@@ -182,6 +183,15 @@ class User extends AR implements IdentityInterface
     public function generateAuthKey(): void
     {
         $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function generateVerificationToken(): void
+    {
+        $this->verification_token = Yii::$app->security->generateRandomString();
     }
 
     /**

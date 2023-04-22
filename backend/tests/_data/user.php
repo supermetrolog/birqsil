@@ -1,5 +1,7 @@
 <?php
 
+use common\enums\UserStatus;
+
 return [
     [
         'auth_key' => 'tUu1qHcde0diwUol3xeI-18MuHkkprQI',
@@ -9,6 +11,8 @@ return [
         'created_at' => '1392559490',
         'updated_at' => '1392559490',
         'email' => 'test@test.test',
+        'verification_token' => 'valid',
+        'status' => UserStatus::Inactive->value,
         'id' => 1
     ],
 ];
