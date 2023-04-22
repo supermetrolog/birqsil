@@ -5,6 +5,7 @@ namespace app\tests\unit\models\form;
 use app\models\form\SignUpForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
+use common\enums\UserStatus;
 use common\fixtures\UserFixture;
 use common\models\AR\User;
 use yii\base\Exception;
@@ -101,6 +102,8 @@ class SignUpFormTest extends Unit
         ]);
         $form->signUp();
 
-        verify(User::find()->byEmail('email@email.ru')->exists())->true();
+        $user = User::find()->byEmail('email@email.ru')->one();
+        verify($user)->notNull();
+        verify($user->status)->equals(UserStatus::Inactive->value);
     }
 }
