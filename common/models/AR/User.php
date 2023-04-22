@@ -49,9 +49,11 @@ class User extends AR implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['email', 'verification_token', 'password_hash'], 'required'],
-            [['email', 'verification_token'], 'string'],
+            [['email', 'verification_token', 'password_hash', 'password_reset_token'], 'required'],
+            [['email', 'verification_token', 'password_reset_token'], 'string'],
             ['email', 'unique'],
+            ['verification_token', 'unique'],
+            ['password_reset_token', 'unique'],
             ['status', 'default', 'value' => UserStatus::Inactive->value],
             ['status', 'in', 'range' => [
                 UserStatus::Active->value,

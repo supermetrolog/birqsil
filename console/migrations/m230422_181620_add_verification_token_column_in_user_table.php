@@ -15,7 +15,7 @@ class m230422_181620_add_verification_token_column_in_user_table extends Migrati
         $this->addColumn(
             'user',
             'verification_token',
-            $this->string()->notNull()
+            $this->string()->notNull()->unique()
         );
     }
 
