@@ -2,6 +2,7 @@
 
 namespace common\models\AR;
 
+use common\models\AQ\RestaurantQuery;
 use yii\db\ActiveQuery;
 
 /**
@@ -70,5 +71,13 @@ class Restaurant extends \common\base\model\AR
     public function getUser(): ActiveQuery
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    /**
+     * @return RestaurantQuery
+     */
+    public static function find(): RestaurantQuery
+    {
+        return new RestaurantQuery(get_called_class());
     }
 }

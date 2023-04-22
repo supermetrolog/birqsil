@@ -2,9 +2,10 @@
 
 namespace common\fixtures;
 
+use common\models\AR\User;
 use yii\test\ActiveFixture;
 
 class UserFixture extends ActiveFixture
 {
-    public $modelClass = 'common\models\AR\User';
+    public $modelClass = User::class;
 }
