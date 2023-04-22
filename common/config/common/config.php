@@ -38,6 +38,7 @@ return [
         ],
     ],
     'params' => [
+        'senderEmail' => 'birqsil@birqsil.ru',
         'user.passwordResetTokenExpire' => 3600,
         'user.passwordMin' => 8,
         'user.passwordMax' => 32,

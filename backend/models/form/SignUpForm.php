@@ -6,6 +6,7 @@ use common\base\exception\ValidateException;
 use common\base\interfaces\notifier\NotifierInterface;
 use common\base\model\Form;
 use common\models\AR\User;
+use common\notifications\VerifyEmailNotification;
 use Yii;
 use yii\base\Exception;
 
@@ -69,7 +70,6 @@ class SignUpForm extends Form
 
         $user->saveOrThrow();
 
-        // TODO: Передавать нормальное уведомление
-        $this->notifier->notify($user, null);
+        $this->notifier->notify($user, new VerifyEmailNotification(['token' => $user->verification_token]));
     }
 }
