@@ -45,7 +45,7 @@ class RestaurantFormTest extends Unit
             [
                 'desc' => 'Not exist user',
                 'data' => [
-                    'user_id' => 2,
+                    'user_id' => 23131,
                     'legalName' => 'legal name',
                     'name' => 'Name',
                     'address' => 'Address',

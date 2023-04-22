@@ -3,6 +3,7 @@
 namespace common\models\AR;
 
 use common\base\model\AR;
+use common\enums\AppParams;
 use common\enums\UserStatus;
 use common\models\AQ\UserQuery;
 use Yii;
@@ -49,7 +50,7 @@ class User extends AR implements IdentityInterface
     public function rules(): array
     {
         return [
-            [['email', 'verification_token', 'password_hash', 'password_reset_token'], 'required'],
+            [['email', 'verification_token', 'password_hash'], 'required'],
             [['email', 'verification_token', 'password_reset_token'], 'string'],
             ['email', 'unique'],
             ['verification_token', 'unique'],
@@ -122,15 +123,15 @@ class User extends AR implements IdentityInterface
     /**
      * @param string $token
      * @return bool
+     * @throws \Exception
      */
     public static function isPasswordResetTokenValid(string $token): bool
     {
         if (empty($token)) {
             return false;
         }
-
         $timestamp = (int) substr($token, strrpos($token, '_') + 1);
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $expire = Yii::$app->param->get(AppParams::USER_PASSWORD_RESET_TOKEN_EXPIRE);
         return $timestamp + $expire >= time();
     }
 
