@@ -10,7 +10,7 @@ use common\models\AR\User;
 
 class ResetPasswordFormTest extends Unit
 {
-    private const PASSWORD_RESET_TOKEN = 'RkD_Jw0_8HEedzLk7MM-ZKEFfYR7VbMr_1682194998';
+    private const PASSWORD_RESET_TOKEN = 'RkD_Jw0_8HEedzLk7MM-ZKEFfYR7VbMr_2682194998';
     public function _fixtures(): array
     {
         return [
@@ -45,6 +45,7 @@ class ResetPasswordFormTest extends Unit
         foreach ($testCases as $tc) {
             $form = new ResetPasswordForm();
             $form->load($tc['data']);
+            verify($form->validate())->equals($tc['isValid'], json_encode($form->getErrors()));
             verify($form->validate())->equals($tc['isValid'], $tc['desc']);
         }
     }
@@ -68,7 +69,7 @@ class ResetPasswordFormTest extends Unit
         verify($user->password_hash)->notEquals($beforePasswordHash);
     }
 
-    public function testVerifyInvalid(): void
+    public function testResetInvalid(): void
     {
         $form = new ResetPasswordForm();
         $form->token = 'invalid';

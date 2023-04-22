@@ -8,4 +8,6 @@ enum AppParams: string
     case USER_PASSWORD_MIN = 'user.passwordMin';
     case USER_PASSWORD_MAX = 'user.passwordMax';
     case USER_PASSWORD_RESET_TOKEN_EXPIRE = 'user.passwordResetTokenExpire';
+
+    case USER_ACCESS_TOKEN_EXPIRE = 'user.access_token_expire';
 }

@@ -3,7 +3,10 @@
 namespace common\models\AR;
 
 use common\base\model\AR;
+use common\enums\Status;
 use common\models\AQ\UserAccessTokenQuery;
+use Yii;
+use yii\base\Exception;
 use yii\db\ActiveQuery;
 
 /**
@@ -36,6 +39,11 @@ class UserAccessToken extends AR
         return [
             [['user_id', 'status', 'expire'], 'required'],
             [['user_id', 'status', 'expire'], 'integer'],
+            ['status', 'default', 'value' => Status::Active->value],
+            ['status', 'in', 'range' => [
+                Status::Active->value,
+                Status::Inactive->value,
+            ]],
             [['created_at'], 'safe'],
             [['token'], 'string', 'max' => 255],
             [['token'], 'unique'],
@@ -56,6 +64,15 @@ class UserAccessToken extends AR
             'status' => 'Status',
             'expire' => 'Expire',
         ];
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function generateToken(): void
+    {
+        $this->token = Yii::$app->security->generateRandomString();
     }
 
     /**

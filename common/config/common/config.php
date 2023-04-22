@@ -46,6 +46,7 @@ return [
         'user.passwordMin' => 8,
         'user.passwordMax' => 32,
         'user.emailMin' => 5,
-        'user.emailMax' => 64
+        'user.emailMax' => 64,
+        'user.access_token_expire' => 3600 * 24,
     ]
 ];

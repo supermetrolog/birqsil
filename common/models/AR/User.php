@@ -80,21 +80,23 @@ class User extends AR implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null): ?self
     {
+        // TODO:
         return static::findOne(['auth_key' => $token]);
     }
 
     /**
-     * @param string $username
-     * @return static|null
+     * @param string $email
+     * @return $this|null
      */
-    public static function findByUsername(string $username): ?static
+    public static function findByEmail(string $email): static|null
     {
-        return static::findOne(['username' => $username, 'status' => UserStatus::Active->value]);
+        return self::find()->byEmail($email)->one();
     }
 
     /**
      * @param string $token
      * @return static|null
+     * @throws \Exception
      */
     public static function findByPasswordResetToken(string $token): ?static
     {
