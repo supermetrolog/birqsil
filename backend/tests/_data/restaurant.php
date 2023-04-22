@@ -1,5 +1,7 @@
 <?php
 
+use common\enums\RestaurantStatus;
+
 return [
     [
         'id' => 1,
@@ -9,5 +11,6 @@ return [
         'address' => 'test',
         'created_at' => '2023-04-01 20:00:00',
         'updated_at' => '2023-04-01 20:00:00',
+        'status' => RestaurantStatus::HIDDEN->value
     ]
 ];

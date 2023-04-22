@@ -4,6 +4,7 @@ namespace app\models\form;
 
 use common\base\exception\ValidateException;
 use common\base\model\Form;
+use common\enums\RestaurantStatus;
 use common\models\AR\Restaurant;
 use common\models\AR\User;
 
@@ -67,6 +68,7 @@ class RestaurantForm extends Form
         $restaurant->legal_name = $this->legalName;
         $restaurant->address = $this->address;
         $restaurant->user_id = $this->user_id;
+        $restaurant->status = RestaurantStatus::HIDDEN->value;
 
         $restaurant->saveOrThrow();
     }

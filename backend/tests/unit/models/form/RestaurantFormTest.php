@@ -5,6 +5,7 @@ namespace app\tests\unit\models\form;
 use app\models\form\RestaurantForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
+use common\enums\RestaurantStatus;
 use common\fixtures\RestaurantFixture;
 use common\fixtures\UserFixture;
 use common\models\AR\Restaurant;
@@ -109,6 +110,7 @@ class RestaurantFormTest extends Unit
         ])->one();
 
         verify($model)->notNull();
+        verify($model->status)->equals(RestaurantStatus::HIDDEN->value);
     }
 
     public function testCreateInvalidData(): void
@@ -134,11 +136,7 @@ class RestaurantFormTest extends Unit
             'address' => 'New Address',
         ]);
 
-        try {
-            $form->update($model);
-        } catch (ValidateException $th) {
-            verify(false)->equals(true, json_encode($th->getModel()->getErrors()));
-        }
+        $form->update($model);
 
         $model->refresh();
 

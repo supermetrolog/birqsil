@@ -2,6 +2,7 @@
 
 namespace common\models\AR;
 
+use common\enums\RestaurantStatus;
 use common\models\AQ\RestaurantQuery;
 use yii\db\ActiveQuery;
 
@@ -41,6 +42,11 @@ class Restaurant extends \common\base\model\AR
             [['user_id', 'status'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['name', 'legal_name', 'address'], 'string', 'max' => 255],
+            ['status', 'default', 'value' => RestaurantStatus::HIDDEN->value],
+            ['status', 'in', 'range' => [
+                RestaurantStatus::HIDDEN->value,
+                RestaurantStatus::PUBLISHED->value
+            ]],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
