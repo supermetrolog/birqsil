@@ -23,8 +23,7 @@ class ErrorAction extends Action
     public function __construct(string $id, Controller $controller)
     {
         parent::__construct($id, $controller);
-        $app = Yii::$app;
-        $this->app = $app;
+        $this->app = Yii::$app;
     }
 
 
@@ -43,7 +42,7 @@ class ErrorAction extends Action
     {
         $ex = $this->app->getErrorHandler()->exception;
         if ($ex === null) {
-            throw new LogicException('error handler exception cannot be null');
+            throw new LogicException('Error handler exception cannot be null');
         }
         return $ex;
     }

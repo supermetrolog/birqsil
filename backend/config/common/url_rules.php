@@ -6,5 +6,6 @@ return [
     [
         'class' => 'yii\rest\UrlRule',
         'controller' => 'site',
+
     ],
 ];

@@ -3,8 +3,9 @@
 namespace common\models\AQ;
 
 use common\models\AR\User;
+use yii\db\ActiveQuery;
 
-class UserQuery extends \yii\db\ActiveQuery
+class UserQuery extends ActiveQuery
 {
     /**
      * @param $db

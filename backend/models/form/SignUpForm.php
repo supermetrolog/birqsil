@@ -7,8 +7,10 @@ use common\base\interfaces\notifier\NotifierInterface;
 use common\base\model\Form;
 use common\models\AR\User;
 use common\notifications\VerifyEmailNotification;
+use Throwable;
 use Yii;
 use yii\base\Exception;
+use yii\db\Connection;
 
 class SignUpForm extends Form
 {
@@ -17,11 +19,20 @@ class SignUpForm extends Form
     public string|null $passwordRepeat = null;
 
     private NotifierInterface $notifier;
+    private SignInForm $signInForm;
 
-    public function __construct(NotifierInterface $notifier, $config = [])
+    private Connection $db;
+
+    public function __construct(
+        NotifierInterface $notifier,
+        SignInForm $signInForm,
+        Connection $db,
+        $config = [])
     {
         parent::__construct($config);
         $this->notifier = $notifier;
+        $this->signInForm = $signInForm;
+        $this->db = $db;
     }
 
     /**
@@ -51,25 +62,43 @@ class SignUpForm extends Form
     }
 
     /**
-     * @return void
-     * @throws ValidateException
+     * @return string
      * @throws Exception
+     * @throws Throwable
+     * @throws ValidateException
+     * @throws \yii\db\Exception
      */
-    public function signUp(): void
+    public function signUp(): string
     {
         if (!$this->validate()){
             throw new ValidateException($this);
         }
 
-        $user = new User();
-        $user->email = $this->email;
-        $user->generateAuthKey();
-        $user->generatePasswordResetToken();
-        $user->generateVerificationToken();
-        $user->setPassword($this->password);
+        $tx = $this->db->beginTransaction();
+        try {
+            $user = new User();
+            $user->email = $this->email;
+            $user->generateAuthKey();
+            $user->generatePasswordResetToken();
+            $user->generateVerificationToken();
+            $user->setPassword($this->password);
 
-        $user->saveOrThrow();
+            $user->saveOrThrow();
 
-        $this->notifier->notify($user, new VerifyEmailNotification(['token' => $user->verification_token]));
+            $this->signInForm->load([
+                $user->email,
+                $this->password
+            ]);
+
+            $accessToken = $this->signInForm->signIn();
+
+            $this->notifier->notify($user, new VerifyEmailNotification(['token' => $user->verification_token]));
+
+            $tx->commit();
+            return $accessToken;
+        } catch (Throwable $th) {
+            $tx->rollBack();
+            throw $th;
+        }
     }
 }

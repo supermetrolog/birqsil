@@ -3,6 +3,7 @@
 namespace app\models\form;
 
 use common\base\exception\ValidateException;
+use common\base\model\Form;
 use common\enums\AppParams;
 use common\enums\Status;
 use common\models\AR\User;
@@ -10,7 +11,7 @@ use common\models\AR\UserAccessToken;
 use Yii;
 use yii\base\Exception;
 
-class SignInForm extends \common\base\model\Form
+class SignInForm extends Form
 {
     public string|null $email = null;
     public string|null $password = null;
