@@ -1,22 +1,13 @@
 <?php
 
-namespace app\tests\unit\models\form;
+namespace backend\tests\unit\models\form;
 
-use app\models\form\SignInForm;
-use common\base\exception\ValidateException;
-use common\enums\Status;
+use backend\models\form\SignInForm;
+use Codeception\Test\Unit;
 use common\fixtures\UserFixture;
-use common\models\AR\User;
-use common\models\AR\UserAccessToken;
 
-class SignInFormTest extends \Codeception\Test\Unit
+class SignInFormTest extends Unit
 {
-
-    private function getForm(): SignInForm
-    {
-        return new SignInForm();
-    }
-
     public function _fixtures(): array
     {
         return [
@@ -63,31 +54,9 @@ class SignInFormTest extends \Codeception\Test\Unit
         ];
 
         foreach ($testCases as $tc) {
-            $form = $this->getForm();
+            $form = new SignInForm();
             $form->load($tc['data']);
             verify($form->validate())->equals($tc['isValid'], $tc['desc']);
         }
-    }
-
-    public function testSignInValid(): void
-    {
-        $form = $this->getForm();
-        $form->email = 'test@test.test';
-        $form->password = 'password_0';
-
-        $token = $form->signIn();
-
-        $model = UserAccessToken::find()->byToken($token)->one();
-        verify($model->user->email)->equals($form->email);
-        verify($model->status)->equals(Status::Active->value);
-        verify($model->user_id)->equals(User::findByEmail('test@test.test')->id);
-    }
-
-    public function testSignInInvalid(): void
-    {
-        $form = $this->getForm();
-        $form->email = 'invalid email';
-        $this->expectException(ValidateException::class);
-        $form->signIn();
     }
 }

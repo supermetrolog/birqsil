@@ -2,13 +2,16 @@
 
 namespace common\tests\unit\services;
 
+use backend\models\form\SignInForm;
 use backend\models\form\SignUpForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\base\interfaces\notifier\NotifierInterface;
 use common\components\Param;
 use common\enums\AppParams;
+use common\enums\Status;
 use common\enums\UserStatus;
+use common\fixtures\UserFixture;
 use common\models\AR\User;
 use common\services\UserService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,6 +23,16 @@ class UserServiceTest extends Unit
 {
     private NotifierInterface|MockObject $notifier;
     private Param|MockObject $param;
+
+    public function _fixtures(): array
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => codecept_data_dir() . 'user.php'
+            ]
+        ];
+    }
 
     public function _before(): void
     {
@@ -42,10 +55,10 @@ class UserServiceTest extends Unit
      * @throws ValidateException
      * @throws \yii\db\Exception
      */
-    public function testSignUpInvalid(): void
+    public function testSignupInvalid(): void
     {
         $service = $this->getService();
-        $form = new SignUpForm($service);
+        $form = new SignUpForm();
 
         $form->load([
             'email' => 'email@email.ru',
@@ -54,7 +67,7 @@ class UserServiceTest extends Unit
         ]);
 
         $this->expectException(ValidateException::class);
-        $service->signup($form);
+        $service->signUp($form);
     }
 
     /**
@@ -68,7 +81,7 @@ class UserServiceTest extends Unit
     {
         $service = $this->getService();
 
-        $form = new SignUpForm($service);
+        $form = new SignUpForm();
         $form->load([
             'email' => 'email@email.ru',
             'password' => 'password1',
@@ -80,12 +93,49 @@ class UserServiceTest extends Unit
             ->with(AppParams::USER_ACCESS_TOKEN_EXPIRE)
             ->willReturn(3600 * 24);
 
-        $accessToken = $service->signup($form);
+        $accessToken = $service->signUp($form);
 
         $user = User::find()->byEmail('email@email.ru')->one();
         verify($user)->notNull();
         verify($user->status)->equals(UserStatus::Inactive->value);
         verify($user->accessTokens)->notNull()->notEmpty();
         verify($accessToken->user_id)->equals($user->id);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     * @throws ValidateException
+     */
+    public function testSignInValid(): void
+    {
+        $service = $this->getService();
+
+        $form = new SignInForm();
+        $form->email = 'test@test.test';
+        $form->password = 'password_0';
+
+        $this->param->method('get')
+            ->with(AppParams::USER_ACCESS_TOKEN_EXPIRE)
+            ->willReturn(3600 * 24);
+        $accessToken = $service->signIn($form);
+
+        verify($accessToken->user->email)->equals($form->email);
+        verify($accessToken->status)->equals(Status::Active->value);
+        verify($accessToken->user_id)->equals(User::findByEmail('test@test.test')->id);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     * @throws ValidateException
+     */
+    public function testSignInInvalid(): void
+    {
+        $service = $this->getService();
+        $form = new SignInForm();
+        $form->email = 'invalid email';
+        $this->expectException(ValidateException::class);
+        $service->signIn($form);
     }
 }

@@ -2,14 +2,9 @@
 
 namespace backend\models\form;
 
-use common\base\exception\ValidateException;
 use common\base\model\Form;
 use common\models\AR\User;
-use common\models\AR\UserAccessToken;
-use common\services\UserService;
-use Throwable;
 use Yii;
-use yii\base\Exception;
 
 class SignUpForm extends Form
 {

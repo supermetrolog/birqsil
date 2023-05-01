@@ -2,10 +2,10 @@
 
 namespace common\services;
 
+use backend\models\form\SignInForm;
 use backend\models\form\SignUpForm;
 use common\base\exception\ValidateException;
 use common\base\interfaces\notifier\NotifierInterface;
-use common\components\Notifier;
 use common\components\Param;
 use common\enums\AppParams;
 use common\enums\Status;
@@ -34,7 +34,7 @@ class UserService
      * @throws \yii\db\Exception
      * @throws Throwable
      */
-    public function signup(SignUpForm $form): UserAccessToken
+    public function signUp(SignUpForm $form): UserAccessToken
     {
         $form->ifNotValidThrow();
 
@@ -66,6 +66,23 @@ class UserService
             $tx->rollBack();
             throw $th;
         }
+    }
+
+    /**
+     * @param SignInForm $form
+     * @return UserAccessToken
+     * @throws Exception
+     * @throws ValidateException
+     * @throws \Exception
+     */
+    public function signIn(SignInForm $form): UserAccessToken
+    {
+        $form->ifNotValidThrow();
+
+        return $this->createAccessToken(
+            $form->getUser()->id,
+            $this->params->get(AppParams::USER_ACCESS_TOKEN_EXPIRE)
+        );
     }
 
     /**
