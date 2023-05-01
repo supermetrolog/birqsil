@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
     'id' => 'backend',
-    'basePath' => dirname(dirname(__DIR__)),
+    'basePath' => dirname(__DIR__, 2),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'components' => [

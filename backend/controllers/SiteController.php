@@ -2,19 +2,30 @@
 
 namespace backend\controllers;
 
-use app\models\form\SignInForm;
-use app\models\form\SignUpForm;
+use backend\models\form\SignUpForm;
 use common\actions\ErrorAction;
-use common\base\exception\ValidateException;
 use common\base\exception\ValidateHttpException;
 use common\components\Notifier;
+use common\models\AR\UserAccessToken;
+use common\services\UserService;
 use Throwable;
 use Yii;
 use yii\base\Exception;
-use yii\rest\Controller;
 
-class SiteController extends Controller
+class SiteController extends AppController
 {
+    private UserService $userService;
+
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->userService = new UserService(
+            new Notifier(),
+            Yii::$app->param,
+            Yii::$app->db
+        );
+    }
+
     public function actions(): array
     {
         return [
@@ -25,25 +36,16 @@ class SiteController extends Controller
     }
 
     /**
-     * @return string
+     * @return UserAccessToken
      * @throws ValidateHttpException
      * @throws Throwable
      * @throws Exception
      * @throws \yii\db\Exception
      */
-    public function actionSignup(): string
+    public function actionSignup(): UserAccessToken
     {
-        $form = new SignUpForm(
-            new Notifier(),
-            new SignInForm(),
-            Yii::$app->db
-        );
-
-        try {
-            $form->load($this->request->post());
-            return $form->signUp();
-        } catch (ValidateException $th) {
-            throw new ValidateHttpException($th);
-        }
+        $form = new SignUpForm();
+        $form->load($this->request->post());
+        return $this->userService->signUp($form);
     }
 }

@@ -2,10 +2,14 @@
 
 declare(strict_types=1);
 
-return [
-    [
-        'class' => 'yii\rest\UrlRule',
-        'controller' => 'site',
+use yii\rest\UrlRule;
 
-    ],
+return [
+    array(
+        'class' => UrlRule::class,
+        'controller' => ['' => 'site'],
+        'extraPatterns' => [
+            'GET signup' => 'signup'
+        ]
+    ),
 ];

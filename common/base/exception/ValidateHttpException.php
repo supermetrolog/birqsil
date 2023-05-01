@@ -2,13 +2,13 @@
 
 namespace common\base\exception;
 
-use Yii;
+use common\helpers\HttpCode;
 use yii\helpers\Json;
 use yii\web\HttpException;
 
 class ValidateHttpException extends HttpException
 {
-    public $statusCode = 422;
+    public $statusCode;
     private string $statusText;
 
     /**
@@ -16,10 +16,11 @@ class ValidateHttpException extends HttpException
      */
     public function __construct(ValidateException $th)
     {
-        $this->statusText = Yii::t('common', 'Validate error');
+        $this->statusCode = HttpCode::VALIDATE_ERROR->value;
+        $this->statusText = HttpCode::VALIDATE_ERROR->toString();
         $message = Json::encode($th->getModel()->getErrorSummary(false));
 
-        parent::__construct(422, $message, 1, $th);
+        parent::__construct($this->statusCode, $message, 1, $th);
     }
 
     /**
