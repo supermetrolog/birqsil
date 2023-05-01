@@ -1,15 +1,15 @@
 <?php
 
-namespace app\models\form;
+namespace backend\models\form;
 
 use common\base\exception\ValidateException;
+use common\base\model\Form;
 use common\enums\AppParams;
-use common\enums\UserStatus;
 use common\models\AR\User;
 use Exception;
 use Yii;
 
-class ResetPasswordForm extends \common\base\model\Form
+class ResetPasswordForm extends Form
 {
     public string|null $token = null;
 

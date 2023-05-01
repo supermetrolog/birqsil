@@ -1,8 +1,8 @@
 <?php
 
-namespace app\tests\unit\models\form;
+namespace backend\tests\unit\models\form;
 
-use app\models\form\RestaurantForm;
+use backend\models\form\RestaurantForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\enums\RestaurantStatus;

@@ -1,8 +1,8 @@
 <?php
 
-namespace app\tests\unit\models\form;
+namespace backend\tests\unit\models\form;
 
-use app\models\form\ResetPasswordForm;
+use backend\models\form\ResetPasswordForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\fixtures\UserFixture;
