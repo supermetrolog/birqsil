@@ -16,14 +16,10 @@ class SiteController extends AppController
 {
     private UserService $userService;
 
-    public function __construct($id, $module, $config = [])
+    public function __construct($id, $module, UserService $userService, $config = [])
     {
         parent::__construct($id, $module, $config);
-        $this->userService = new UserService(
-            new Notifier(),
-            Yii::$app->param,
-            Yii::$app->db
-        );
+        $this->userService = $userService;
     }
 
     public function actions(): array

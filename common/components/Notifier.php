@@ -6,13 +6,17 @@ use common\base\interfaces\notifier\EmailNotificationInterface;
 use common\base\interfaces\notifier\NotifierInterface;
 use common\base\interfaces\notifier\TelegramNotificationInterface;
 use common\models\AR\User;
-use yii\base\Component;
 use yii\db\Exception;
 use yii\mail\MailerInterface;
 
-class Notifier extends Component implements NotifierInterface
+class Notifier implements NotifierInterface
 {
-    public MailerInterface $mailer;
+    /**
+     * @param MailerInterface $mailer
+     */
+    public function __construct(private readonly MailerInterface $mailer)
+    {
+    }
 
     /**
      * @param User $user

@@ -10,6 +10,7 @@ return [
         '@npm'   => '@vendor/npm-asset',
     ],
     'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
+    'container' => require 'container.php',
     'components' => [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
@@ -20,13 +21,6 @@ return [
             'username' => $local['db.username'],
             'password' => $local['db.password'],
             'charset' => 'utf8',
-        ],
-
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@common/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
         ],
         'log' => [
             'targets' => [
