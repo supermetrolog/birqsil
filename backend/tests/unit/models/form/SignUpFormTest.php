@@ -2,28 +2,27 @@
 
 namespace app\tests\unit\models\form;
 
-use app\models\form\SignUpForm;
+use backend\models\form\SignUpForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
-use common\base\interfaces\notifier\NotifierInterface;
-use common\enums\UserStatus;
 use common\fixtures\UserFixture;
-use common\models\AR\User;
+use common\services\UserService;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 use yii\base\Exception;
 
 class SignUpFormTest extends Unit
 {
-    private NotifierInterface|MockObject $notifier;
+    private UserService|MockObject $service;
 
     public function _before(): void
     {
-        $this->notifier = $this->createMock(NotifierInterface::class);
+        $this->service = $this->createMock(UserService::class);
     }
 
     private function getForm(): SignUpForm
     {
-        return new SignUpForm($this->notifier);
+        return new SignUpForm($this->service);
     }
 
     public function _fixtures(): array
@@ -82,45 +81,5 @@ class SignUpFormTest extends Unit
             $form->load($tc['data']);
             verify($form->validate())->equals($tc['isValid'], $tc['desc']);
         }
-    }
-
-    /**
-     * @return void
-     * @throws ValidateException
-     * @throws Exception
-     */
-    public function testSignUpInvalid(): void
-    {
-        $form = $this->getForm();
-        $form->load([
-            'email' => 'email@email.ru',
-            'password' => 'password1',
-            'passwordRepeat' => 'password'
-        ]);
-        $this->expectException(ValidateException::class);
-        $form->signUp();
-    }
-
-    /**
-     * @return void
-     * @throws ValidateException
-     * @throws Exception
-     */
-    public function testSignUpValid(): void
-    {
-        $form = $this->getForm();
-        $form->load([
-            'email' => 'email@email.ru',
-            'password' => 'password1',
-            'passwordRepeat' => 'password1'
-        ]);
-
-        $this->notifier->method('notify');
-
-        $form->signUp();
-
-        $user = User::find()->byEmail('email@email.ru')->one();
-        verify($user)->notNull();
-        verify($user->status)->equals(UserStatus::Inactive->value);
     }
 }

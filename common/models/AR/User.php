@@ -9,6 +9,7 @@ use common\models\AQ\UserQuery;
 use Yii;
 use yii\base\Exception;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\web\IdentityInterface;
 
 /**
@@ -23,6 +24,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $verification_token
+ *
+ * @property UserAccessToken[] $accessTokens
  */
 class User extends AR implements IdentityInterface
 {
@@ -222,5 +225,13 @@ class User extends AR implements IdentityInterface
     public static function find(): UserQuery
     {
         return new UserQuery(get_called_class());
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getAccessTokens(): ActiveQuery
+    {
+        return $this->hasMany(UserAccessToken::class, ['user_id' => 'id']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\form;
+namespace backend\models\form;
 
 use common\base\exception\ValidateException;
 use common\base\model\Form;

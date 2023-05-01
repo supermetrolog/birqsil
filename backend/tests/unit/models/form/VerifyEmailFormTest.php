@@ -1,8 +1,8 @@
 <?php
 
-namespace app\tests\unit\models\form;
+namespace backend\tests\unit\models\form;
 
-use app\models\form\VerifyEmailForm;
+use backend\models\form\VerifyEmailForm;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\enums\UserStatus;
