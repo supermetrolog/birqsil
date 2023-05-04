@@ -1,26 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace backend\tests;
 
 /**
  * Inherited Methods
- * @method void wantToTest($text)
  * @method void wantTo($text)
+ * @method void wantToTest($text)
  * @method void execute($callable)
  * @method void expectTo($prediction)
- * @method void verify($prediction)
+ * @method void expect($prediction)
  * @method void amGoingTo($argumentation)
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method void pause($vars = [])
  *
  * @SuppressWarnings(PHPMD)
- */
-class FunctionalTester extends \Codeception\Actor
+*/
+class ApiTester extends \Codeception\Actor
 {
-    use _generated\FunctionalTesterActions;
-   /**
-    * Define custom actions here
-    */
+    use _generated\ApiTesterActions;
+
+    /**
+     * Define custom actions here
+     */
 }

@@ -16,10 +16,17 @@ return [
             ],
             'baseUrl' => ''
         ],
+        'response' => [
+            'formatters' => [
+                'json' => [
+                    'class' => \yii\web\JsonResponseFormatter::class,
+                ]
+            ]
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'enableAutoLogin' => false,
+            'enableSession' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -1,0 +1,10 @@
+suite_namespace: backend\tests\api
+class_name: ApiTester
+actor: ApiTester
+modules:
+  enabled:
+    - Yii2
+    - REST:
+        depends: PhpBrowser
+        url: http://localhost:80
+        part: Json

@@ -5,11 +5,9 @@ namespace backend\controllers;
 use backend\models\form\SignUpForm;
 use common\actions\ErrorAction;
 use common\base\exception\ValidateHttpException;
-use common\components\Notifier;
 use common\models\AR\UserAccessToken;
 use common\services\UserService;
 use Throwable;
-use Yii;
 use yii\base\Exception;
 
 class SiteController extends AppController

@@ -9,7 +9,7 @@ return [
         'class' => UrlRule::class,
         'controller' => ['' => 'site'],
         'extraPatterns' => [
-            'GET signup' => 'signup'
+            'POST signup' => 'signup'
         ]
     ),
 ];

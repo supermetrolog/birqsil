@@ -20,9 +20,7 @@ class NotifierTest extends Unit
         $this->mailer = $this->createMock(MailerInterface::class);
         $this->emailNotification = $this->createMock(EmailNotificationInterface::class);
 
-        return new Notifier([
-            'mailer' => $this->mailer
-        ]);
+        return new Notifier($this->mailer);
     }
 
     public function testNotify(): void
