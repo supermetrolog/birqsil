@@ -57,7 +57,7 @@ class UserService
 
             $this->notifier->notify(
                 $user,
-                new VerifyEmailNotification(['token' => $user->verification_token])
+                new VerifyEmailNotification($user)
             );
 
             $tx->commit();

@@ -57,7 +57,7 @@ class Notifier implements NotifierInterface
         $res = $this->mailer
             ->compose(
                 ['html' => $notification->getHtml(), 'text' => $notification->getText()],
-                ['user' => $user]
+                $notification->getParams()
             )
             ->setFrom([$notification->getFromEmail() => $notification->getFromName()])
             ->setTo($user->email)
