@@ -1,0 +1,2 @@
+172.27.0.1 - - [05/May/2023:22:41:12 +0000] "GET / HTTP/1.1" 404 1266 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+172.27.0.1 - - [05/May/2023:22:41:19 +0000] "GET /signup HTTP/1.1" 404 1498 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"

@@ -1,48 +1,79 @@
 version: '3.2'
 
 services:
-
-  frontend:
-    build: frontend
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
     ports:
-      - "20080:80"
+      - "80:80"
     volumes:
-      # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      # Mount source-code for development
-      - ./:/app
-
-  backend:
-    build: backend
+      - .:/var/www/app
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx/
+    depends_on:
+      - php
+      - mysql
+      - mysql_test
+    networks:
+      backend:
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        DOCKER_PHP_VERSION: '8.2'
+        DOCKER_PHP_ENABLE_XDEBUG: 'on'
+        DOCKER_PHP_XDEBUG_VERSION: 2.9.2
+        TZ: Europe/Moscow
+    working_dir: /var/www
+    container_name: php
+    volumes:
+      - .:/var/www/app
+      - ./docker/php/conf/php.ini:/usr/local/etc/php/php.ini
     ports:
-      - "21080:80"
-    volumes:
-      # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      # Mount source-code for development
-      - ./:/app
+      - "9001:9000"
+    networks:
+      - backend
 
   mysql:
-    image: mysql:5.7
+    image: mysql
+    container_name: mysql
+    restart: always
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/logs:/var/log/mysql/
+    ports:
+      - "3306:3306"
+    security_opt:
+      - seccomp:unconfined
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=birqsil
       - MYSQL_USER=supermetrolog
       - MYSQL_PASSWORD=12345
-    ports:
-      - "3306:3306"
+    networks:
+      - backend
+
   mysql_test:
-    image: mysql:5.7
+    image: mysql
+    container_name: mysql_test
+    restart: always
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./docker/mysql/logs:/var/log/mysql/
+    ports:
+      - "3307:3306"
+    security_opt:
+      - seccomp:unconfined
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=birqsil_test
       - MYSQL_USER=supermetrolog
       - MYSQL_PASSWORD=12345
-    ports:
-      - "3307:3306"
-  #pgsql:
-  #  image: postgres:9.5
-  #  environment:
-  #    - POSTGRES_DB=yii2advanced
-  #    - POSTGRES_USER=yii2advanced
-  #    - POSTGRES_PASSWORD=secret
+    networks:
+      - backend
+
+networks:
+  backend:

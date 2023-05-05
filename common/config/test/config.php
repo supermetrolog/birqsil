@@ -10,13 +10,13 @@ return [
     'container' => [
         'singletons' => [
             Connection::class => [
-                'dsn' => 'mysql:host=birqsil_mysql_test_1;port=3306;dbname=birqsil_test',
+                'dsn' => 'mysql:host=mysql_test;port=3306;dbname=birqsil_test',
             ]
         ]
     ],
     'components' => [
         'db' => [
-            'dsn' => 'mysql:host=birqsil_mysql_test_1;port=3306;dbname=birqsil_test',
+            'dsn' => 'mysql:host=mysql_test;port=3306;dbname=birqsil_test',
         ],
         'user' => [
             'class' => \yii\web\User::class,

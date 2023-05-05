@@ -32,3 +32,6 @@ phpunit.phar
 # robots
 /frontend/web/robots.txt
 /backend/web/robots.txt
+
+# db data
+/docker/mysql/data
