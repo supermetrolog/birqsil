@@ -28,8 +28,8 @@ class SiteCest
 
         $I->seeResponseMatchesJsonType(
             [
-                'expire'       => 'integer',
-                'token'       => 'string',
+                'expire' => 'integer',
+                'token' => 'string',
             ]
         );
 
@@ -45,8 +45,8 @@ class SiteCest
 
         $I->seeResponseMatchesJsonType(
             [
-                'expire'       => 'integer',
-                'token'       => 'string',
+                'expire' => 'integer',
+                'token' => 'string',
             ]
         );
 

@@ -17,4 +17,12 @@ return [
             'POST reset-password-request' => 'reset-password-request',
         ]
     ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['user' => 'user'],
+        'prefix' => 'v1',
+        'extraPatterns' => [
+            'GET check-email-exists' => 'check-email-exists',
+        ]
+    ],
 ];
