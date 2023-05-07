@@ -5,6 +5,7 @@ namespace common\helpers;
 enum HttpCode: int
 {
     case OK = 200;
+    case NO_CONTENT = 204;
     case NOT_FOUND = 404;
     case BAD_REQUEST = 400;
     case INTERNAL_SERVER_ERROR = 500;

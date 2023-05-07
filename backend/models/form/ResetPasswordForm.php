@@ -41,6 +41,7 @@ class ResetPasswordForm extends Form
     /**
      * @param string $attr
      * @return void
+     * @throws Exception
      */
     public function validateToken(string $attr): void
     {

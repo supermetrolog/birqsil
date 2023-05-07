@@ -4,7 +4,7 @@ namespace backend\models\DTO;
 
 use common\models\AR\UserAccessToken;
 
-class SignUpResponseDto
+class CredentialDto
 {
     public string $token;
     public int $expire;

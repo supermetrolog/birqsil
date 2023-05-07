@@ -9,7 +9,10 @@ return [
         'class' => UrlRule::class,
         'controller' => ['' => 'site'],
         'extraPatterns' => [
-            'POST signup' => 'signup'
+            'POST signup' => 'signup',
+            'POST signin' => 'signin',
+            'GET verify-email' => 'verify-email',
+            'POST reset-password' => 'reset-password',
         ]
     ),
 ];
