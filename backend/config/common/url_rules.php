@@ -13,6 +13,7 @@ return [
             'POST signin' => 'signin',
             'GET verify-email' => 'verify-email',
             'POST reset-password' => 'reset-password',
+            'POST reset-password-request' => 'reset-password-request',
         ]
     ),
 ];

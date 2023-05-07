@@ -2,6 +2,7 @@
 
 namespace common\models\AQ;
 
+use common\enums\UserStatus;
 use common\models\AR\User;
 use yii\db\ActiveQuery;
 
@@ -33,5 +34,13 @@ class UserQuery extends ActiveQuery
     public function byEmail(string $email): self
     {
         return $this->andWhere(['email' => $email]);
+    }
+
+    /**
+     * @return self
+     */
+    public function active(): self
+    {
+        return $this->andWhere(['status' => UserStatus::Active->value]);
     }
 }

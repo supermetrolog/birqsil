@@ -34,7 +34,7 @@ class NotifierTest extends Unit
         $message->method('setFrom')->willReturn($message);
 
         $this->emailNotification->method('getSubject');
-        $this->emailNotification->method('getHtml');
+        $this->emailNotification->method('getHtml')->willReturn('template.php');
         $this->emailNotification->method('getText');
         $this->emailNotification->method('getFromEmail');
         $this->emailNotification->method('getFromName');

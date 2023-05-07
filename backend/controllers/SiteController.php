@@ -4,27 +4,34 @@ namespace backend\controllers;
 
 use backend\models\DTO\CredentialDto;
 use backend\models\form\ResetPasswordForm;
+use backend\models\form\ResetPasswordRequestForm;
 use backend\models\form\SignInForm;
 use backend\models\form\SignUpForm;
 use backend\models\form\VerifyEmailForm;
 use common\actions\ErrorAction;
 use common\base\exception\ValidateException;
-use common\base\exception\ValidateHttpException;
+use common\base\interfaces\notifier\NotifierInterface;
 use common\helpers\HttpCode;
-use common\models\AR\UserAccessToken;
 use common\services\UserService;
-use frontend\models\PasswordResetRequestForm;
 use Throwable;
 use yii\base\Exception;
 
 class SiteController extends AppController
 {
     private UserService $userService;
+    private NotifierInterface $notifier;
 
-    public function __construct($id, $module, UserService $userService, $config = [])
+    public function __construct(
+        $id,
+        $module,
+        UserService $userService,
+        NotifierInterface $notifier,
+        $config = []
+    )
     {
         parent::__construct($id, $module, $config);
         $this->userService = $userService;
+        $this->notifier = $notifier;
     }
 
     public function actions(): array
@@ -88,6 +95,19 @@ class SiteController extends AppController
         $form = new ResetPasswordForm();
         $form->load($this->request->post());
         $form->reset();
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     * @throws ValidateException
+     */
+    public function actionResetPasswordRequest(): void
+    {
+        $form = new ResetPasswordRequestForm($this->notifier);
+        $form->load($this->request->post());
+        $form->sendEmail();
         $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
     }
 }

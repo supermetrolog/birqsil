@@ -71,4 +71,13 @@ class SiteCest
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
+
+    public function resetPasswordRequest(ApiTester $I): void
+    {
+        $I->sendPost('/reset-password-request', [
+            'email' => 'test2@test.test',
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+    }
 }
