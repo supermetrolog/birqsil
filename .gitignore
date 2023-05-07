@@ -35,3 +35,5 @@ phpunit.phar
 
 # db data
 /docker/mysql/data
+/docker/mysql/data_test
+/docker/nginx/logs

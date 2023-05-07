@@ -16,6 +16,8 @@ services:
       - mysql_test
     networks:
       backend:
+      frontend:
+        ipv4_address: 10.5.0.6
   php:
     build:
       context: ./docker/php
@@ -23,8 +25,7 @@ services:
       args:
         DOCKER_PHP_VERSION: '8.2'
         DOCKER_PHP_ENABLE_XDEBUG: 'on'
-        DOCKER_PHP_XDEBUG_VERSION: 2.9.2
-        TZ: Europe/Moscow
+        DOCKER_PHP_XDEBUG_VERSION: '2.9.2'
     working_dir: /var/www
     container_name: php
     volumes:
@@ -32,8 +33,12 @@ services:
       - ./docker/php/conf/php.ini:/usr/local/etc/php/php.ini
     ports:
       - "9001:9000"
+    extra_hosts:
+      - "testapi.birqsil.ru:10.5.0.6"
     networks:
-      - backend
+      backend:
+      frontend:
+        ipv4_address: 10.5.0.5
 
   mysql:
     image: mysql
@@ -60,7 +65,7 @@ services:
     container_name: mysql_test
     restart: always
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/data_test:/var/lib/mysql
       - ./docker/mysql/conf.d:/etc/mysql/conf.d
       - ./docker/mysql/logs:/var/log/mysql/
     ports:
@@ -77,3 +82,9 @@ services:
 
 networks:
   backend:
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
