@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\base\exception\ValidateException;
 use common\base\exception\ValidateHttpException;
 use yii\base\InvalidRouteException;
+use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\Response;
 
@@ -24,6 +25,14 @@ class AppController extends Controller
                         'application/json' => Response::FORMAT_JSON,
                         'application/xml' => Response::FORMAT_JSON,
                     ],
+                ],
+                [
+                    'class' => Cors::class,
+                    'cors' => [
+                        'Origin' => ['*'],
+                        'Access-Control-Request-Method' => ['*'],
+                        'Access-Control-Request-Headers' => ['Origin', 'Content-Type', 'Accept', 'Authorization']
+                    ]
                 ]
             ]
         );
