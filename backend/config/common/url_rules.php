@@ -5,9 +5,10 @@ declare(strict_types=1);
 use yii\rest\UrlRule;
 
 return [
-    array(
+    [
         'class' => UrlRule::class,
         'controller' => ['' => 'site'],
+        'prefix' => 'v1',
         'extraPatterns' => [
             'POST signup' => 'signup',
             'POST signin' => 'signin',
@@ -15,5 +16,5 @@ return [
             'POST reset-password' => 'reset-password',
             'POST reset-password-request' => 'reset-password-request',
         ]
-    ),
+    ],
 ];

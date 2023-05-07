@@ -6,6 +6,6 @@ modules:
     - Yii2
     - REST:
         depends: PhpBrowser
-        url: http://testapi.birqsil.ru
+        url: http://testapi.birqsil.ru/v1
 #        url: http://nginx
         part: Json
