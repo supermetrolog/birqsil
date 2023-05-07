@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-
+// PROD INDEX FILE
 require __DIR__ . '/../../vendor/autoload.php';
 
 $local = yii\helpers\ArrayHelper::merge(

@@ -24,6 +24,7 @@ class SiteCest
             'password' => '12345678',
             'passwordRepeat' => '12345678'
         ]);
+
         $I->seeResponseCodeIs(HttpCode::OK->value);
     }
 }
