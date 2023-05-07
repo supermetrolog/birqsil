@@ -35,11 +35,11 @@ class VerifyEmailNotification implements EmailNotificationInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getText(): string
+    public function getText(): string|null
     {
-        return 'emailVerify-text';
+        return null;
     }
 
 

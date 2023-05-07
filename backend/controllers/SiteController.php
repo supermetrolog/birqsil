@@ -2,8 +2,10 @@
 
 namespace backend\controllers;
 
+use backend\models\DTO\SignUpResponseDto;
 use backend\models\form\SignUpForm;
 use common\actions\ErrorAction;
+use common\base\exception\ValidateException;
 use common\base\exception\ValidateHttpException;
 use common\models\AR\UserAccessToken;
 use common\services\UserService;
@@ -30,16 +32,18 @@ class SiteController extends AppController
     }
 
     /**
-     * @return UserAccessToken
-     * @throws ValidateHttpException
-     * @throws Throwable
+     * @return SignUpResponseDto
      * @throws Exception
+     * @throws Throwable
+     * @throws ValidateException
      * @throws \yii\db\Exception
      */
-    public function actionSignup(): UserAccessToken
+    public function actionSignup(): SignUpResponseDto
     {
         $form = new SignUpForm();
         $form->load($this->request->post());
-        return $this->userService->signUp($form);
+        $accessToken = $this->userService->signUp($form);
+
+        return new SignUpResponseDto($accessToken);
     }
 }

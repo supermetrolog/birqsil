@@ -7,5 +7,5 @@ modules:
     - REST:
         depends: PhpBrowser
         url: http://testapi.birqsil.ru
-#        url: nginx
+#        url: http://nginx
         part: Json

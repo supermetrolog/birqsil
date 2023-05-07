@@ -6,6 +6,7 @@ use common\base\interfaces\notifier\EmailNotificationInterface;
 use common\base\interfaces\notifier\NotifierInterface;
 use common\base\interfaces\notifier\TelegramNotificationInterface;
 use common\models\AR\User;
+use yii\base\ErrorException;
 use yii\db\Exception;
 use yii\mail\MailerInterface;
 
@@ -50,13 +51,14 @@ class Notifier implements NotifierInterface
      * @param User $user
      * @param EmailNotificationInterface $notification
      * @return void
+     * @throws ErrorException
      * @throws Exception
      */
     private function sendToEmail(User $user, EmailNotificationInterface $notification): void
     {
         $res = $this->mailer
             ->compose(
-                ['html' => $notification->getHtml(), 'text' => $notification->getText()],
+                $this->getHtmlOrText($notification),
                 $notification->getParams()
             )
             ->setFrom([$notification->getFromEmail() => $notification->getFromName()])
@@ -67,5 +69,23 @@ class Notifier implements NotifierInterface
         if (!$res) {
             throw new Exception('Email send error');
         }
+    }
+
+    /**
+     * @param EmailNotificationInterface $notification
+     * @return array
+     * @throws ErrorException
+     */
+    private function getHtmlOrText(EmailNotificationInterface $notification): array
+    {
+        if ($html = $notification->getHtml()) {
+            return ['html' => $html];
+        }
+
+        if ($text = $notification->getText()) {
+            return ['text' => $text];
+        }
+
+        throw new ErrorException('Html or text cannot be blank');
     }
 }
