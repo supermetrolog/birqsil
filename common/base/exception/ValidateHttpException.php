@@ -9,6 +9,7 @@ use yii\web\HttpException;
 class ValidateHttpException extends HttpException
 {
     public $statusCode;
+    private array $errors;
     private string $statusText;
 
     /**
@@ -18,9 +19,8 @@ class ValidateHttpException extends HttpException
     {
         $this->statusCode = HttpCode::VALIDATE_ERROR->value;
         $this->statusText = HttpCode::VALIDATE_ERROR->toString();
-        $message = Json::encode($th->getModel()->getErrorSummary(false));
-
-        parent::__construct($this->statusCode, $message, 1, $th);
+        $this->errors = $th->getModel()->getErrorSummary(true);
+        parent::__construct($this->statusCode, 'Validate error', 1, $th);
     }
 
     /**
@@ -29,5 +29,13 @@ class ValidateHttpException extends HttpException
     public function getName(): string
     {
         return $this->statusText;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

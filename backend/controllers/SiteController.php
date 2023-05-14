@@ -34,12 +34,19 @@ class SiteController extends AppController
         $this->notifier = $notifier;
     }
 
-    public function actions(): array
+//    public function actions(): array
+//    {
+//        return [
+//            'error' => [
+//                'class' => ErrorAction::class,
+//            ],
+//        ];
+//    }
+
+    public function actionError(): array
     {
         return [
-            'error' => [
-                'class' => ErrorAction::class,
-            ],
+            'fuck' => '12',
         ];
     }
 

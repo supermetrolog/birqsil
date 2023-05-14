@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use yii\base\Event;
+use yii\web\JsonResponseFormatter;
+use yii\web\Response;
+
 return [
     'id' => 'backend',
     'basePath' => dirname(__DIR__, 2),
@@ -19,9 +23,15 @@ return [
         'response' => [
             'formatters' => [
                 'json' => [
-                    'class' => \yii\web\JsonResponseFormatter::class,
+                    'class' => JsonResponseFormatter::class,
                 ]
-            ]
+            ],
+            'on beforeSend' => function (Event $event) {
+                /** @var Response $response */
+                $response = $event->sender;
+
+                (new \backend\components\response\ErrorResponse($response))->processed();
+            },
         ],
         'user' => [
             'identityClass' => 'common\models\User',
