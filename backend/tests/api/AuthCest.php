@@ -6,7 +6,7 @@ use backend\tests\ApiTester;
 use common\fixtures\UserFixture;
 use common\helpers\HttpCode;
 
-class SiteCest
+class AuthCest
 {
     public function _before(ApiTester $I): void
     {

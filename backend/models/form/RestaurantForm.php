@@ -55,10 +55,10 @@ class RestaurantForm extends Form
     }
 
     /**
-     * @return void
+     * @return Restaurant
      * @throws ValidateException
      */
-    public function create(): void
+    public function create(): Restaurant
     {
         $this->ifNotValidThrow();
 
@@ -71,6 +71,8 @@ class RestaurantForm extends Form
         $restaurant->status = RestaurantStatus::HIDDEN->value;
 
         $restaurant->saveOrThrow();
+
+        return $restaurant;
     }
 
     /**

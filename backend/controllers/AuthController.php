@@ -8,7 +8,6 @@ use backend\models\form\ResetPasswordRequestForm;
 use backend\models\form\SignInForm;
 use backend\models\form\SignUpForm;
 use backend\models\form\VerifyEmailForm;
-use common\actions\ErrorAction;
 use common\base\exception\ValidateException;
 use common\base\interfaces\notifier\NotifierInterface;
 use common\helpers\HttpCode;

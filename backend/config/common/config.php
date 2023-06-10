@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use backend\components\response\ErrorResponse;
 use yii\base\Event;
 use yii\web\JsonResponseFormatter;
 use yii\web\Response;
@@ -30,14 +31,10 @@ return [
                 /** @var Response $response */
                 $response = $event->sender;
 
-                (new \backend\components\response\ErrorResponse($response))->processed();
+                (new ErrorResponse($response))->processed();
             },
         ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => false,
-            'enableSession' => false,
-        ],
+        'user' => require '../user.php',
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],
