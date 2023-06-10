@@ -12,6 +12,7 @@ use common\actions\ErrorAction;
 use yii\web\NotFoundHttpException;
 use LogicException;
 use yii\base\ErrorHandler as BaseErrorHandler;
+use yii\web\Response;
 
 class ErrorActionTest extends Unit
 {
@@ -41,8 +42,28 @@ class ErrorActionTest extends Unit
         $controller = Yii::createObject(SiteController::class);
         return new ErrorAction('error', $controller);
     }
+
+    public function testRunWithSuccessfullyResponse(): void
+    {
+        $this->app->response->format = Response::FORMAT_JSON;
+
+        $this->expectException(LogicException::class);
+        $this->errorAction->run();
+    }
+
+    public function testRunWithNotJSONFormat(): void
+    {
+        $this->app->response->setStatusCode(400);
+
+        $this->expectException(LogicException::class);
+        $this->errorAction->run();
+    }
+
     public function testRun(): void
     {
+        $this->app->response->format = Response::FORMAT_JSON;
+        $this->app->response->setStatusCode(400);
+
         $result = $this->errorAction->run();
 
         $exception = $this->app->getErrorHandler()->exception;
@@ -61,6 +82,9 @@ class ErrorActionTest extends Unit
     }
     public function testRunWithNullErrorHandlerException(): void
     {
+        $this->app->response->format = Response::FORMAT_JSON;
+        $this->app->response->setStatusCode(400);
+
         $this->app->errorHandler->exception = null;
         $this->expectException(LogicException::class);
         $this->errorAction->run();

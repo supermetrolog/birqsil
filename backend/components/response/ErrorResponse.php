@@ -25,18 +25,22 @@ class ErrorResponse
     private function getExceptionOrThrow(): Throwable
     {
         $ex = $this->app->getErrorHandler()->exception;
-        codecept_debug($ex);
+
         if ($ex === null) {
             throw new LogicException('Error handler exception cannot be null');
         }
         return $ex;
     }
 
+    /**
+     * @return void
+     */
     public function processed(): void
     {
         if ($this->response->format !== Response::FORMAT_JSON || $this->response->isSuccessful) {
             return;
         }
+
         $this->app->response->format = Response::FORMAT_JSON;
         $exception = $this->getExceptionOrThrow();
 

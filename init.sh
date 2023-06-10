@@ -6,3 +6,5 @@ chmod 777 -R ./frontend/web/assets
 chmod 777 -R ./backend/web/assets
 
 chmod 777 -R ./backend/web/assets
+
+chmod 777 -R ./backend/tests/_output

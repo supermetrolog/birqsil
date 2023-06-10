@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace common\actions;
 
 use backend\components\response\ErrorResponse;
+use LogicException;
 use Yii;
 use yii\base\Action;
 use yii\web\Controller;
@@ -34,6 +35,9 @@ class ErrorAction extends Action
     public function run(): array
     {
         $this->errorResponse->processed();
+        if (!$this->response->data) {
+            throw new LogicException('Response data cannot be null');
+        }
         return $this->response->data;
     }
 }
