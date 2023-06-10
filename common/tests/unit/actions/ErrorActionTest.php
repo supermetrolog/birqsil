@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace common\tests\unit\actions;
 
+use backend\controllers\SiteController;
 use Yii;
 use yii\web\Application;
 use Codeception\Test\Unit;
 use common\actions\ErrorAction;
 use yii\web\NotFoundHttpException;
-use backend\controllers\SiteController;
 use LogicException;
 use yii\base\ErrorHandler as BaseErrorHandler;
 
@@ -19,7 +19,6 @@ class ErrorActionTest extends Unit
     private Application $app;
     public function _before(): void
     {
-        /** @var Application */
         $app = Yii::$app;
         $this->app = $app;
         $this->configureApp();

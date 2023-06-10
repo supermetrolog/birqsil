@@ -13,7 +13,7 @@ use yii\web\Response;
 class ErrorResponse
 {
     private Application $app;
-    public function __construct(private Response $response)
+    public function __construct(private readonly Response $response)
     {
         $this->app = Yii::$app;
     }
@@ -25,6 +25,7 @@ class ErrorResponse
     private function getExceptionOrThrow(): Throwable
     {
         $ex = $this->app->getErrorHandler()->exception;
+        codecept_debug($ex);
         if ($ex === null) {
             throw new LogicException('Error handler exception cannot be null');
         }

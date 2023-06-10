@@ -7,7 +7,7 @@ use yii\rest\UrlRule;
 return [
     [
         'class' => UrlRule::class,
-        'controller' => ['' => 'site'],
+        'controller' => ['' => 'auth'],
         'prefix' => 'v1',
         'extraPatterns' => [
             'POST signup' => 'signup',
