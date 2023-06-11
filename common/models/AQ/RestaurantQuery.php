@@ -2,6 +2,7 @@
 
 namespace common\models\AQ;
 
+use common\enums\RestaurantStatus;
 use common\models\AR\Restaurant;
 use yii\db\ActiveQuery;
 
@@ -42,5 +43,30 @@ class RestaurantQuery extends ActiveQuery
     public function byID(int $id): self
     {
         return $this->andWhere(['id' => $id]);
+    }
+
+    /**
+     * @param RestaurantStatus $status
+     * @return self
+     */
+    private function withStatus(RestaurantStatus $status): self
+    {
+        return $this->andWhere([Restaurant::tableName() . '.status' => $status->value]);
+    }
+
+    /**
+     * @param RestaurantStatus $status
+     * @return self
+     */
+    private function withoutStatus(RestaurantStatus $status): self
+    {
+        return $this->andWhere(['!=', Restaurant::tableName() . '.status', $status->value]);
+    }
+    /**
+     * @return self
+     */
+    public function active(): self
+    {
+        return $this->withoutStatus(RestaurantStatus::DELETED);
     }
 }

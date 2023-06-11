@@ -7,6 +7,7 @@ use common\base\exception\ValidateException;
 use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
 use Throwable;
+use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;
@@ -25,6 +26,18 @@ class RestaurantController extends AppController
     {
         $this->user = $user;
         parent::__construct($id, $module, $config);
+    }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function actionIndex(): ActiveDataProvider
+    {
+        $query = Restaurant::find()->byUserID($this->user->id)->active();
+
+        return new ActiveDataProvider([
+            'query' => $query
+        ]);
     }
 
     /**

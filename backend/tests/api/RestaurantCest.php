@@ -76,4 +76,12 @@ class RestaurantCest
 
         $I->seeResponseCodeIs(HttpCode::OK->value);
     }
+
+    public function search(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/restaurant');
+
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
 }

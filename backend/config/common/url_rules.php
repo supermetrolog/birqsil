@@ -21,7 +21,7 @@ return [
         'class' => UrlRule::class,
         'controller' => ['' => 'site'],
         'extraPatterns' => [
-            'GET /' => 'index',
+            'GET' => 'index',
         ]
     ],
     [
@@ -37,8 +37,9 @@ return [
         'controller' => ['restaurant' => 'restaurant'],
         'prefix' => 'v1',
         'patterns' => [
+            'GET' => 'index',
             'GET <id>' => 'view',
-            'POST /' => 'create',
+            'POST' => 'create',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',
         ]
