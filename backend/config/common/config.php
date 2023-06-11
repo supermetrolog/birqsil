@@ -29,10 +29,9 @@ return [
                 ]
             ],
             'on beforeSend' => function (Event $event) {
-//                /** @var Response $response */
-//                $response = $event->sender;
-//
-//                (new ErrorResponse($response))->processed();
+                /** @var Response $response */
+                $response = $event->sender;
+                (new ErrorResponse($response))->processed();
             },
         ],
         'user' => require __DIR__ . '/../user.php',

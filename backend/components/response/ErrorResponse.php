@@ -13,6 +13,10 @@ use yii\web\Response;
 class ErrorResponse
 {
     private Application $app;
+
+    /**
+     * @param Response $response
+     */
     public function __construct(private readonly Response $response)
     {
         $this->app = Yii::$app;
@@ -64,7 +68,7 @@ class ErrorResponse
             $response['line'] = $exception->getLine();
             $response['type'] = get_class($exception);
             $response['stack-trace-string'] = $exception->getTraceAsString();
-            $response['stack-trace'] = $exception->getTrace();
+//            $response['stack-trace'] = $exception->getTrace(); TODO: Переполнение памяти
         }
 
         $this->response->data = $response;
