@@ -5,24 +5,22 @@ namespace backend\controllers;
 use backend\models\form\RestaurantForm;
 use common\base\exception\ValidateException;
 use common\models\AR\Restaurant;
-use common\models\AR\User;
-use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\User;
 
 class RestaurantController extends AppController
 {
-    private User|null $identity;
+    private User|null $user;
 
     /**
      * @param $id
      * @param $module
-     * @param \yii\web\User|null $userWeb
+     * @param User|null $user
      * @param array $config
      */
-    public function __construct($id, $module, \yii\web\User|null $userWeb, array $config = [])
+    public function __construct($id, $module, User|null $user, array $config = [])
     {
-        Yii::warning($userWeb->isGuest);
-        $this->identity = $userWeb->identity;
+        $this->user = $user;
         parent::__construct($id, $module, $config);
     }
 
@@ -36,9 +34,7 @@ class RestaurantController extends AppController
         $form->setScenario(RestaurantForm::SCENARIO_CREATE);
 
         $form->load($this->request->post());
-        Yii::warning(Yii::$app->user->identity->id);
-        Yii::warning($this->identity->id);
-        $form->user_id = $this->identity->id;
+        $form->user_id = $this->user->identity->id;
         return $form->create();
     }
 
