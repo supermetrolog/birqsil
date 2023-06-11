@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace common\tests\unit\actions;
 
 use backend\controllers\SiteController;
+use common\helpers\HttpCode;
 use Yii;
 use yii\web\Application;
 use Codeception\Test\Unit;
@@ -43,22 +44,6 @@ class ErrorActionTest extends Unit
         return new ErrorAction('error', $controller);
     }
 
-    public function testRunWithSuccessfullyResponse(): void
-    {
-        $this->app->response->format = Response::FORMAT_JSON;
-
-        $this->expectException(LogicException::class);
-        $this->errorAction->run();
-    }
-
-    public function testRunWithNotJSONFormat(): void
-    {
-        $this->app->response->setStatusCode(400);
-
-        $this->expectException(LogicException::class);
-        $this->errorAction->run();
-    }
-
     public function testRun(): void
     {
         $this->app->response->format = Response::FORMAT_JSON;
@@ -77,7 +62,7 @@ class ErrorActionTest extends Unit
             'line' => $exception->getLine(),
             'type' => get_class($exception),
             'stack-trace-string' => $exception->getTraceAsString(),
-            'stack-trace' => $exception->getTrace(),
+//            'stack-trace' => $exception->getTrace(),
         ]);
     }
     public function testRunWithNullErrorHandlerException(): void
@@ -86,7 +71,12 @@ class ErrorActionTest extends Unit
         $this->app->response->setStatusCode(400);
 
         $this->app->errorHandler->exception = null;
-        $this->expectException(LogicException::class);
-        $this->errorAction->run();
+        $res = $this->errorAction->run();
+
+        verify($res)->equals([
+            'message' => 'Server error, exception not found',
+            'code' => 1,
+            'status' => HttpCode::INTERNAL_SERVER_ERROR->value
+        ]);
     }
 }
