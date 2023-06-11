@@ -4,7 +4,10 @@ namespace backend\controllers;
 
 use backend\models\form\RestaurantForm;
 use common\base\exception\ValidateException;
+use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
+use Throwable;
+use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
 use yii\web\User;
 
@@ -55,6 +58,31 @@ class RestaurantController extends AppController
         $form->load($this->request->post());
         $form->update($model);
         return $model;
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws NotFoundHttpException
+     * @throws Throwable
+     * @throws StaleObjectException
+     */
+    public function actionDelete(int $id): void
+    {
+        $model = $this->findModel($id);
+        $model->delete();
+
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+
+    /**
+     * @param int $id
+     * @return Restaurant
+     * @throws NotFoundHttpException
+     */
+    public function actionView(int $id): Restaurant
+    {
+        return $this->findModel($id);
     }
 
     /**

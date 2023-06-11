@@ -60,4 +60,20 @@ class RestaurantCest
 
         $I->seeResponseCodeIs(HttpCode::OK->value);
     }
+
+    public function delete(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendDelete('/restaurant/1');
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+    }
+
+    public function view(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/restaurant/1');
+
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
 }

@@ -37,8 +37,10 @@ return [
         'controller' => ['restaurant' => 'restaurant'],
         'prefix' => 'v1',
         'patterns' => [
+            'GET <id>' => 'view',
             'POST /' => 'create',
             'PUT <id>' => 'update',
+            'DELETE <id>' => 'delete',
         ]
     ],
 ];
