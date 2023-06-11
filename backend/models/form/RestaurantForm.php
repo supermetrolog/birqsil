@@ -24,7 +24,7 @@ class RestaurantForm extends Form
     public function rules(): array
     {
         return [
-            ['user_id', 'required', 'on' => self::SCENARIO_CREATE],
+            ['user_id', 'required'],
             [['name'], 'required'],
             [['user_id'], 'integer'],
             [['name', 'legalName', 'address'], 'string', 'max' => 255],

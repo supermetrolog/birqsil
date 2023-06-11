@@ -25,4 +25,12 @@ return [
             'GET check-email-exists' => 'check-email-exists',
         ]
     ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['restaurant' => 'restaurant'],
+        'prefix' => 'v1',
+        'extraPatterns' => [
+            'POST /' => 'create',
+        ]
+    ],
 ];

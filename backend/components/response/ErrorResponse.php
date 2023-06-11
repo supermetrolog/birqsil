@@ -20,16 +20,11 @@ class ErrorResponse
 
 
     /**
-     * @return Throwable
+     * @return Throwable|null
      */
-    private function getExceptionOrThrow(): Throwable
+    private function getException(): Throwable|null
     {
-        $ex = $this->app->getErrorHandler()->exception;
-
-        if ($ex === null) {
-            throw new LogicException('Error handler exception cannot be null');
-        }
-        return $ex;
+        return $this->app->getErrorHandler()->exception;
     }
 
     /**
@@ -37,12 +32,22 @@ class ErrorResponse
      */
     public function processed(): void
     {
-        if ($this->response->format !== Response::FORMAT_JSON || $this->response->isSuccessful) {
+        if ($this->response->isSuccessful) {
             return;
         }
 
         $this->app->response->format = Response::FORMAT_JSON;
-        $exception = $this->getExceptionOrThrow();
+        $exception = $this->getException();
+
+        if (!$exception) {
+            $this->response->data = [
+                'message' => 'Server error, exception not found',
+                'code' => 1,
+                'status' => HttpCode::INTERNAL_SERVER_ERROR->value
+            ];
+
+            return;
+        }
 
         $response = [
             'message' => $exception->getMessage(),

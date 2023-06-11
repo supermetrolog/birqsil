@@ -4,7 +4,9 @@ namespace common\models\AQ;
 
 use common\enums\UserStatus;
 use common\models\AR\User;
+use common\models\AR\UserAccessToken;
 use yii\db\ActiveQuery;
+use yii\db\Expression;
 
 class UserQuery extends ActiveQuery
 {
@@ -41,6 +43,18 @@ class UserQuery extends ActiveQuery
      */
     public function active(): self
     {
-        return $this->andWhere(['status' => UserStatus::Active->value]);
+        return $this->andWhere([User::tableName() . '.status' => UserStatus::Active->value]);
+    }
+
+    /**
+     * @param string $token
+     * @return self
+     */
+    public function byAccessToken(string $token): self
+    {
+        return $this->leftJoin(
+            UserAccessToken::tableName(),
+            [UserAccessToken::tableName() . '.user_id' => new Expression(User::tableName() . '.id')],
+        )->andWhere([UserAccessToken::tableName() . '.token' => $token]);
     }
 }

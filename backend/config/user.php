@@ -1,7 +1,9 @@
 <?php
 
+use common\models\AR\User;
+
 return [
-    'identityClass' => 'common\models\User',
+    'identityClass' => User::class,
     'enableAutoLogin' => false,
     'enableSession' => false,
 ];

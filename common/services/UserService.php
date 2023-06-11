@@ -16,12 +16,12 @@ use Throwable;
 use yii\base\Exception;
 use yii\db\Connection;
 
-class UserService
+readonly class UserService
 {
     public function __construct(
-        private readonly NotifierInterface $notifier,
-        private readonly Param    $params,
-        private readonly Connection $db
+        private NotifierInterface $notifier,
+        private Param             $params,
+        private Connection        $db
     )
     {
     }

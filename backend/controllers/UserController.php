@@ -6,6 +6,7 @@ use common\models\AR\User;
 
 class UserController extends AppController
 {
+    protected array $exceptAuthActions = ['check-email-exists'];
     /**
      * @return array
      */

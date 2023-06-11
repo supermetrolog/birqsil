@@ -12,6 +12,7 @@ return [
     'basePath' => dirname(__DIR__, 2),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'container' => require __DIR__ . '/container.php',
     'components' => [
         'request' => [
             'enableCsrfValidation' => false,
@@ -28,13 +29,13 @@ return [
                 ]
             ],
             'on beforeSend' => function (Event $event) {
-                /** @var Response $response */
-                $response = $event->sender;
-
-                (new ErrorResponse($response))->processed();
+//                /** @var Response $response */
+//                $response = $event->sender;
+//
+//                (new ErrorResponse($response))->processed();
             },
         ],
-        'user' => require '../user.php',
+        'user' => require __DIR__ . '/../user.php',
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],

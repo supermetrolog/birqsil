@@ -81,10 +81,9 @@ class User extends AR implements IdentityInterface
      * @param $type
      * @return $this|null
      */
-    public static function findIdentityByAccessToken($token, $type = null): ?self
+    public static function findIdentityByAccessToken($token, $type = null): self|null
     {
-        // TODO:
-        return static::findOne(['auth_key' => $token]);
+        return static::find()->active()->byAccessToken($token)->one();
     }
 
     /**

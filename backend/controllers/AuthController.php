@@ -17,6 +17,14 @@ use yii\base\Exception;
 
 class AuthController extends AppController
 {
+    protected array $exceptAuthActions = [
+        'signup',
+        'signin',
+        'verify-email',
+        'reset-password',
+        'reset-password-request',
+    ];
+
     private UserService $userService;
     private NotifierInterface $notifier;
 

@@ -5,12 +5,17 @@ namespace backend\controllers;
 use common\base\exception\ValidateException;
 use common\base\exception\ValidateHttpException;
 use yii\base\InvalidRouteException;
+use yii\filters\auth\HttpBearerAuth;
 use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\Response;
 
 class AppController extends Controller
 {
+    /**
+     * @var string[]
+     */
+    protected array $exceptAuthActions = [];
     /**
      * @return array
      */
@@ -33,6 +38,10 @@ class AppController extends Controller
                         'Access-Control-Request-Method' => ['*'],
                         'Access-Control-Request-Headers' => ['Origin', 'Content-Type', 'Accept', 'Authorization']
                     ]
+                ],
+                [
+                    'class' => HttpBearerAuth::class,
+                    'except' => $this->exceptAuthActions,
                 ]
             ]
         );
