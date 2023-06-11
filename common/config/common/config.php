@@ -15,13 +15,7 @@ return [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],
-        'db' => [
-            'class' => \yii\db\Connection::class,
-            'dsn' => 'mysql:host=' . $local['db.host'] .';dbname=' . $local['db.name'],
-            'username' => $local['db.username'],
-            'password' => $local['db.password'],
-            'charset' => 'utf8',
-        ],
+        'db' => fn() => Yii::$container->get(\yii\db\Connection::class),
         'log' => [
             'targets' => [
                 [

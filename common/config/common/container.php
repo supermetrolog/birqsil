@@ -21,7 +21,7 @@ return [
             'useFileTransport' => true,
         ],
         Connection::class => [
-            'class' => \yii\db\Connection::class,
+            'class' => Connection::class,
             'dsn' => 'mysql:host=' . $local['db.host'] .';dbname=' . $local['db.name'],
             'username' => $local['db.username'],
             'password' => $local['db.password'],

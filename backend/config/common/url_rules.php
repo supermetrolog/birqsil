@@ -19,6 +19,13 @@ return [
     ],
     [
         'class' => UrlRule::class,
+        'controller' => ['' => 'site'],
+        'extraPatterns' => [
+            'GET /' => 'index',
+        ]
+    ],
+    [
+        'class' => UrlRule::class,
         'controller' => ['user' => 'user'],
         'prefix' => 'v1',
         'extraPatterns' => [

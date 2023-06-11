@@ -14,13 +14,4 @@ return [
             ]
         ]
     ],
-    'components' => [
-        'db' => [
-            'dsn' => 'mysql:host=mysql_test;port=3306;dbname=birqsil_test',
-        ],
-        'user' => [
-            'class' => \yii\web\User::class,
-            'identityClass' => 'common\models\AR\User',
-        ],
-    ],
 ];

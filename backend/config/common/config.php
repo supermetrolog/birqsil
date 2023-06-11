@@ -14,6 +14,7 @@ return [
     'bootstrap' => ['log'],
     'container' => require __DIR__ . '/container.php',
     'components' => [
+        'user' => fn () => Yii::$container->get(\yii\web\User::class),
         'request' => [
             'enableCsrfValidation' => false,
             'enableCookieValidation' => false,
@@ -34,7 +35,6 @@ return [
                 (new ErrorResponse($response))->processed();
             },
         ],
-        'user' => require __DIR__ . '/../user.php',
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],

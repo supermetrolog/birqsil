@@ -13,9 +13,16 @@ class RestaurantController extends AppController
 {
     private User|null $identity;
 
-    public function __construct($id, $module, User|null $identity, $config = [])
+    /**
+     * @param $id
+     * @param $module
+     * @param \yii\web\User|null $userWeb
+     * @param array $config
+     */
+    public function __construct($id, $module, \yii\web\User|null $userWeb, array $config = [])
     {
-        $this->identity = $identity;
+        Yii::warning($userWeb->isGuest);
+        $this->identity = $userWeb->identity;
         parent::__construct($id, $module, $config);
     }
 
@@ -25,11 +32,11 @@ class RestaurantController extends AppController
      */
     public function actionCreate(): Restaurant
     {
-        return new Restaurant();
         $form = new RestaurantForm();
         $form->setScenario(RestaurantForm::SCENARIO_CREATE);
 
         $form->load($this->request->post());
+        Yii::warning(Yii::$app->user->identity->id);
         Yii::warning($this->identity->id);
         $form->user_id = $this->identity->id;
         return $form->create();
