@@ -10,15 +10,15 @@ use yii\web\User;
 
 class RestaurantController extends AppController
 {
-    private User|null $user;
+    private User $user;
 
     /**
      * @param $id
      * @param $module
-     * @param User|null $user
+     * @param User $user
      * @param array $config
      */
-    public function __construct($id, $module, User|null $user, array $config = [])
+    public function __construct($id, $module, User $user, array $config = [])
     {
         $this->user = $user;
         parent::__construct($id, $module, $config);
@@ -47,14 +47,27 @@ class RestaurantController extends AppController
      */
     public function actionUpdate(int $id): Restaurant
     {
-        $model = Restaurant::find()->byID($id)->one();
-        if (!$model) {
-            throw new NotFoundHttpException('Model not found');
-        }
+        $model = $this->findModel($id);
 
         $form = new RestaurantForm();
+        $form->setScenario(RestaurantForm::SCENARIO_UPDATE);
+
         $form->load($this->request->post());
         $form->update($model);
         return $model;
+    }
+
+    /**
+     * @param int $id
+     * @return Restaurant
+     * @throws NotFoundHttpException
+     */
+    protected function findModel(int $id): Restaurant
+    {
+        if ($model = Restaurant::find()->byID($id)->one()) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Restaurant not found');
     }
 }

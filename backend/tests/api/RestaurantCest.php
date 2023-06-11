@@ -33,10 +33,26 @@ class RestaurantCest
         $this->accessToken = UserAccessToken::find()->one();
     }
 
-    public function create(ApiTester $I): void
+    private function auth(ApiTester $I): void
     {
         $I->haveHttpHeader('Authorization', 'Bearer ' . $this->accessToken->token);
+    }
+    public function create(ApiTester $I): void
+    {
+        $this->auth($I);
         $I->sendPost('/restaurant', [
+            'name' => 'Restaurant name',
+            'legalName' => 'Restaurant legal name',
+            'address' => 'Moscow, Lenina street'
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
+
+    public function update(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPut('/restaurant/1', [
             'name' => 'Restaurant name',
             'legalName' => 'Restaurant legal name',
             'address' => 'Moscow, Lenina street'

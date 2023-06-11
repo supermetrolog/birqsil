@@ -9,7 +9,7 @@ return [
         'class' => UrlRule::class,
         'controller' => ['' => 'auth'],
         'prefix' => 'v1',
-        'extraPatterns' => [
+        'patterns' => [
             'POST signup' => 'signup',
             'POST signin' => 'signin',
             'GET verify-email' => 'verify-email',
@@ -28,7 +28,7 @@ return [
         'class' => UrlRule::class,
         'controller' => ['user' => 'user'],
         'prefix' => 'v1',
-        'extraPatterns' => [
+        'patterns' => [
             'GET check-email-exists' => 'check-email-exists',
         ]
     ],
@@ -36,8 +36,9 @@ return [
         'class' => UrlRule::class,
         'controller' => ['restaurant' => 'restaurant'],
         'prefix' => 'v1',
-        'extraPatterns' => [
+        'patterns' => [
             'POST /' => 'create',
+            'PUT <id>' => 'update',
         ]
     ],
 ];
