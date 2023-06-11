@@ -6,6 +6,7 @@ use backend\models\form\RestaurantForm;
 use common\base\exception\ValidateException;
 use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
+use common\services\RestaurantService;
 use Throwable;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
@@ -15,16 +16,19 @@ use yii\web\User;
 class RestaurantController extends AppController
 {
     private User $user;
+    private RestaurantService $service;
 
     /**
      * @param $id
      * @param $module
      * @param User $user
+     * @param RestaurantService $service
      * @param array $config
      */
-    public function __construct($id, $module, User $user, array $config = [])
+    public function __construct($id, $module, User $user, RestaurantService $service, array $config = [])
     {
         $this->user = $user;
+        $this->service = $service;
         parent::__construct($id, $module, $config);
     }
 
@@ -82,9 +86,7 @@ class RestaurantController extends AppController
      */
     public function actionDelete(int $id): void
     {
-        $model = $this->findModel($id);
-        $model->delete();
-
+        $this->service->delete($this->findModel($id));
         $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
     }
 

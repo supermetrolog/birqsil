@@ -12,9 +12,7 @@ use yii\symfonymailer\Mailer;
 return [
     'definitions' => [],
     'singletons' => [
-        UserService::class => [],
         NotifierInterface::class => Notifier::class,
-        Param::class => [],
         MailerInterface::class => Mailer::class,
         Mailer::class => [
             'viewPath' => '@common/mail',
