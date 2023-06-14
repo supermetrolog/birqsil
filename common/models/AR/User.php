@@ -233,4 +233,13 @@ class User extends AR implements IdentityInterface
     {
         return $this->hasMany(UserAccessToken::class, ['user_id' => 'id']);
     }
+
+    /**
+     * @param UserStatus $status
+     * @return void
+     */
+    public function setStatus(UserStatus $status): void
+    {
+        $this->status = $status->value;
+    }
 }

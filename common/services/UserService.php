@@ -9,6 +9,7 @@ use common\base\interfaces\notifier\NotifierInterface;
 use common\components\Param;
 use common\enums\AppParams;
 use common\enums\Status;
+use common\enums\UserStatus;
 use common\models\AR\User;
 use common\models\AR\UserAccessToken;
 use common\notifications\VerifyEmailNotification;
@@ -47,6 +48,7 @@ readonly class UserService
             $user->generatePasswordResetToken();
             $user->generateVerificationToken();
             $user->setPassword($form->password);
+            $user->setStatus(UserStatus::Active);
 
             $user->saveOrThrow();
 
