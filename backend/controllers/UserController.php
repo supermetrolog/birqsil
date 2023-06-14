@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use backend\DTO\UserDto;
 use common\models\AR\User;
+use yii\web\NotFoundHttpException;
 
 class UserController extends AppController
 {
@@ -18,4 +20,21 @@ class UserController extends AppController
                 ->exists()
         ];
     }
+
+    /**
+     * @param string $token
+     * @return UserDto
+     * @throws NotFoundHttpException
+     */
+    public function actionFindByToken(string $token): UserDto
+    {
+        $model = User::find()->active()->byAccessToken($token)->one();
+
+        if (!$model) {
+            throw new NotFoundHttpException('Not found');
+        }
+
+        return new UserDto($model);
+    }
+
 }

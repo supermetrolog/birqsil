@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\DTO\CredentialDto;
+use backend\DTO\CredentialDto;
 use backend\models\form\ResetPasswordForm;
 use backend\models\form\ResetPasswordRequestForm;
 use backend\models\form\SignInForm;

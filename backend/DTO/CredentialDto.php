@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models\DTO;
+namespace backend\DTO;
 
 use common\models\AR\UserAccessToken;
 

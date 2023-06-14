@@ -30,6 +30,7 @@ return [
         'prefix' => 'v1',
         'patterns' => [
             'GET check-email-exists' => 'check-email-exists',
+            'GET find-by-token/<token>' => 'find-by-token',
         ]
     ],
     [
