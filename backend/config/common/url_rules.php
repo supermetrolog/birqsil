@@ -45,4 +45,12 @@ return [
             'DELETE <id>' => 'delete',
         ]
     ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['menu' => 'menu'],
+        'prefix' => 'v1',
+        'patterns' => [
+            'POST' => 'create',
+        ]
+    ],
 ];
