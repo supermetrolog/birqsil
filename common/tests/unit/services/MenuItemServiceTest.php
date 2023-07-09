@@ -7,12 +7,15 @@ use common\base\exception\ValidateException;
 use common\enums\Status;
 use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
+use common\models\AR\File;
 use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
+use common\models\form\MenuItemImageUploadForm;
 use common\services\MenuItemService;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\di\NotInstantiableException;
+use yii\web\UploadedFile;
 
 class MenuItemServiceTest extends Unit
 {
@@ -136,5 +139,27 @@ class MenuItemServiceTest extends Unit
 
         verify($model->deleted_at)->notNull();
         verify($model->status)->equals(Status::Deleted->value);
+    }
+
+    public function testUploadImage(): void
+    {
+        $model = MenuItem::find()->byId(1)->one();
+        $form = new MenuItemImageUploadForm();
+        $form->image = new UploadedFile([
+            'name' => 'JPEG-FILE.jpeg',
+            'fullPath' => 'JPEG-FILE.jpeg',
+            'type' => 'image/jpeg',
+            'tempName' => codecept_data_dir('JPEG-FILE.jpeg'),
+            'error' => 0,
+            'size' => 184949
+        ]);
+
+        $service = $this->getService();
+
+        $service->uploadImage($form, $model);
+
+        $model = MenuItem::find()->byId(1)->one();
+        verify($model->file_id)->notNull();
+        verify(File::find()->where(['id' => $model->file_id])->exists())->true();
     }
 }

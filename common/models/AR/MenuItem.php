@@ -6,12 +6,9 @@ use common\base\model\AR;
 use common\enums\Status;
 use common\models\AQ\MenuItemQuery;
 use DateTime;
-use Yii;
 use yii\db\ActiveQuery;
 
 /**
- * This is the model class for table "menu_item".
- *
  * @property int $id
  * @property int $restaurant_id
  * @property string $title
@@ -21,6 +18,7 @@ use yii\db\ActiveQuery;
  * @property string $created_at
  * @property string|null $updated_at
  * @property string|null $deleted_at
+ * @property int|null $file_id
  *
  * @property Restaurant $restaurant
  */
@@ -41,11 +39,12 @@ class MenuItem extends AR
     {
         return [
             [['restaurant_id', 'title', 'ordering'], 'required'],
-            [['restaurant_id', 'status', 'ordering'], 'integer'],
+            [['restaurant_id', 'status', 'ordering', 'file_id'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['title', 'description'], 'string', 'max' => 255],
             [['ordering'], 'unique'],
             [['restaurant_id'], 'exist', 'skipOnError' => true, 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
+            [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::class, 'targetAttribute' => ['file_id' => 'id']],
         ];
     }
 
@@ -101,5 +100,13 @@ class MenuItem extends AR
     {
         $this->status = $status->value;
         return $this;
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getFile(): ActiveQuery
+    {
+        return $this->hasOne(File::class, ['id' => 'file_id']);
     }
 }
