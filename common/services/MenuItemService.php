@@ -3,6 +3,7 @@
 namespace common\services;
 
 use common\base\exception\ValidateException;
+use common\enums\Status;
 use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
 use Throwable;
@@ -59,6 +60,18 @@ readonly class MenuItemService
         $model->title = $form->title;
         $model->description = $form->description;
 
+        $model->saveOrThrow();
+    }
+
+    /**
+     * @param MenuItem $model
+     * @return void
+     * @throws ValidateException
+     */
+    public function delete(MenuItem $model): void
+    {
+        $model->setStatus(Status::Deleted);
+        $model->generateDeletedAt();
         $model->saveOrThrow();
     }
 }

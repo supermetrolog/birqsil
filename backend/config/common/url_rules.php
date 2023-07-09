@@ -52,6 +52,7 @@ return [
         'patterns' => [
             'POST' => 'create',
             'PUT <id>' => 'update',
+            'DELETE <id>' => 'delete',
         ]
     ],
 ];

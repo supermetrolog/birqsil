@@ -3,7 +3,9 @@
 namespace common\models\AR;
 
 use common\base\model\AR;
+use common\enums\Status;
 use common\models\AQ\MenuItemQuery;
+use DateTime;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -81,5 +83,23 @@ class MenuItem extends AR
     public static function find(): MenuItemQuery
     {
         return new MenuItemQuery(get_called_class());
+    }
+
+    /**
+     * @return void
+     */
+    public function generateDeletedAt(): void
+    {
+        $this->deleted_at = (new DateTime())->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @param Status $status
+     * @return $this
+     */
+    public function setStatus(Status $status): self
+    {
+        $this->status = $status->value;
+        return $this;
     }
 }

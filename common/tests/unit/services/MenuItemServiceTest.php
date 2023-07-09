@@ -125,4 +125,16 @@ class MenuItemServiceTest extends Unit
 
         $service->update($form, $model);
     }
+
+    public function testDelete(): void
+    {
+        $model = MenuItem::find()->byId(1)->one();
+        $service = $this->getService();
+        $service->delete($model);
+
+        $model = MenuItem::find()->byId(1)->one();
+
+        verify($model->deleted_at)->notNull();
+        verify($model->status)->equals(Status::Deleted->value);
+    }
 }
