@@ -45,4 +45,20 @@ readonly class MenuItemService
             throw $th;
         }
     }
+
+    /**
+     * @param MenuItemForm $form
+     * @param MenuItem $model
+     * @return void
+     * @throws ValidateException
+     */
+    public function update(MenuItemForm $form, MenuItem $model): void
+    {
+        $form->ifNotValidThrow();
+
+        $model->title = $form->title;
+        $model->description = $form->description;
+
+        $model->saveOrThrow();
+    }
 }

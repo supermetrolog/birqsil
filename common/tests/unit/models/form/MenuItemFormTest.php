@@ -4,6 +4,7 @@ namespace common\tests\unit\models\form;
 
 use Codeception\Test\Unit;
 use common\enums\Status;
+use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
 use common\models\form\MenuItemForm;
 
@@ -12,10 +13,14 @@ class MenuItemFormTest extends Unit
     public function _fixtures(): array
     {
         return [
-            'user' => [
+            'restaurant' => [
                 'class' => RestaurantFixture::class,
                 'dataFile' => codecept_data_dir() . 'restaurant.php'
-            ]
+            ],
+            'menu_item' => [
+                'class' => MenuItemFixture::class,
+                'dataFile' => codecept_data_dir() . 'menu_item.php'
+            ],
         ];
     }
 
@@ -30,6 +35,18 @@ class MenuItemFormTest extends Unit
                     'description' => 'Desc',
                     'status' => Status::Active->value
                 ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
+                'isValid' => true,
+            ],
+            [
+                'desc' => 'Valid data update',
+                'data' => [
+                    'id' => 1,
+                    'title' => 'Test',
+                    'description' => 'Desc',
+                    'status' => Status::Active->value
+                ],
+                'scenario' => MenuItemForm::SCENARIO_UPDATE,
                 'isValid' => true,
             ],
             [
@@ -40,6 +57,7 @@ class MenuItemFormTest extends Unit
                     'description' => 'Desc',
                     'status' => 55
                 ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
                 'isValid' => false,
             ],
             [
@@ -49,6 +67,7 @@ class MenuItemFormTest extends Unit
                     'title' => 'Test',
                     'description' => 'Desc',
                 ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
                 'isValid' => false,
             ],
             [
@@ -58,6 +77,7 @@ class MenuItemFormTest extends Unit
                     'title' => 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                     'description' => 'Desc',
                 ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
                 'isValid' => false,
             ],
             [
@@ -67,12 +87,14 @@ class MenuItemFormTest extends Unit
                     'title' => 'title',
                     'description' => 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                 ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
                 'isValid' => false,
             ],
         ];
 
         foreach ($testCases as $tc) {
             $form = new MenuItemForm();
+            $form->setScenario($tc['scenario']);
             $form->load($tc['data']);
             verify($form->validate())->equals($tc['isValid'], $tc['desc'] . json_encode($form->getErrors()));
             verify($form->validate())->equals($tc['isValid'], $tc['desc']);

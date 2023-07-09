@@ -8,6 +8,9 @@ use common\models\AR\Restaurant;
 
 class MenuItemForm extends Form
 {
+    public const SCENARIO_CREATE = 'scenario_create';
+    public const SCENARIO_UPDATE = 'scenario_update';
+
     public int|null $restaurant_id = null;
     public string|null $title = null;
     public string|null $description = null;
@@ -24,6 +27,23 @@ class MenuItemForm extends Form
             [['title', 'description'], 'string', 'max' => 255],
             ['status', 'in', 'range' => Status::asArray()],
             [['restaurant_id'], 'exist', 'skipOnError' => true, 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function scenarios(): array
+    {
+        $common = [
+            'status',
+            'title',
+            'description'
+        ];
+
+        return [
+            self::SCENARIO_CREATE => [...$common, 'restaurant_id'],
+            self::SCENARIO_UPDATE => $common
         ];
     }
 }

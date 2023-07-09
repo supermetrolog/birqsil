@@ -7,6 +7,7 @@ use common\base\exception\ValidateException;
 use common\enums\Status;
 use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
+use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
 use common\services\MenuItemService;
 use Yii;
@@ -41,6 +42,7 @@ class MenuItemServiceTest extends Unit
     public function testCreateValid(): void
     {
         $form = new MenuItemForm();
+        $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
             'restaurant_id' => 1,
             'title' => 'Test',
@@ -50,13 +52,14 @@ class MenuItemServiceTest extends Unit
 
         $model = $service->create($form);
 
-        verify($model->ordering)->equals(1);
+        verify($model->ordering)->equals(MenuItem::find()->lastOrdering());
         verify($model->status)->equals(Status::Active->value);
     }
 
     public function testCreateInvalid(): void
     {
         $form = new MenuItemForm();
+        $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
             'restaurant_id' => 22,
             'title' => 'Test',
@@ -71,6 +74,7 @@ class MenuItemServiceTest extends Unit
     public function testDoubleCreateOrdering(): void
     {
         $form = new MenuItemForm();
+        $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
             'restaurant_id' => 1,
             'title' => 'Test',
@@ -80,9 +84,45 @@ class MenuItemServiceTest extends Unit
 
         $model = $service->create($form);
 
-        verify($model->ordering)->equals(1);
+        verify($model->ordering)->equals(MenuItem::find()->lastOrdering());
 
         $model = $service->create($form);
-        verify($model->ordering)->equals(2);
+        verify($model->ordering)->equals(MenuItem::find()->lastOrdering());
+    }
+
+    public function testUpdateValid(): void
+    {
+        $form = new MenuItemForm();
+        $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
+        $form->load([
+            'title' => 'Test2',
+            'description' => 'Test2'
+        ]);
+
+        $model = MenuItem::find()->byId(1)->one();
+
+        $service = $this->getService();
+        $service->update($form, $model);
+
+        verify($model->title)->equals($form->title);
+        verify($model->description)->equals($form->description);
+    }
+
+    public function testUpdateInvalid(): void
+    {
+        $form = new MenuItemForm();
+        $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
+        $form->load([
+            'title' => null,
+            'description' => 'Test2'
+        ]);
+
+        $model = MenuItem::find()->byId(1)->one();
+
+        $service = $this->getService();
+
+        $this->expectException(ValidateException::class);
+
+        $service->update($form, $model);
     }
 }

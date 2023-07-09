@@ -34,6 +34,7 @@ class MenuController extends AppController
     public function actionCreate(): MenuItem
     {
         $form = new MenuItemForm();
+        $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load($this->request->post());
 
         return $this->service->create($form);

@@ -52,4 +52,13 @@ class MenuItemQuery extends ActiveQuery
     {
         return $this->orderByOrdering()->one()?->ordering ?? 0;
     }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function byId(int $id): self
+    {
+        return $this->andWhere(['id' => $id]);
+    }
 }
