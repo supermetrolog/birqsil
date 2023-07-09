@@ -143,16 +143,21 @@ class MenuItemServiceTest extends Unit
 
     public function testUploadImage(): void
     {
+        $file = $this->createMock(UploadedFile::class);
+
+        $file->type = 'image/jpeg';
+        $file->size = 123442;
+        $file->tempName = codecept_data_dir('JPEG-FILE.jpeg');
+        $file->method('getBaseName')->willReturn('JPEG-FILE.jpeg');
+        $file->method('getExtension')->willReturn('jpeg');
+        $file->method('saveAs')->willReturn(true);
+
+        $form = $this->createMock(MenuItemImageUploadForm::class);
+        $form->image = $file;
+        $form->method('ifNotValidThrow');
+
         $model = MenuItem::find()->byId(1)->one();
-        $form = new MenuItemImageUploadForm();
-        $form->image = new UploadedFile([
-            'name' => 'JPEG-FILE.jpeg',
-            'fullPath' => 'JPEG-FILE.jpeg',
-            'type' => 'image/jpeg',
-            'tempName' => codecept_data_dir('JPEG-FILE.jpeg'),
-            'error' => 0,
-            'size' => 184949
-        ]);
+
 
         $service = $this->getService();
 

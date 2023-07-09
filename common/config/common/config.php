@@ -9,13 +9,13 @@ return [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
+    'vendorPath' => dirname(__DIR__, 3) . '/vendor',
     'container' => require 'container.php',
     'components' => [
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],
-        'db' => fn() => Yii::$container->get(\yii\db\Connection::class),
+        'db' => fn() => Yii::$container->get('db'),
         'log' => [
             'targets' => [
                 [
@@ -36,5 +36,6 @@ return [
         'user.emailMin' => 5,
         'user.emailMax' => 64,
         'user.access_token_expire' => 3600 * 24,
+        'file.upload_file_base_path' => dirname(__DIR__, 3) . '/frontend/web/uploads/'
     ]
 ];

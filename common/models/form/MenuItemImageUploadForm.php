@@ -12,6 +12,7 @@ class MenuItemImageUploadForm extends Form
     public function rules(): array
     {
         return [
+            [['image'], 'required'],
             [['image'], 'image', 'extensions' => 'png, jpg, jpeg'],
         ];
     }
