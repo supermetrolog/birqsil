@@ -5,6 +5,7 @@ namespace common\tests\unit\services;
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\enums\Status;
+use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
 use common\models\form\MenuItemForm;
 use common\services\MenuItemService;
@@ -21,6 +22,10 @@ class MenuItemServiceTest extends Unit
                 'class' => RestaurantFixture::class,
                 'dataFile' => codecept_data_dir() . 'restaurant.php'
             ],
+            'menu_item' => [
+                'class' => MenuItemFixture::class,
+                'dataFile' => codecept_data_dir() . 'menu_item.php'
+            ]
         ];
     }
 
