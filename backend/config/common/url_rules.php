@@ -54,7 +54,7 @@ return [
             'POST' => 'create',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',
-            'POST <id>/upload-files' => 'upload-files',
+            'POST <id>/upload-file' => 'upload-file',
         ]
     ],
 ];

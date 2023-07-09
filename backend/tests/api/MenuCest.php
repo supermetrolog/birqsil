@@ -65,9 +65,9 @@ class MenuCest extends Auth
     {
         $this->auth($I);
         $I->sendPost(
-            'menu/1/upload-files',
+            'menu/1/upload-file',
             [],
-            ['images' => codecept_data_dir('JPEG-FILE.jpeg')]
+            ['image' => codecept_data_dir('JPEG-FILE.jpeg')]
         );
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);

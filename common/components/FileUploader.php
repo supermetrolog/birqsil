@@ -79,7 +79,7 @@ readonly class FileUploader
      */
     private function generateRealName(File $model): void
     {
-        $model->real_name = md5($model->source_name . time() . $model->extension);
+        $model->real_name = md5($model->source_name . time() . $model->extension) . '.' . $model->extension;
     }
 
     /**

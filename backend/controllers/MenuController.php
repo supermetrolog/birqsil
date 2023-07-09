@@ -6,11 +6,13 @@ use common\base\exception\ValidateException;
 use common\helpers\HttpCode;
 use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
+use common\models\form\MenuItemImageUploadForm;
 use common\services\MenuItemService;
 use Throwable;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\web\User;
 use yii\widgets\Menu;
 
@@ -96,10 +98,17 @@ class MenuController extends AppController
     /**
      * @param int $id
      * @return void
+     * @throws Exception
+     * @throws NotFoundHttpException
+     * @throws Throwable
+     * @throws ValidateException
      */
-    public function actionUploadFiles(int $id): void
+    public function actionUploadFile(int $id): void
     {
+        $form = new MenuItemImageUploadForm();
+        $form->image = UploadedFile::getInstance($form, 'image');
 
+        $this->service->uploadImage($form, $this->findModel($id));
         $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
     }
 

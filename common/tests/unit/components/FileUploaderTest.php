@@ -30,7 +30,7 @@ class FileUploaderTest extends Unit
         $this->file->type = 'image/jpeg';
         $this->file->size = 123442;
         $this->file->method('getBaseName')->willReturn('JPEG-FILE.jpeg');
-        $this->file->method('getExtension')->willReturn('.jpeg');
+        $this->file->method('getExtension')->willReturn('jpeg');
         $this->file->method('saveAs')->willReturn(true);
 
         $component = $this->getComponent();
@@ -38,6 +38,9 @@ class FileUploaderTest extends Unit
 
         verify($model->size)->equals($this->file->size);
         verify($model->type)->equals($this->file->type);
+        verify($model->extension)->equals($this->file->getExtension());
+        verify($model->source_name)->equals($this->file->getBaseName());
+        verify(str_contains($model->real_name, $model->extension))->true();
     }
 
     public function testUploadError(): void
@@ -45,7 +48,7 @@ class FileUploaderTest extends Unit
         $this->file->type = 'image/jpeg';
         $this->file->size = 123442;
         $this->file->method('getBaseName')->willReturn('JPEG-FILE.jpeg');
-        $this->file->method('getExtension')->willReturn('.jpeg');
+        $this->file->method('getExtension')->willReturn('jpeg');
         $this->file->method('saveAs')->willReturn(false);
 
         $this->expectException(ErrorException::class);
