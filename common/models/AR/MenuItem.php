@@ -3,6 +3,7 @@
 namespace common\models\AR;
 
 use common\base\model\AR;
+use common\models\AQ\MenuItemQuery;
 use Yii;
 use yii\db\ActiveQuery;
 
@@ -72,5 +73,13 @@ class MenuItem extends AR
     public function getRestaurant(): ActiveQuery
     {
         return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
+    }
+
+    /**
+     * @return MenuItemQuery
+     */
+    public static function find(): MenuItemQuery
+    {
+        return new MenuItemQuery(get_called_class());
     }
 }
