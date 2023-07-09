@@ -51,6 +51,7 @@ return [
         'prefix' => 'v1',
         'patterns' => [
             'POST' => 'create',
+            'PUT <id>' => 'update',
         ]
     ],
 ];
