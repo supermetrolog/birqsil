@@ -8,24 +8,46 @@ use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
 use common\services\MenuItemService;
 use Throwable;
+use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
+use yii\web\User;
 use yii\widgets\Menu;
 
 class MenuController extends AppController
 {
     private MenuItemService $service;
+    private User $user;
 
     /**
      * @param $id
      * @param $module
+     * @param User $user
      * @param MenuItemService $service
      * @param array $config
      */
-    public function __construct($id, $module, MenuItemService $service, array $config = [])
+    public function __construct($id, $module, User $user, MenuItemService $service, array $config = [])
     {
         $this->service = $service;
+        $this->user = $user;
+
         parent::__construct($id, $module, $config);
+    }
+
+    /**
+     * @param int $restaurant_id
+     * @return ActiveDataProvider
+     */
+    public function actionIndex(int $restaurant_id): ActiveDataProvider
+    {
+        $query = MenuItem::find()
+            ->byUserId($this->user->getId())
+            ->byRestaurantId($restaurant_id)
+            ->notDeleted();
+
+        return new ActiveDataProvider([
+           'query' => $query
+        ]);
     }
 
     /**
@@ -78,7 +100,12 @@ class MenuController extends AppController
      */
     private function findModel(int $id): MenuItem
     {
-        if ($model = MenuItem::find()->byId($id)->one()) {
+        if ($model = MenuItem::find()
+            ->byId($id)
+            ->byUserId($this->user->getId())
+            ->notDeleted()
+            ->one()
+        ) {
             return $model;
         }
 

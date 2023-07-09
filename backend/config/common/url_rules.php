@@ -50,6 +50,7 @@ return [
         'controller' => ['menu' => 'menu'],
         'prefix' => 'v1',
         'patterns' => [
+            'GET <restaurant_id>' => 'index',
             'POST' => 'create',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',

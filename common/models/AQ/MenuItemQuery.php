@@ -2,6 +2,7 @@
 
 namespace common\models\AQ;
 
+use common\enums\Status;
 use common\models\AR\MenuItem;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -34,7 +35,7 @@ class MenuItemQuery extends ActiveQuery
      */
     public function byRestaurantId(int $id): self
     {
-        return $this->andWhere(['restaurant_id' => $id]);
+        return $this->andWhere([MenuItem::tableName() . '.restaurant_id' => $id]);
     }
 
     /**
@@ -42,7 +43,7 @@ class MenuItemQuery extends ActiveQuery
      */
     public function orderByOrdering(): self
     {
-        return $this->orderBy(['ordering' => SORT_DESC]);
+        return $this->orderBy([MenuItem::tableName() . '.ordering' => SORT_DESC]);
     }
 
     /**
@@ -59,6 +60,32 @@ class MenuItemQuery extends ActiveQuery
      */
     public function byId(int $id): self
     {
-        return $this->andWhere(['id' => $id]);
+        return $this->andWhere([MenuItem::tableName() . '.id' => $id]);
+    }
+
+    /**
+     * @param Status $status
+     * @return self
+     */
+    public function withoutStatus(Status $status): self
+    {
+        return $this->andWhere(['!=', MenuItem::tableName() . '.status', $status->value]);
+    }
+
+    /**
+     * @return self
+     */
+    public function notDeleted(): self
+    {
+        return $this->withoutStatus(Status::Deleted);
+    }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function byUserId(int $id): self
+    {
+        return $this->joinWith(['restaurant r'])->andWhere(['r.user_id' => $id]);
     }
 }

@@ -49,4 +49,14 @@ class MenuCest extends Auth
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
+
+    /**
+     * @param ApiTester $I
+     * @return void
+     */
+    public function index(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/menu/2');
+    }
 }
