@@ -97,7 +97,7 @@ class UserServiceTest extends Unit
 
         $user = User::find()->byEmail('email@email.ru')->one();
         verify($user)->notNull();
-        verify($user->status)->equals(UserStatus::Inactive->value);
+        verify($user->status)->equals(UserStatus::Active->value);
         verify($user->accessTokens)->notNull()->notEmpty();
         verify($accessToken->user_id)->equals($user->id);
     }

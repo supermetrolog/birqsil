@@ -8,13 +8,11 @@ use yii\base\Model;
 class Form extends Model
 {
     /**
-     * @param $data
-     * @param string $formName
-     * @return bool
+     * @return string
      */
-    public function load($data, $formName = ''): bool
+    public function formName(): string
     {
-        return parent::load($data, $formName);
+        return '';
     }
 
     /**
