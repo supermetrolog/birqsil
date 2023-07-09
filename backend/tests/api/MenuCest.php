@@ -58,5 +58,18 @@ class MenuCest extends Auth
     {
         $this->auth($I);
         $I->sendGet('/menu/2');
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
+
+    public function uploadFile(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPost(
+            'menu/1/upload-files',
+            [],
+            ['images' => codecept_data_dir('JPEG-FILE.jpeg')]
+        );
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
 }

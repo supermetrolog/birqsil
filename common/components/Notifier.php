@@ -10,12 +10,12 @@ use yii\base\ErrorException;
 use yii\db\Exception;
 use yii\mail\MailerInterface;
 
-class Notifier implements NotifierInterface
+readonly class Notifier implements NotifierInterface
 {
     /**
      * @param MailerInterface $mailer
      */
-    public function __construct(private readonly MailerInterface $mailer)
+    public function __construct(private MailerInterface $mailer)
     {
     }
 
@@ -23,6 +23,7 @@ class Notifier implements NotifierInterface
      * @param User $user
      * @param EmailNotificationInterface|TelegramNotificationInterface $notification
      * @return void
+     * @throws ErrorException
      * @throws Exception
      */
     public function notify(

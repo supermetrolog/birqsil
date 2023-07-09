@@ -95,6 +95,16 @@ class MenuController extends AppController
 
     /**
      * @param int $id
+     * @return void
+     */
+    public function actionUploadFiles(int $id): void
+    {
+
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+
+    /**
+     * @param int $id
      * @return MenuItem
      * @throws NotFoundHttpException
      */
