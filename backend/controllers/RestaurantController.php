@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use backend\models\form\RestaurantForm;
 use common\base\exception\ValidateException;
+use common\enums\RestaurantStatus;
 use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
 use common\services\RestaurantService;
@@ -102,12 +103,41 @@ class RestaurantController extends AppController
 
     /**
      * @param int $id
+     * @return void
+     * @throws NotFoundHttpException
+     * @throws ValidateException
+     */
+    public function actionPublish(int $id): void
+    {
+        $model = $this->findModel($id);
+        $model->setStatus(RestaurantStatus::PUBLISHED);
+        $model->saveOrThrow();
+
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     * @throws NotFoundHttpException
+     * @throws ValidateException
+     */
+    public function actionHide(int $id): void
+    {
+        $model = $this->findModel($id);
+        $model->setStatus(RestaurantStatus::HIDDEN);
+        $model->saveOrThrow();
+
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+    /**
+     * @param int $id
      * @return Restaurant
      * @throws NotFoundHttpException
      */
     protected function findModel(int $id): Restaurant
     {
-        if ($model = Restaurant::find()->byID($id)->one()) {
+        if ($model = Restaurant::find()->byID($id)->notDeleted()->one()) {
             return $model;
         }
 

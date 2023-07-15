@@ -43,6 +43,8 @@ return [
             'POST' => 'create',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',
+            'POST <id>/publish' => 'publish',
+            'POST <id>/hide' => 'hide',
         ]
     ],
     [

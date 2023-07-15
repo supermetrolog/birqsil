@@ -84,4 +84,20 @@ class RestaurantCest
 
         $I->seeResponseCodeIs(HttpCode::OK->value);
     }
+
+    public function publish(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPost('/restaurant/1/publish');
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+    }
+
+    public function hide(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPost('/restaurant/1/hide');
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+    }
 }

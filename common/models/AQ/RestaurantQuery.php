@@ -69,4 +69,12 @@ class RestaurantQuery extends ActiveQuery
     {
         return $this->withoutStatus(RestaurantStatus::DELETED);
     }
+
+    /**
+     * @return self
+     */
+    public function notDeleted(): self
+    {
+        return $this->andWhere([Restaurant::tableName() . '.deleted_at' => null]);
+    }
 }

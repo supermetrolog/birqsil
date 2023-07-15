@@ -14,7 +14,6 @@ use yii\db\Exception;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\web\User;
-use yii\widgets\Menu;
 
 class MenuController extends AppController
 {
