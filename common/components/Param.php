@@ -23,4 +23,14 @@ class Param extends Component
 
         return Yii::$app->params[$name->value];
     }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return void
+     */
+    public function set(string $name, mixed $value): void
+    {
+        Yii::$app->params[$name] = $value;
+    }
 }

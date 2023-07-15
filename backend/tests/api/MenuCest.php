@@ -3,8 +3,12 @@
 namespace backend\tests\api;
 
 use backend\tests\ApiTester;
+use common\components\FileUploader;
+use common\enums\AppParams;
 use common\fixtures\MenuItemFixture;
 use common\helpers\HttpCode;
+use Yii;
+use yii\helpers\FileHelper;
 
 class MenuCest extends Auth
 {
@@ -71,5 +75,7 @@ class MenuCest extends Auth
         );
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+        array_map('unlink', array_filter(
+            (array) array_merge(glob(Yii::$app->param->get(AppParams::UPLOAD_FILE_BASE_PATH) . "*"))));
     }
 }

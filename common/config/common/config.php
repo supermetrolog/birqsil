@@ -4,6 +4,8 @@
 
 declare(strict_types=1);
 
+use common\enums\AppParams;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -36,6 +38,6 @@ return [
         'user.emailMin' => 5,
         'user.emailMax' => 64,
         'user.access_token_expire' => 3600 * 24,
-        'file.upload_file_base_path' => dirname(__DIR__, 3) . '/frontend/web/uploads/'
+        AppParams::UPLOAD_FILE_BASE_PATH->value => dirname(__DIR__, 3) . '/frontend/web/uploads/',
     ]
 ];

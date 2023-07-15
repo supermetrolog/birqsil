@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use common\enums\AppParams;
 use yii\db\Connection;
 
 return [
@@ -14,4 +15,7 @@ return [
             ]
         ]
     ],
+    'params' => [
+        AppParams::UPLOAD_FILE_BASE_PATH->value => dirname(__DIR__, 2) . '/tests/_output/uploads/',
+    ]
 ];

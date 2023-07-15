@@ -8,5 +8,6 @@ chmod 777 -R ./backend/web/assets
 chmod 777 -R ./backend/web/assets
 
 chmod 777 -R ./backend/tests/_output
+chmod 777 -R ./common/tests/_output
 chmod 777 -R ./console/migrations
 
