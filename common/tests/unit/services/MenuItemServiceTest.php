@@ -4,7 +4,9 @@ namespace common\tests\unit\services;
 
 use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
+use common\components\FileUploader;
 use common\enums\Status;
+use common\fixtures\FileFixture;
 use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
 use common\models\AR\File;
@@ -12,13 +14,19 @@ use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
 use common\models\form\MenuItemImageUploadForm;
 use common\services\MenuItemService;
+use PHPUnit\Framework\MockObject\MockObject;
 use Yii;
-use yii\base\InvalidConfigException;
-use yii\di\NotInstantiableException;
 use yii\web\UploadedFile;
 
 class MenuItemServiceTest extends Unit
 {
+    private FileUploader|MockObject $fileUploader;
+
+    protected function _before()
+    {
+        $this->fileUploader = $this->createMock(FileUploader::class, []);
+    }
+
     public function _fixtures(): array
     {
         return [
@@ -29,17 +37,20 @@ class MenuItemServiceTest extends Unit
             'menu_item' => [
                 'class' => MenuItemFixture::class,
                 'dataFile' => codecept_data_dir() . 'menu_item.php'
+            ],
+            'file' => [
+                'class' => FileFixture::class,
+                'dataFile' => codecept_data_dir() . 'file.php'
             ]
         ];
     }
 
     /**
-     * @throws NotInstantiableException
-     * @throws InvalidConfigException
+     * @return MenuItemService
      */
     private function getService(): MenuItemService
     {
-        return Yii::$container->get(MenuItemService::class);
+        return new MenuItemService(Yii::$app->db, $this->fileUploader);
     }
 
     public function testCreateValid(): void
@@ -158,13 +169,17 @@ class MenuItemServiceTest extends Unit
 
         $model = MenuItem::find()->byId(1)->one();
 
+        $file = $this->createMock(File::class);
+        $file->method('__get')->with('id')->willReturn(1);
+        $this->fileUploader->method('upload')->willReturn($file);
 
         $service = $this->getService();
 
         $service->uploadImage($form, $model);
 
         $model = MenuItem::find()->byId(1)->one();
-        verify($model->file_id)->notNull();
+        verify($model->file_id)->notNull($file->id);
+        verify($model->file_id)->equals($file->id);
         verify(File::find()->where(['id' => $model->file_id])->exists())->true();
     }
 }

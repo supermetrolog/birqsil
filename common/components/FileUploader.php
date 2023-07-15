@@ -9,13 +9,13 @@ use yii\base\ErrorException;
 use yii\db\Connection;
 use yii\web\UploadedFile;
 
-readonly class FileUploader
+class FileUploader
 {
     /**
      * @param Connection $db
      * @param string $basePath
      */
-    public function __construct(private Connection $db, private string $basePath)
+    public function __construct(private readonly Connection $db, private readonly string $basePath)
     {
     }
 
