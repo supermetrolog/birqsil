@@ -2,9 +2,13 @@
 
 namespace backend\controllers;
 
+use chillerlan\QRCode\Output\QROutputInterface;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use common\actions\ErrorAction;
 use Yii;
 use yii\db\Connection;
+use yii\web\Response;
 use yii\web\User;
 
 class SiteController extends AppController
@@ -16,11 +20,18 @@ class SiteController extends AppController
         parent::__construct($id, $module, $config);
     }
 
-    public function actionIndex(): void
+    public function actionIndex(): string
     {
-        $c = Yii::$container;
+        $this->response->format = Response::FORMAT_HTML;
 
-        var_dump($c->get(User::class)->isGuest);die;
+        $options = new QROptions();
+
+        $qr = new QRCode($options);
+        $qr->
+
+        $data = 'https://birqsil.ru';
+
+        return  '<img src="'.$qr->render($data).'" alt="QR Code" />';
     }
 
     /**
