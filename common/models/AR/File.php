@@ -20,6 +20,8 @@ use yii\db\ActiveQuery;
  */
 class File extends AR
 {
+    protected array $exceptFields = ['full_path'];
+
     /**
      * {@inheritdoc}
      */

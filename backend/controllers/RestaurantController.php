@@ -100,7 +100,7 @@ class RestaurantController extends AppController
 
     /**
      * @param int $id
-     * @return Restaurant
+     * @return RestaurantDto
      * @throws NotFoundHttpException
      */
     public function actionView(int $id): RestaurantDto

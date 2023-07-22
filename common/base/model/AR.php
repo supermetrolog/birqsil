@@ -15,6 +15,8 @@ class AR extends ActiveRecord
 
     protected bool $useSoftDelete = true;
 
+    protected array $exceptFields = [];
+
     /**
      * @param bool $validate
      * @return void
@@ -57,4 +59,19 @@ class AR extends ActiveRecord
         $this->setAttribute(self::SOFT_DELETE_ATTRIBUTE, (new DateTime())->format('Y-m-d H:i:s'));
         $this->saveOrThrow();
     }
+
+    /**
+     * @return array
+     */
+    public function fields(): array
+    {
+        $fields = parent::fields();
+
+        foreach ($this->exceptFields as $exceptField) {
+            unset($fields[$exceptField]);
+        }
+
+        return $fields;
+    }
+
 }

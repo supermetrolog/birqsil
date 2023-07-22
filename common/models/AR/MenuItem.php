@@ -21,6 +21,7 @@ use yii\db\ActiveQuery;
  * @property int|null $file_id
  *
  * @property Restaurant $restaurant
+ * @property File $image
  */
 class MenuItem extends AR
 {
@@ -105,7 +106,7 @@ class MenuItem extends AR
     /**
      * @return ActiveQuery
      */
-    public function getFile(): ActiveQuery
+    public function getImage(): ActiveQuery
     {
         return $this->hasOne(File::class, ['id' => 'file_id']);
     }

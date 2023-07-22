@@ -47,7 +47,12 @@ class MenuController extends AppController
             ->notDeleted();
 
         return new ActiveDataProvider([
-           'query' => $query
+           'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC
+                ]
+            ]
         ]);
     }
 
@@ -120,20 +125,22 @@ class MenuController extends AppController
      */
     public function actionView(int $id): MenuItem
     {
-        return $this->findModel($id);
+        return $this->findModel($id, ['image']);
     }
 
     /**
      * @param int $id
+     * @param array $with
      * @return MenuItem
      * @throws NotFoundHttpException
      */
-    private function findModel(int $id): MenuItem
+    private function findModel(int $id, array $with = []): MenuItem
     {
         if ($model = MenuItem::find()
             ->byId($id)
             ->byUserId($this->user->getId())
             ->notDeleted()
+            ->with($with)
             ->one()
         ) {
             return $model;
