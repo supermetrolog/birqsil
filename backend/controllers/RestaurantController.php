@@ -8,10 +8,15 @@ use common\enums\RestaurantStatus;
 use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
 use common\services\RestaurantService;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\Writer\PngWriter;
 use Throwable;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 use yii\web\User;
 
 class RestaurantController extends AppController
@@ -130,6 +135,32 @@ class RestaurantController extends AppController
 
         $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
     }
+
+    /**
+     * @param int $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionQrcode(int $id): string
+    {
+        $this->response->format = Response::FORMAT_RAW;
+        $this->response->headers->set('Content-type', 'image/png');
+
+        $restaurant = $this->findModel($id); // TODO
+
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->data('https://clients.supermetrolog.ru') // TODO:
+            ->encoding(new Encoding('UTF-8'))
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->size(1000)
+            ->margin(30)
+            ->build();
+
+        return $result->getString();
+    }
+
     /**
      * @param int $id
      * @return Restaurant

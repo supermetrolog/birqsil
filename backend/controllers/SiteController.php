@@ -2,14 +2,13 @@
 
 namespace backend\controllers;
 
-use chillerlan\QRCode\Output\QROutputInterface;
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
 use common\actions\ErrorAction;
-use Yii;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\Writer\PngWriter;
 use yii\db\Connection;
 use yii\web\Response;
-use yii\web\User;
 
 class SiteController extends AppController
 {
@@ -22,16 +21,20 @@ class SiteController extends AppController
 
     public function actionIndex(): string
     {
-        $this->response->format = Response::FORMAT_HTML;
+        $this->response->format = Response::FORMAT_RAW;
+        $this->response->headers->set('Content-type', 'image/png');
 
-        $options = new QROptions();
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->data('https://clients.supermetrolog.ru')
+            ->encoding(new Encoding('UTF-8'))
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->size(1000)
+            ->margin(30)
+            ->build();
 
-        $qr = new QRCode($options);
-        $qr->
-
-        $data = 'https://birqsil.ru';
-
-        return  '<img src="'.$qr->render($data).'" alt="QR Code" />';
+        return $result->getString();
     }
 
     /**

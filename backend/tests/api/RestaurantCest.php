@@ -100,4 +100,12 @@ class RestaurantCest
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
+
+    public function qrcode(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/restaurant/1/qrcode');
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+        $I->seeHttpHeader('Content-type', 'image/png');
+    }
 }

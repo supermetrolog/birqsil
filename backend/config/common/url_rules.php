@@ -45,6 +45,7 @@ return [
             'DELETE <id>' => 'delete',
             'POST <id>/publish' => 'publish',
             'POST <id>/hide' => 'hide',
+            'GET <id>/qrcode' => 'qrcode',
         ]
     ],
     [
