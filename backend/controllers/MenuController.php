@@ -116,6 +116,16 @@ class MenuController extends AppController
      * @return MenuItem
      * @throws NotFoundHttpException
      */
+    public function actionView(int $id): MenuItem
+    {
+        return $this->findModel($id);
+    }
+
+    /**
+     * @param int $id
+     * @return MenuItem
+     * @throws NotFoundHttpException
+     */
     private function findModel(int $id): MenuItem
     {
         if ($model = MenuItem::find()
