@@ -41,7 +41,7 @@ class MenuCest extends Auth
             'description' => 'Test2',
         ]);
 
-        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+        $I->seeResponseCodeIs(HttpCode::OK->value);
     }
 
     public function delete(ApiTester $I): void

@@ -68,18 +68,20 @@ class MenuController extends AppController
 
     /**
      * @param int $id
-     * @return void
+     * @return MenuItem
      * @throws NotFoundHttpException
      * @throws ValidateException
      */
-    public function actionUpdate(int $id): void
+    public function actionUpdate(int $id): MenuItem
     {
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
         $form->load($this->request->post());
 
-        $this->service->update($form, $this->findModel($id));
-        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+        $model = $this->findModel($id);
+        $this->service->update($form, $model);
+
+        return $model;
     }
 
     /**
