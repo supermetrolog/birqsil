@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\DTO\RestaurantDto;
 use backend\models\form\RestaurantForm;
 use common\base\exception\ValidateException;
+use common\components\Param;
 use common\enums\RestaurantStatus;
 use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
@@ -16,6 +17,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Throwable;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\User;
@@ -100,12 +102,12 @@ class RestaurantController extends AppController
 
     /**
      * @param int $id
-     * @return RestaurantDto
+     * @return Restaurant
      * @throws NotFoundHttpException
      */
-    public function actionView(int $id): RestaurantDto
+    public function actionView(int $id): Restaurant
     {
-        return new RestaurantDto($this->findModel($id), 'http://api.birqsil.ru/v1/restaurant/' . $id . '/qrcode');
+        return $this->findModel($id)->setQrCodeLink(sprintf('%s/v1/restaurant/%d/qrcode', Url::base(true), $id));
     }
 
     /**

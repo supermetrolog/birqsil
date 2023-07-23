@@ -3,6 +3,7 @@
 namespace common\models\AR;
 
 use common\base\model\AR;
+use common\enums\AppParams;
 use common\enums\RestaurantStatus;
 use common\models\AQ\RestaurantQuery;
 use yii\db\ActiveQuery;
@@ -24,6 +25,8 @@ use yii\db\ActiveQuery;
  */
 class Restaurant extends AR
 {
+    private string|null $_qrCodeLink = null;
+
     /**
      * @return string
      */
@@ -68,6 +71,15 @@ class Restaurant extends AR
         ];
     }
 
+    /**
+     * @return Closure[]
+     */
+    protected function addFields(): array
+    {
+        return [
+            'qrcodeLink' => fn () => $this->getQrCodeLink()
+        ];
+    }
 
     /**
      * @return ActiveQuery
@@ -92,5 +104,23 @@ class Restaurant extends AR
     public function setStatus(RestaurantStatus $status): void
     {
         $this->status = $status->value;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getQrCodeLink(): string|null
+    {
+        return $this->_qrCodeLink;
+    }
+
+    /**
+     * @param string $link
+     * @return $this
+     */
+    public function setQrCodeLink(string $link): self
+    {
+        $this->_qrCodeLink = $link;
+        return $this;
     }
 }
