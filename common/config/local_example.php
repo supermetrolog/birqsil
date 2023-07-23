@@ -11,4 +11,5 @@ return [
     'db.name' => 'birqsil',
     'db.username' => 'root',
     'db.password' => 'root',
+    'file.uploaded_files_url' => 'birqsil.ru/uploads/',
 ];

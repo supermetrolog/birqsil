@@ -38,6 +38,7 @@ return [
         'user.emailMin' => 5,
         'user.emailMax' => 64,
         'user.access_token_expire' => 3600 * 24,
+        AppParams::UPLOADED_FILES_URL->value => $local[AppParams::UPLOADED_FILES_URL->value],
         AppParams::UPLOAD_FILE_BASE_PATH->value => dirname(__DIR__, 3) . '/frontend/web/uploads/',
     ]
 ];

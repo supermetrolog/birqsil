@@ -11,4 +11,5 @@ enum AppParams: string
 
     case USER_ACCESS_TOKEN_EXPIRE = 'user.access_token_expire';
     case UPLOAD_FILE_BASE_PATH = 'file.upload_file_base_path';
+    case UPLOADED_FILES_URL = 'file.uploaded_files_url';
 }

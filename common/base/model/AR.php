@@ -15,8 +15,6 @@ class AR extends ActiveRecord
 
     protected bool $useSoftDelete = true;
 
-    protected array $exceptFields = [];
-
     /**
      * @param bool $validate
      * @return void
@@ -63,12 +61,32 @@ class AR extends ActiveRecord
     /**
      * @return array
      */
+    protected function exceptFields(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<string,Closure>
+     */
+    protected function addFields(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
     public function fields(): array
     {
         $fields = parent::fields();
 
-        foreach ($this->exceptFields as $exceptField) {
+        foreach ($this->exceptFields() as $exceptField) {
             unset($fields[$exceptField]);
+        }
+
+        foreach ($this->addFields() as $key => $addField) {
+            $fields[$key] = $addField;
         }
 
         return $fields;

@@ -3,6 +3,9 @@
 namespace common\models\AR;
 
 use common\base\model\AR;
+use common\enums\AppParams;
+use Exception;
+use Yii;
 use yii\db\ActiveQuery;
 
 /**
@@ -20,7 +23,7 @@ use yii\db\ActiveQuery;
  */
 class File extends AR
 {
-    protected array $exceptFields = ['full_path'];
+    private string $_link;
 
     /**
      * {@inheritdoc}
@@ -58,6 +61,33 @@ class File extends AR
             'size' => 'Size',
             'created_at' => 'Created At',
             'deleted_at' => 'Deleted At',
+        ];
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function getLink(): string
+    {
+        return Yii::$app->param->get(AppParams::UPLOADED_FILES_URL) . $this->real_name;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function exceptFields(): array
+    {
+        return ['full_path'];
+    }
+
+    /**
+     * @return array<string,Closure>
+     */
+    protected function addFields(): array
+    {
+        return [
+            'link' => fn () => $this->getLink()
         ];
     }
 
