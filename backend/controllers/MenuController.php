@@ -44,7 +44,8 @@ class MenuController extends AppController
         $query = MenuItem::find()
             ->byUserId($this->user->getId())
             ->byRestaurantId($restaurant_id)
-            ->notDeleted();
+            ->notDeleted()
+            ->with(['image']);
 
         return new ActiveDataProvider([
            'query' => $query,

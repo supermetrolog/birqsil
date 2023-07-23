@@ -62,6 +62,7 @@ readonly class MenuItemService
 
         $model->title = $form->title;
         $model->description = $form->description;
+        $model->status = $form->status;
 
         $model->saveOrThrow();
     }
