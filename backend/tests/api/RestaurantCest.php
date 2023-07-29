@@ -18,15 +18,15 @@ class RestaurantCest
         $I->haveFixtures([
             'restaurant' => [
                 'class' => RestaurantFixture::class,
-                'dataFile' => codecept_data_dir() . 'restaurant.php'
+                'dataFile' => codecept_data_dir('restaurant.php')
             ],
             'user' => [
                 'class' => UserFixture::class,
-                'dataFile' => codecept_data_dir() . 'user.php'
+                'dataFile' => codecept_data_dir('user.php')
             ],
             'user_access_token' => [
                 'class' => UserAccessTokenFixture::class,
-                'dataFile' => codecept_data_dir() . 'user_access_token.php'
+                'dataFile' => codecept_data_dir('user_access_token.php')
             ]
         ]);
 
@@ -52,7 +52,7 @@ class RestaurantCest
     public function update(ApiTester $I): void
     {
         $this->auth($I);
-        $I->sendPut('/restaurant/1', [
+        $I->sendPut('/restaurant/2', [
             'name' => 'Restaurant name',
             'legalName' => 'Restaurant legal name',
             'address' => 'Moscow, Lenina street'
@@ -64,7 +64,7 @@ class RestaurantCest
     public function delete(ApiTester $I): void
     {
         $this->auth($I);
-        $I->sendDelete('/restaurant/1');
+        $I->sendDelete('/restaurant/2');
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
@@ -72,7 +72,7 @@ class RestaurantCest
     public function view(ApiTester $I): void
     {
         $this->auth($I);
-        $I->sendGet('/restaurant/1');
+        $I->sendGet('/restaurant/2');
 
         $I->seeResponseCodeIs(HttpCode::OK->value);
     }
@@ -88,7 +88,7 @@ class RestaurantCest
     public function publish(ApiTester $I): void
     {
         $this->auth($I);
-        $I->sendPost('/restaurant/1/publish');
+        $I->sendPost('/restaurant/2/publish');
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
@@ -96,7 +96,7 @@ class RestaurantCest
     public function hide(ApiTester $I): void
     {
         $this->auth($I);
-        $I->sendPost('/restaurant/1/hide');
+        $I->sendPost('/restaurant/2/hide');
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
