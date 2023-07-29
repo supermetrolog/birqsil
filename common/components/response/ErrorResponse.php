@@ -1,10 +1,9 @@
 <?php
 
-namespace backend\components\response;
+namespace common\components\response;
 
 use common\base\exception\ValidateHttpException;
 use common\helpers\HttpCode;
-use LogicException;
 use Throwable;
 use Yii;
 use yii\web\Application;

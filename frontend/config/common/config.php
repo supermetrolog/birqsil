@@ -2,31 +2,42 @@
 
 declare(strict_types=1);
 
+use common\components\response\ErrorResponse;
+use yii\base\Event;
+use yii\web\JsonResponseFormatter;
+use yii\web\Response;
+
 return [
     'id' => 'frontend',
-    'basePath' => realpath(__DIR__ . '/../../'),
+    'basePath' => dirname(__DIR__, 2),
     'bootstrap' => ['log'],
-    'timeZone' => 'Europe/Moscow',
     'controllerNamespace' => 'frontend\controllers',
-    'language' => 'ru-RU',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'container' => [],
+    'container' => require __DIR__ . '/container.php',
     'components' => [
+        'user' => fn () => Yii::$container->get(\yii\web\User::class),
         'request' => [
             'enableCsrfValidation' => false,
             'enableCookieValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+            'baseUrl' => ''
         ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
-        ],
-        'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+        'response' => [
+            'formatters' => [
+                'json' => [
+                    'class' => JsonResponseFormatter::class,
+                ]
+            ],
+            'on beforeSend' => function (Event $event) {
+                /** @var Response $response */
+                $response = $event->sender;
+                (new ErrorResponse($response))->processed();
+            },
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -36,9 +47,10 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
-            'rules' => [],
+            'rules' => require __DIR__ . '/url_rules.php',
         ],
     ],
-    'params' => []
+    'params' => [],
 ];

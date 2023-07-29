@@ -35,6 +35,7 @@ services:
       - "9001:9000"
     extra_hosts:
       - "testapi.birqsil.ru:10.5.0.6"
+      - "testfrontapi.birqsil.ru:10.5.0.6"
     networks:
       backend:
       frontend:

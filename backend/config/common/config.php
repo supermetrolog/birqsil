@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use backend\components\response\ErrorResponse;
+use common\components\response\ErrorResponse;
 use yii\base\Event;
 use yii\web\JsonResponseFormatter;
 use yii\web\Response;

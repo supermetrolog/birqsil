@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace common\actions;
 
-use backend\components\response\ErrorResponse;
+use common\components\response\ErrorResponse;
 use LogicException;
 use Yii;
 use yii\base\Action;

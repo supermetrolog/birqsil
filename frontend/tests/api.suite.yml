@@ -1,0 +1,10 @@
+suite_namespace: frontend\tests\api
+class_name: ApiTester
+actor: ApiTester
+modules:
+  enabled:
+    - Yii2
+    - REST:
+        depends: PhpBrowser
+        url: http://testfrontapi.birqsil.ru/v1
+        part: Json

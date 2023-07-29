@@ -1,14 +1,23 @@
 <?php
 
-return  [
-    'id' => 'basic-tests',
+declare(strict_types=1);
+
+return [
+    'id' => 'frontend-tests',
     'components' => [
-        'mailer' => [
-            'useFileTransport' => true,
-        ],
-        'request' => [
-            'cookieValidationKey' => 'test',
-            'enableCsrfValidation' => false,
+        'urlManager' => [
+            'showScriptName' => true,
         ],
     ],
+    'bootstrap' => ['gii', 'debug'],
+    'modules' => [
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            'allowedIPs' => ["*"],
+        ],
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'allowedIPs' => ["*"],
+        ]
+    ]
 ];

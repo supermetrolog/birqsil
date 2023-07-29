@@ -2,4 +2,15 @@
 
 declare(strict_types=1);
 
-return [];
+
+use yii\rest\UrlRule;
+
+return [
+    [
+        'class' => UrlRule::class,
+        'controller' => ['' => 'site'],
+        'extraPatterns' => [
+            'GET' => 'index',
+        ]
+    ],
+];

@@ -11,9 +11,7 @@ return [
         ],
         'gii' => [
             'class' => 'yii\gii\Module',
-            'generators' => [
-                'jobs' => yii\queue\gii\Generator::class,
-            ],
+            'allowedIPs' => ["*"],
         ]
     ]
 ];
