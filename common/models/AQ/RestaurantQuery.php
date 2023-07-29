@@ -62,6 +62,7 @@ class RestaurantQuery extends ActiveQuery
     {
         return $this->andWhere(['!=', Restaurant::tableName() . '.status', $status->value]);
     }
+
     /**
      * @return self
      */
@@ -76,5 +77,14 @@ class RestaurantQuery extends ActiveQuery
     public function notDeleted(): self
     {
         return $this->andWhere([Restaurant::tableName() . '.deleted_at' => null]);
+    }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function withoutId(int $id): self
+    {
+        return $this->andWhere(['!=', Restaurant::tableName() . '.id', $id]);
     }
 }

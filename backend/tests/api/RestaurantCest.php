@@ -53,9 +53,11 @@ class RestaurantCest
     {
         $this->auth($I);
         $I->sendPut('/restaurant/2', [
+            'id' => 1,
             'name' => 'Restaurant name',
             'legalName' => 'Restaurant legal name',
-            'address' => 'Moscow, Lenina street'
+            'address' => 'Moscow, Lenina street',
+            'unique_name' => '123131',
         ]);
 
         $I->seeResponseCodeIs(HttpCode::OK->value);

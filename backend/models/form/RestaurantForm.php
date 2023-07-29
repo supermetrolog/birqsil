@@ -5,16 +5,22 @@ namespace backend\models\form;
 use common\base\exception\ValidateException;
 use common\base\model\Form;
 use common\enums\RestaurantStatus;
+use common\helpers\RandomHelper;
+use common\models\AQ\RestaurantQuery;
 use common\models\AR\Restaurant;
 use common\models\AR\User;
+use yii\base\Exception;
+use yii\db\ActiveQuery;
 
 class RestaurantForm extends Form
 {
     public const SCENARIO_CREATE = 'scenario_create';
     public const SCENARIO_UPDATE = 'scenario_update';
 
+    public int|null $id = null;
     public int|null $user_id = null;
     public string|null $name = null;
+    public string|null $unique_name = null;
     public string|null $legalName = null;
     public string|null $address = null;
 
@@ -25,14 +31,33 @@ class RestaurantForm extends Form
     {
         return [
             ['user_id', 'required'],
+            ['id', 'required'],
+            ['unique_name', 'required', 'on' => self::SCENARIO_UPDATE],
             [['name'], 'required'],
-            [['user_id'], 'integer'],
+            [['user_id', 'id'], 'integer'],
             [['name', 'legalName', 'address'], 'string', 'max' => 255],
             [
-                ['user_id'],
+                'unique_name',
+                'unique',
+                'targetClass' => Restaurant::class,
+                'targetAttribute' => ['unique_name' => 'unique_name'],
+                'filter' => function (RestaurantQuery $query) {
+                    if ($this->scenario === self::SCENARIO_UPDATE) {
+                        $query->withoutId($this->id);
+                    }
+                }
+            ],
+            [
+                'user_id',
                 'exist',
                 'targetClass' => User::class,
                 'targetAttribute' => ['user_id' => 'id'],
+            ],
+            [
+                'id',
+                'exist',
+                'targetClass' => Restaurant::class,
+                'targetAttribute' => ['id' => 'id'],
             ],
         ];
     }
@@ -45,18 +70,20 @@ class RestaurantForm extends Form
         $common = [
             'name',
             'legalName',
-            'address'
+            'address',
+            'unique_name'
         ];
 
         return [
             self::SCENARIO_CREATE => [...$common, 'user_id'],
-            self::SCENARIO_UPDATE => $common
+            self::SCENARIO_UPDATE => [...$common, 'id']
         ];
     }
 
     /**
      * @return Restaurant
      * @throws ValidateException
+     * @throws Exception
      */
     public function create(): Restaurant
     {
@@ -69,6 +96,7 @@ class RestaurantForm extends Form
         $restaurant->address = $this->address;
         $restaurant->user_id = $this->user_id;
         $restaurant->status = RestaurantStatus::HIDDEN->value;
+        $restaurant->unique_name = $this->unique_name ?? RandomHelper::randomString(32);
 
         $restaurant->saveOrThrow();
 
@@ -87,6 +115,7 @@ class RestaurantForm extends Form
         $model->name = $this->name;
         $model->legal_name = $this->legalName;
         $model->address = $this->address;
+        $model->unique_name = $this->unique_name;
 
         $model->saveOrThrow();
     }

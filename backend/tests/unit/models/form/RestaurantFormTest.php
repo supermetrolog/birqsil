@@ -74,11 +74,59 @@ class RestaurantFormTest extends Unit
             [
                 'desc' => 'Valid update',
                 'data' => [
+                    'id' => 1,
                     'legalName' => 'legal name',
                     'name' => 'Name',
                     'address' => 'Address',
+                    'unique_name' => '11111',
                 ],
                 'isValid' => true,
+                'on' => RestaurantForm::SCENARIO_UPDATE
+            ],
+            [
+                'desc' => 'Invalid unique when create',
+                'data' => [
+                    'legalName' => 'legal name',
+                    'name' => 'Name',
+                    'address' => 'Address',
+                    'unique_name' => '11111',
+                ],
+                'isValid' => false,
+                'on' => RestaurantForm::SCENARIO_CREATE
+            ],
+            [
+                'desc' => 'Valid unique when create',
+                'data' => [
+                    'legalName' => 'legal name',
+                    'name' => 'Name',
+                    'address' => 'Address',
+                    'unique_name' => '33333',
+                ],
+                'isValid' => false,
+                'on' => RestaurantForm::SCENARIO_CREATE
+            ],
+            [
+                'desc' => 'Valid unique when update',
+                'data' => [
+                    'id' => 1,
+                    'legalName' => 'legal name',
+                    'name' => 'Name',
+                    'address' => 'Address',
+                    'unique_name' => '11111',
+                ],
+                'isValid' => true,
+                'on' => RestaurantForm::SCENARIO_UPDATE
+            ],
+            [
+                'desc' => 'Invalid unique when update',
+                'data' => [
+                    'id' => 1,
+                    'legalName' => 'legal name',
+                    'name' => 'Name',
+                    'address' => 'Address',
+                    'unique_name' => '22222',
+                ],
+                'isValid' => false,
                 'on' => RestaurantForm::SCENARIO_UPDATE
             ],
         ];
@@ -111,6 +159,7 @@ class RestaurantFormTest extends Unit
 
         verify($model)->notNull();
         verify($model->status)->equals(RestaurantStatus::HIDDEN->value);
+        verify($model->unique_name)->notNull();
     }
 
     public function testCreateInvalidData(): void
@@ -131,9 +180,11 @@ class RestaurantFormTest extends Unit
         $model = Restaurant::find()->byID(1)->one();
 
         $form->load([
+            'id' => $model->id,
             'legalName' => 'new legal name',
             'name' => 'New Name',
             'address' => 'New Address',
+            'unique_name' => '123',
         ]);
 
         $form->update($model);
@@ -149,11 +200,12 @@ class RestaurantFormTest extends Unit
     public function testUpdateInvalidData(): void
     {
         $form = new RestaurantForm(['scenario' => RestaurantForm::SCENARIO_UPDATE]);
+        $model = Restaurant::find()->byID(1)->one();
         $form->load([
+            'id' => $model->id,
             'legalName' => 'legal name',
             'address' => 'Address',
         ]);
-        $model = Restaurant::find()->byID(1)->one();
 
         $this->expectException(ValidateException::class);
         $form->update($model);

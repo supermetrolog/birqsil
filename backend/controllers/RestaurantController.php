@@ -15,6 +15,7 @@ use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Writer\PngWriter;
 use Throwable;
+use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\helpers\Url;
@@ -57,6 +58,7 @@ class RestaurantController extends AppController
     /**
      * @return Restaurant
      * @throws ValidateException
+     * @throws Exception
      */
     public function actionCreate(): Restaurant
     {

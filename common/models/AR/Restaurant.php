@@ -20,6 +20,7 @@ use yii\db\ActiveQuery;
  * @property string $created_at
  * @property string|null $updated_at
  * @property string|null $deleted_at
+ * @property string $unique_name
  *
  * @property User $user
  */
@@ -42,10 +43,10 @@ class Restaurant extends AR
     public function rules(): array
     {
         return [
-            [['user_id', 'name'], 'required'],
+            [['user_id', 'name', 'unique_name'], 'required'],
             [['user_id', 'status'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
-            [['name', 'legal_name', 'address'], 'string', 'max' => 255],
+            [['name', 'legal_name', 'address', 'unique_name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => RestaurantStatus::HIDDEN->value],
             ['status', 'in', 'range' => RestaurantStatus::toArray()],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
@@ -68,6 +69,7 @@ class Restaurant extends AR
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'deleted_at' => 'Deleted At',
+            'unique_name' => 'Unique Name',
         ];
     }
 
