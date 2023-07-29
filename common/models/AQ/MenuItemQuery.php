@@ -88,4 +88,13 @@ class MenuItemQuery extends ActiveQuery
     {
         return $this->joinWith(['restaurant r'])->andWhere(['r.user_id' => $id]);
     }
+
+    /**
+     * @param string $uniqueName
+     * @return self
+     */
+    public function byRestaurantUniqueName(string $uniqueName): self
+    {
+        return $this->joinWith(['restaurant r'])->andWhere(['r.unique_name' => $uniqueName]);
+    }
 }

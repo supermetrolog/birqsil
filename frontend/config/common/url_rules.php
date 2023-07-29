@@ -13,4 +13,12 @@ return [
             'GET' => 'index',
         ]
     ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['menu' => 'menu'],
+        'prefix' => 'v1',
+        'extraPatterns' => [
+            'GET <restaurant_unique_name>' => 'index',
+        ]
+    ],
 ];
