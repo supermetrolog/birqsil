@@ -172,7 +172,13 @@ class RestaurantController extends AppController
      */
     protected function findModel(int $id): Restaurant
     {
-        if ($model = Restaurant::find()->byID($id)->notDeleted()->one()) {
+        $query = Restaurant::find()->byID($id)->notDeleted();
+
+        if (!$this->user->isGuest) {
+            $query->byUserID($this->user->id);
+        }
+
+        if ($model = $query->one()) {
             return $model;
         }
 
