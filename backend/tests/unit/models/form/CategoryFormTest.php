@@ -4,8 +4,10 @@ namespace backend\tests\unit\models\form;
 
 use backend\models\form\CategoryForm;
 use Codeception\Test\Unit;
+use common\base\exception\ValidateException;
 use common\fixtures\CategoryFixture;
 use common\fixtures\RestaurantFixture;
+use common\models\AR\Category;
 use yii\helpers\Json;
 
 class CategoryFormTest extends Unit
@@ -102,5 +104,67 @@ class CategoryFormTest extends Unit
             $form->load($tc['data']);
             verify($form->validate())->equals($tc['isValid'], $tc['name'] . ". Errors: " . Json::encode($form->getErrors()));
         }
+    }
+
+    public function testCreateValid(): void
+    {
+        $form = new CategoryForm(['scenario' => CategoryForm::SCENARIO_CREATE]);
+
+        $form->load([
+           'name' => 'testtest',
+           'restaurant_id' => 1
+        ]);
+
+        $model = $form->create();
+        verify($model->ordering)->notNull();
+        verify($model->ordering)->equals(2);
+    }
+
+    public function testCreateInvalid(): void
+    {
+        $form = new CategoryForm(['scenario' => CategoryForm::SCENARIO_CREATE]);
+
+        $form->load([
+            'name' => 'testtest',
+            'restaurant_id' => 1231
+        ]);
+
+        $this->expectException(ValidateException::class);
+        $form->create();
+    }
+
+    public function testUpdateValid(): void
+    {
+        $form = new CategoryForm(['scenario' => CategoryForm::SCENARIO_UPDATE]);
+
+        $form->load([
+            'id' => 1,
+            'name' => 'testtest',
+            'restaurant_id' => 1
+        ]);
+
+        $model = Category::find()->byId(1)->one();
+
+        verify($model->name)->equals('test');
+
+        $form->update($model);
+
+        verify($model->name)->equals('testtest');
+    }
+
+    public function testUpdateInvalid(): void
+    {
+        $form = new CategoryForm(['scenario' => CategoryForm::SCENARIO_UPDATE]);
+
+        $form->load([
+            'id' => 2313,
+            'name' => 'testtest',
+            'restaurant_id' => 1231
+        ]);
+
+        $model = Category::find()->byId(1)->one();
+
+        $this->expectException(ValidateException::class);
+        $form->update($model);
     }
 }

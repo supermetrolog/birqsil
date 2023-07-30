@@ -50,4 +50,22 @@ class CategoryQuery extends ActiveQuery
     {
         return $this->orderByOrdering()->one()?->ordering ?? 0;
     }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function byId(int $id): self
+    {
+        return $this->andWhere([Category::tableName() . '.id' => $id]);
+    }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function byRestaurantId(int $id): self
+    {
+        return $this->andWhere([Category::tableName() . '.restaurant_id' => $id]);
+    }
 }

@@ -80,6 +80,6 @@ class Category extends AR
      */
     public function generateOrdering(): void
     {
-        $this->ordering = self::find()->lastOrdering() + 1;
+        $this->ordering = self::find()->byRestaurantId($this->restaurant_id)->lastOrdering() + 1;
     }
 }
