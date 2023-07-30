@@ -22,6 +22,7 @@ class CategoryQuery extends ActiveQuery
      */
     public function one($db = null): Category|array|null
     {
+        $this->limit(1);
         return parent::one($db);
     }
 
@@ -32,5 +33,21 @@ class CategoryQuery extends ActiveQuery
     public function withoutId(int $id): self
     {
         return $this->andWhere(['!=', Category::tableName() . '.id', $id]);
+    }
+
+    /**
+     * @return self
+     */
+    public function orderByOrdering(): self
+    {
+        return $this->orderBy([Category::tableName() . '.ordering' => SORT_DESC]);
+    }
+
+    /**
+     * @return int
+     */
+    public function lastOrdering(): int
+    {
+        return $this->orderByOrdering()->one()?->ordering ?? 0;
     }
 }

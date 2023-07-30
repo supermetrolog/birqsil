@@ -94,6 +94,13 @@ class MenuItem extends AR
     }
 
     /**
+     * @return void
+     */
+    public function generateOrdering(): void
+    {
+        $this->ordering = self::find()->lastOrdering() + 1;
+    }
+    /**
      * @param Status $status
      * @return $this
      */

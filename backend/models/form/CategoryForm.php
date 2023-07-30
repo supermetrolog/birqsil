@@ -2,6 +2,7 @@
 
 namespace backend\models\form;
 
+use common\base\exception\ValidateException;
 use common\base\model\Form;
 use common\models\AQ\CategoryQuery;
 use common\models\AR\Category;
@@ -41,6 +42,12 @@ class CategoryForm extends Form
                 'exist',
                 'targetClass' => Restaurant::class,
                 'targetAttribute' => ['restaurant_id' => 'id']
+            ],
+            [
+                'id',
+                'exist',
+                'targetClass' => Category::class,
+                'targetAttribute' => ['id' => 'id']
             ]
         ];
     }
@@ -59,5 +66,38 @@ class CategoryForm extends Form
             self::SCENARIO_CREATE => $common,
             self::SCENARIO_UPDATE => [...$common, 'id'],
         ];
+    }
+
+    /**
+     * @return Category
+     * @throws ValidateException
+     */
+    public function create(): Category
+    {
+        $this->ifNotValidThrow();
+
+        $model = new Category();
+
+        $model->name = $this->name;
+        $model->restaurant_id = $this->restaurant_id;
+        $model->generateOrdering();
+
+        $model->saveOrThrow();
+
+        return $model;
+    }
+
+    /**
+     * @param Category $model
+     * @return void
+     * @throws ValidateException
+     */
+    public function update(Category $model): void
+    {
+        $this->ifNotValidThrow();
+
+        $model->name = $this->name;
+
+        $model->saveOrThrow();
     }
 }

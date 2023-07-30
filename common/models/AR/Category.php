@@ -74,4 +74,12 @@ class Category extends AR
     {
         return new CategoryQuery(get_called_class());
     }
+
+    /**
+     * @return void
+     */
+    public function generateOrdering(): void
+    {
+        $this->ordering = self::find()->lastOrdering() + 1;
+    }
 }

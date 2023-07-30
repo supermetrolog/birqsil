@@ -84,6 +84,16 @@ class CategoryFormTest extends Unit
                 ],
                 'isValid' => false,
                 'on' => CategoryForm::SCENARIO_UPDATE
+            ],
+            [
+                'name' => 'Invalid ID',
+                'data' => [
+                    'id' => 999,
+                    'name' => 'test',
+                    'restaurant_id' => 1,
+                ],
+                'isValid' => false,
+                'on' => CategoryForm::SCENARIO_UPDATE
             ]
         ];
 

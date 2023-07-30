@@ -37,8 +37,7 @@ readonly class MenuItemService
             $model->status = $form->status;
             $model->title = $form->title;
             $model->description = $form->description;
-
-            $model->ordering = MenuItem::find()->lastOrdering() + 1;
+            $model->generateOrdering();
 
             $model->saveOrThrow();
 
