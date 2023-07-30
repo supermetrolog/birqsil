@@ -14,6 +14,8 @@ use common\helpers\HttpCode;
 use common\services\UserService;
 use Throwable;
 use yii\base\Exception;
+use yii\base\Module;
+use yii\web\User;
 
 class AuthController extends AppController
 {
@@ -29,23 +31,25 @@ class AuthController extends AppController
     private NotifierInterface $notifier;
 
     /**
-     * @param $id
-     * @param $module
+     * @param string $id
+     * @param Module $module
+     * @param User $user
      * @param UserService $userService
      * @param NotifierInterface $notifier
      * @param array $config
      */
     public function __construct(
-        $id,
-        $module,
+        string $id,
+        Module $module,
+        User $user,
         UserService $userService,
         NotifierInterface $notifier,
         array $config = []
     )
     {
-        parent::__construct($id, $module, $config);
         $this->userService = $userService;
         $this->notifier = $notifier;
+        parent::__construct($id, $module, $user, $config);
     }
 
     /**

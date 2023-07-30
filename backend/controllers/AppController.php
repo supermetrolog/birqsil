@@ -5,10 +5,12 @@ namespace backend\controllers;
 use common\base\exception\ValidateException;
 use common\base\exception\ValidateHttpException;
 use yii\base\InvalidRouteException;
+use yii\base\Module;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\Cors;
 use yii\rest\Controller;
 use yii\web\Response;
+use yii\web\User;
 
 class AppController extends Controller
 {
@@ -16,6 +18,21 @@ class AppController extends Controller
      * @var string[]
      */
     protected array $exceptAuthActions = [];
+
+    protected User $user;
+
+    /**
+     * @param string $id
+     * @param Module $module
+     * @param User $user
+     * @param array $config
+     */
+    public function __construct(string $id, Module $module, User $user, array $config = [])
+    {
+        $this->user = $user;
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * @return array
      */

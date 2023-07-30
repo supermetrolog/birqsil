@@ -16,6 +16,7 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Writer\PngWriter;
 use Throwable;
 use yii\base\Exception;
+use yii\base\Module;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\helpers\Url;
@@ -26,21 +27,19 @@ use yii\web\User;
 class RestaurantController extends AppController
 {
     protected array $exceptAuthActions = ['qrcode'];
-    private User $user;
     private RestaurantService $service;
 
     /**
-     * @param $id
-     * @param $module
+     * @param string $id
+     * @param Module $module
      * @param User $user
      * @param RestaurantService $service
      * @param array $config
      */
-    public function __construct($id, $module, User $user, RestaurantService $service, array $config = [])
+    public function __construct(string $id, Module $module, User $user, RestaurantService $service, array $config = [])
     {
-        $this->user = $user;
         $this->service = $service;
-        parent::__construct($id, $module, $config);
+        parent::__construct($id, $module, $user, $config);
     }
 
     /**
@@ -85,6 +84,7 @@ class RestaurantController extends AppController
         $form->setScenario(RestaurantForm::SCENARIO_UPDATE);
 
         $form->load($this->request->post());
+        $form->id = $id;
         $form->update($model);
         return $model;
     }

@@ -9,6 +9,7 @@ use common\models\form\MenuItemForm;
 use common\models\form\MenuItemImageUploadForm;
 use common\services\MenuItemService;
 use Throwable;
+use yii\base\Module;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
@@ -18,21 +19,18 @@ use yii\web\User;
 class MenuController extends AppController
 {
     private MenuItemService $service;
-    private User $user;
 
     /**
-     * @param $id
-     * @param $module
+     * @param string $id
+     * @param Module $module
      * @param User $user
      * @param MenuItemService $service
      * @param array $config
      */
-    public function __construct($id, $module, User $user, MenuItemService $service, array $config = [])
+    public function __construct(string $id, Module $module, User $user, MenuItemService $service, array $config = [])
     {
         $this->service = $service;
-        $this->user = $user;
-
-        parent::__construct($id, $module, $config);
+        parent::__construct($id, $module, $user, $config);
     }
 
     /**

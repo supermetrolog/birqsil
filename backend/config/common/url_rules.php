@@ -61,4 +61,15 @@ return [
             'POST <id>/upload-file' => 'upload-file',
         ]
     ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['category' => 'category'],
+        'prefix' => 'v1',
+        'patterns' => [
+            'GET <restaurant_id>' => 'index',
+            'POST' => 'create',
+            'PUT <id>' => 'update',
+            'DELETE <id>' => 'delete',
+        ]
+    ],
 ];

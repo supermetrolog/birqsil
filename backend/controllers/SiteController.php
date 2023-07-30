@@ -14,11 +14,6 @@ class SiteController extends AppController
 {
     protected array $exceptAuthActions = ['*'];
 
-    public function __construct($id, $module, Connection $db, $config = [])
-    {
-        parent::__construct($id, $module, $config);
-    }
-
     public function actionIndex(): string
     {
         $this->response->format = Response::FORMAT_RAW;

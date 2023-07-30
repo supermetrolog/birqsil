@@ -19,6 +19,8 @@ use yii\db\ActiveQuery;
  */
 class Category extends AR
 {
+    protected bool $useSoftDelete = false;
+
     /**
      * {@inheritdoc}
      */

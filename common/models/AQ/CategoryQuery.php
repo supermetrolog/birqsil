@@ -68,4 +68,13 @@ class CategoryQuery extends ActiveQuery
     {
         return $this->andWhere([Category::tableName() . '.restaurant_id' => $id]);
     }
+
+    /**
+     * @param int $id
+     * @return self
+     */
+    public function byUserId(int $id): self
+    {
+        return $this->joinWith(['restaurant' => fn (RestaurantQuery $query) => $query->byUserID($id)]);
+    }
 }
