@@ -7,6 +7,7 @@ use common\enums\Status;
 use common\models\AQ\MenuItemQuery;
 use DateTime;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property int $id
@@ -82,7 +83,7 @@ class MenuItem extends AR
      */
     public static function find(): MenuItemQuery
     {
-        return new MenuItemQuery(get_called_class());
+        return new MenuItemQuery(fn(array $row) => self::class, get_called_class());
     }
 
     /**

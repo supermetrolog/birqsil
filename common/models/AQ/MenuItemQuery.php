@@ -2,14 +2,13 @@
 
 namespace common\models\AQ;
 
+use common\base\model\AQ;
 use common\enums\Status;
 use common\models\AR\MenuItem;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
-class MenuItemQuery extends ActiveQuery
+class MenuItemQuery extends AQ
 {
-
     /**
      * @param $db
      * @return array|ActiveRecord|MenuItem
