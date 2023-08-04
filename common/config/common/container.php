@@ -6,6 +6,7 @@ use common\components\FileUploader;
 use common\components\Notifier;
 use common\components\Param;
 use common\enums\AppParams;
+use common\models\AR\User;
 use common\services\UserService;
 use yii\db\Connection;
 use yii\di\Container;
@@ -15,6 +16,11 @@ use yii\symfonymailer\Mailer;
 return [
     'definitions' => [],
     'singletons' => [
+        \yii\web\User::class => [
+            'identityClass' => User::class,
+            'enableAutoLogin' => false,
+            'enableSession' => false,
+        ],
         NotifierInterface::class => Notifier::class,
         MailerInterface::class => Mailer::class,
         Mailer::class => [

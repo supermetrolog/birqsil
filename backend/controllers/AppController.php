@@ -22,12 +22,12 @@ class AppController extends Controller
     protected User $user;
 
     /**
-     * @param string $id
+     * @param string|null $id
      * @param Module $module
      * @param User $user
      * @param array $config
      */
-    public function __construct(string $id, Module $module, User $user, array $config = [])
+    public function __construct(string|null $id, Module $module, User $user, array $config = [])
     {
         $this->user = $user;
         parent::__construct($id, $module, $config);
