@@ -67,6 +67,7 @@ return [
         'prefix' => 'v1',
         'patterns' => [
             'GET <restaurant_id>' => 'index',
+            'GET item/<id>' => 'view',
             'POST' => 'create',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',

@@ -84,4 +84,12 @@ class CategoryCest
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
     }
+
+    public function view(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/category/item/2');
+
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
 }

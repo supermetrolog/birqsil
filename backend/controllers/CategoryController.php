@@ -35,6 +35,16 @@ class CategoryController extends AppController
     }
 
     /**
+     * @param int $id
+     * @return Category
+     * @throws NotFoundHttpException
+     */
+    public function actionView(int $id): Category
+    {
+        return $this->findModel($id);
+    }
+
+    /**
      * @return Category
      * @throws ValidateException
      * @throws Exception
