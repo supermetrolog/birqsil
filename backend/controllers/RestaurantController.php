@@ -4,8 +4,10 @@ namespace backend\controllers;
 
 use backend\DTO\RestaurantDto;
 use backend\models\form\RestaurantForm;
+use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
 use common\components\Param;
+use common\enums\AppParams;
 use common\enums\RestaurantStatus;
 use common\helpers\HttpCode;
 use common\models\AR\Restaurant;
@@ -16,6 +18,7 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Writer\PngWriter;
 use Throwable;
 use yii\base\Exception;
+use yii\base\InvalidConfigException;
 use yii\base\Module;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
@@ -28,17 +31,26 @@ class RestaurantController extends AppController
 {
     protected array $exceptAuthActions = ['qrcode'];
     private RestaurantService $service;
+    private Param $param;
 
     /**
      * @param string $id
      * @param Module $module
      * @param User $user
      * @param RestaurantService $service
+     * @param Param $param
      * @param array $config
      */
-    public function __construct(string $id, Module $module, User $user, RestaurantService $service, array $config = [])
+    public function __construct(
+        string $id,
+        Module $module,
+        User $user,
+        RestaurantService $service,
+        Param $param,
+        array $config = [])
     {
         $this->service = $service;
+        $this->param = $param;
         parent::__construct($id, $module, $user, $config);
     }
 
@@ -116,7 +128,7 @@ class RestaurantController extends AppController
      * @param int $id
      * @return void
      * @throws NotFoundHttpException
-     * @throws ValidateException
+     * @throws SaveModelException
      */
     public function actionPublish(int $id): void
     {
@@ -131,7 +143,7 @@ class RestaurantController extends AppController
      * @param int $id
      * @return void
      * @throws NotFoundHttpException
-     * @throws ValidateException
+     * @throws SaveModelException
      */
     public function actionHide(int $id): void
     {
@@ -146,18 +158,21 @@ class RestaurantController extends AppController
      * @param int $id
      * @return string
      * @throws NotFoundHttpException
+     * @throws InvalidConfigException
      */
     public function actionQrcode(int $id): string
     {
         $this->response->format = Response::FORMAT_RAW;
         $this->response->headers->set('Content-type', 'image/png');
 
-        $restaurant = $this->findModel($id); // TODO
+        $restaurant = $this->findModel($id);
+
+        $url = $this->param->get(AppParams::MENU_FRONT_DOMAIN) . "/{$restaurant->unique_name}";
 
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
-            ->data('https://clients.supermetrolog.ru') // TODO:
+            ->data($url)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
             ->size(1000)
