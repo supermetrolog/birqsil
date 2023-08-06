@@ -20,9 +20,11 @@ use yii\helpers\ArrayHelper;
  * @property string|null $updated_at
  * @property string|null $deleted_at
  * @property int|null $file_id
+ * @property int $category_id
  *
  * @property Restaurant $restaurant
  * @property File $image
+ * @property Category $category
  */
 class MenuItem extends AR
 {
@@ -40,13 +42,14 @@ class MenuItem extends AR
     public function rules(): array
     {
         return [
-            [['restaurant_id', 'title', 'ordering'], 'required'],
-            [['restaurant_id', 'status', 'ordering', 'file_id'], 'integer'],
+            [['restaurant_id', 'title', 'ordering', 'category_id'], 'required'],
+            [['restaurant_id', 'status', 'ordering', 'file_id', 'category_id'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['title', 'description'], 'string', 'max' => 255],
             [['ordering'], 'unique'],
             [['restaurant_id'], 'exist', 'skipOnError' => true, 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
             [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::class, 'targetAttribute' => ['file_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id', 'restaurant_id' => 'restaurant_id']],
         ];
     }
 
@@ -65,6 +68,7 @@ class MenuItem extends AR
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'deleted_at' => 'Deleted At',
+            'category_id' => 'Category ID',
         ];
     }
 
@@ -117,5 +121,13 @@ class MenuItem extends AR
     public function getImage(): ActiveQuery
     {
         return $this->hasOne(File::class, ['id' => 'file_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getCategory(): ActiveQuery
+    {
+        return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 }
