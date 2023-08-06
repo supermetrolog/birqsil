@@ -34,6 +34,7 @@ readonly class MenuItemService
             $model = new MenuItem();
 
             $model->restaurant_id = $form->restaurant_id;
+            $model->category_id = $form->category_id;
             $model->status = $form->status;
             $model->title = $form->title;
             $model->description = $form->description;
@@ -59,6 +60,7 @@ readonly class MenuItemService
     {
         $form->ifNotValidThrow();
 
+        $model->category_id = $form->category_id;
         $model->title = $form->title;
         $model->description = $form->description;
         $model->status = $form->status;

@@ -4,8 +4,11 @@ namespace backend\tests\api;
 
 use backend\tests\ApiTester;
 use common\enums\AppParams;
+use common\fixtures\CategoryFixture;
 use common\fixtures\MenuItemFixture;
 use common\helpers\HttpCode;
+use common\models\AR\Category;
+use common\models\AR\Restaurant;
 use Yii;
 
 class MenuCest extends Auth
@@ -18,7 +21,11 @@ class MenuCest extends Auth
             'menu_item' => [
                 'class' => MenuItemFixture::class,
                 'dataFile' => codecept_data_dir() . 'menu_item.php'
-            ]
+            ],
+            'category' => [
+                'class' => CategoryFixture::class,
+                'dataFile' => codecept_data_dir('category.php')
+            ],
         ]);
     }
 
@@ -28,6 +35,7 @@ class MenuCest extends Auth
         $I->sendPost('/menu', [
             'restaurant_id' => 1,
             'title' => 'Test',
+            'category_id' => 1
         ]);
 
         $I->seeResponseCodeIs(HttpCode::OK->value);
@@ -37,8 +45,10 @@ class MenuCest extends Auth
     {
         $this->auth($I);
         $I->sendPut('/menu/1', [
+            'restaurant_id' => 2,
             'title' => 'Test2',
             'description' => 'Test2',
+            'category_id' => 2
         ]);
 
         $I->seeResponseCodeIs(HttpCode::OK->value);

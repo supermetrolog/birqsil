@@ -7,15 +7,13 @@ namespace common\base\exception;
 use Exception;
 use yii\base\Model;
 
-class ValidateException extends Exception
+class ValidateException extends ModelException
 {
-    public function __construct(private readonly Model $model, string $message = '')
+    /**
+     * @param Model $model
+     */
+    public function __construct(Model $model)
     {
-        parent::__construct($message);
-    }
-
-    public function getModel(): Model
-    {
-        return $this->model;
+        parent::__construct($model, 'Validate error');
     }
 }

@@ -4,8 +4,10 @@ namespace common\tests\unit\models\form;
 
 use Codeception\Test\Unit;
 use common\enums\Status;
+use common\fixtures\CategoryFixture;
 use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
+use common\models\AR\Category;
 use common\models\form\MenuItemForm;
 
 class MenuItemFormTest extends Unit
@@ -21,6 +23,10 @@ class MenuItemFormTest extends Unit
                 'class' => MenuItemFixture::class,
                 'dataFile' => codecept_data_dir() . 'menu_item.php'
             ],
+            'category' => [
+                'class' => CategoryFixture::class,
+                'dataFile' => codecept_data_dir() . 'category.php'
+            ],
         ];
     }
 
@@ -31,6 +37,7 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Valid data',
                 'data' => [
                     'restaurant_id' => 1,
+                    'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
                     'status' => Status::Active->value
@@ -42,6 +49,8 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Valid data update',
                 'data' => [
                     'id' => 1,
+                    'restaurant_id' => 1,
+                    'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
                     'status' => Status::Active->value
@@ -53,6 +62,7 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Invalid status',
                 'data' => [
                     'restaurant_id' => 1,
+                    'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
                     'status' => 55
@@ -64,6 +74,7 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Invalid restaurant ID',
                 'data' => [
                     'restaurant_id' => 55,
+                    'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
                 ],
@@ -74,6 +85,7 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Invalid title',
                 'data' => [
                     'restaurant_id' => 1,
+                    'category_id' => 1,
                     'title' => 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
                     'description' => 'Desc',
                 ],
@@ -84,8 +96,30 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Invalid description',
                 'data' => [
                     'restaurant_id' => 1,
+                    'category_id' => 1,
                     'title' => 'title',
                     'description' => 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
+                'isValid' => false,
+            ],
+            [
+                'desc' => 'Invalid category. Category belong restaurant with id = 2',
+                'data' => [
+                    'restaurant_id' => 1,
+                    'category_id' => 2,
+                    'title' => 'title',
+                    'description' => 'test',
+                ],
+                'scenario' => MenuItemForm::SCENARIO_CREATE,
+                'isValid' => false,
+            ],
+            [
+                'desc' => 'Invalid category. Category required',
+                'data' => [
+                    'restaurant_id' => 1,
+                    'title' => 'title',
+                    'description' => 'test',
                 ],
                 'scenario' => MenuItemForm::SCENARIO_CREATE,
                 'isValid' => false,

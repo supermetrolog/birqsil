@@ -6,6 +6,7 @@ use Codeception\Test\Unit;
 use common\base\exception\ValidateException;
 use common\components\FileUploader;
 use common\enums\Status;
+use common\fixtures\CategoryFixture;
 use common\fixtures\FileFixture;
 use common\fixtures\MenuItemFixture;
 use common\fixtures\RestaurantFixture;
@@ -38,6 +39,10 @@ class MenuItemServiceTest extends Unit
                 'class' => MenuItemFixture::class,
                 'dataFile' => codecept_data_dir() . 'menu_item.php'
             ],
+            'category' => [
+                'class' => CategoryFixture::class,
+                'dataFile' => codecept_data_dir('category.php')
+            ],
             'file' => [
                 'class' => FileFixture::class,
                 'dataFile' => codecept_data_dir() . 'file.php'
@@ -59,6 +64,7 @@ class MenuItemServiceTest extends Unit
         $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
             'restaurant_id' => 1,
+            'category_id' => 1,
             'title' => 'Test',
         ]);
 
@@ -76,6 +82,7 @@ class MenuItemServiceTest extends Unit
         $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
             'restaurant_id' => 22,
+            'category_id' => 1,
             'title' => 'Test',
         ]);
 
@@ -91,6 +98,7 @@ class MenuItemServiceTest extends Unit
         $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
             'restaurant_id' => 1,
+            'category_id' => 1,
             'title' => 'Test',
         ]);
 
@@ -109,6 +117,8 @@ class MenuItemServiceTest extends Unit
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
         $form->load([
+            'restaurant_id' => 1,
+            'category_id' => 1,
             'title' => 'Test2',
             'description' => 'Test2'
         ]);
@@ -127,6 +137,7 @@ class MenuItemServiceTest extends Unit
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
         $form->load([
+            'category_id' => 1,
             'title' => null,
             'description' => 'Test2'
         ]);

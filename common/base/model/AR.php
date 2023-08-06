@@ -2,6 +2,7 @@
 
 namespace common\base\model;
 
+use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
 use DateTime;
 use Throwable;
@@ -18,12 +19,12 @@ class AR extends ActiveRecord
     /**
      * @param bool $validate
      * @return void
-     * @throws ValidateException
+     * @throws SaveModelException
      */
     public function saveOrThrow(bool $validate = true): void
     {
         if (!$this->save($validate)) {
-            throw new ValidateException($this);
+            throw new SaveModelException($this);
         }
     }
 
@@ -46,7 +47,7 @@ class AR extends ActiveRecord
     /**
      * @return void
      * @throws ErrorException
-     * @throws ValidateException
+     * @throws SaveModelException
      */
     protected function softDelete(): void
     {
