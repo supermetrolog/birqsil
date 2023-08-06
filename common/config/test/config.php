@@ -16,6 +16,6 @@ return [
         ]
     ],
     'params' => [
-        AppParams::UPLOAD_FILE_BASE_PATH->value => dirname(__DIR__, 2) . '/tests/_output/uploads/',
+        AppParams::UPLOAD_FILE_BASE_PATH->value => dirname(__DIR__, 2) . '/tests/_output/',
     ]
 ];
