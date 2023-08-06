@@ -90,7 +90,7 @@ RUN mv composer.phar /usr/local/bin/composer
 #  Install php extensions
 RUN docker-php-ext-install sockets
 
-USER www-data:www-data
+#USER www-data:www-data
 
 WORKDIR /var/www/app
 
