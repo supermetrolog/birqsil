@@ -43,7 +43,7 @@ class MenuController extends AppController
             ->byUserId($this->user->getId())
             ->byRestaurantId($restaurant_id)
             ->notDeleted()
-            ->with(['image']);
+            ->with(['image', 'category']);
 
         return new ActiveDataProvider([
            'query' => $query,
