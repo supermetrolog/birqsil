@@ -87,4 +87,13 @@ class RestaurantQuery extends ActiveQuery
     {
         return $this->andWhere(['!=', Restaurant::tableName() . '.id', $id]);
     }
+
+    /**
+     * @param string $unique_name
+     * @return self
+     */
+    public function byUniqueName(string $unique_name): self
+    {
+        return $this->andWhere(['unique_name' => $unique_name]);
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use backend\DTO\RestaurantDto;
 use backend\models\form\RestaurantForm;
 use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
@@ -122,6 +121,21 @@ class RestaurantController extends AppController
     public function actionView(int $id): Restaurant
     {
         return $this->findModel($id)->setQrCodeLink(sprintf('%s/v1/restaurant/%d/qrcode', Url::base(true), $id));
+    }
+
+    /**
+     * @param string $unique_name
+     * @return Restaurant
+     * @throws NotFoundHttpException
+     */
+    public function actionUniqueView(string $unique_name): Restaurant
+    {
+        $model = Restaurant::find()->byUniqueName($unique_name)->one();
+        if (!$model) {
+            throw new NotFoundHttpException('Restaurant not found');
+        }
+
+        return $model->setQrCodeLink(sprintf('%s/v1/restaurant/%d/qrcode', Url::base(true), $model->id));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace backend\tests\api;
 
 use backend\tests\ApiTester;
+use Codeception\Template\Api;
 use common\fixtures\RestaurantFixture;
 use common\fixtures\UserAccessTokenFixture;
 use common\fixtures\UserFixture;
@@ -109,5 +110,12 @@ class RestaurantCest
         $I->sendGet('/restaurant/1/qrcode');
         $I->seeResponseCodeIs(HttpCode::OK->value);
         $I->seeHttpHeader('Content-type', 'image/png');
+    }
+
+    public function viewByUniqueName(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/restaurant/unique/11111');
+        $I->seeResponseCodeIs(HttpCode::OK->value);
     }
 }

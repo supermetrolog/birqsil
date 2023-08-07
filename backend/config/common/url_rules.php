@@ -40,6 +40,7 @@ return [
         'patterns' => [
             'GET' => 'index',
             'GET <id>' => 'view',
+            'GET unique/<unique_name>' => 'unique-view',
             'POST' => 'create',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',
