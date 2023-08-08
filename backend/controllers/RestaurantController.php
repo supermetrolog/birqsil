@@ -9,6 +9,8 @@ use common\components\Param;
 use common\enums\AppParams;
 use common\enums\RestaurantStatus;
 use common\helpers\HttpCode;
+use common\models\AQ\CategoryQuery;
+use common\models\AQ\MenuItemQuery;
 use common\models\AR\Restaurant;
 use common\services\RestaurantService;
 use Endroid\QrCode\Builder\Builder;
@@ -20,6 +22,7 @@ use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\Module;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveQuery;
 use yii\db\StaleObjectException;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -130,7 +133,17 @@ class RestaurantController extends AppController
      */
     public function actionUniqueView(string $unique_name): Restaurant
     {
-        $model = Restaurant::find()->byUniqueName($unique_name)->one();
+        $model = Restaurant::find()
+            ->byUniqueName($unique_name)
+            ->with(['categories' => function (CategoryQuery $query) {
+                $query->orderByOrdering();
+            }])
+            ->with(['categories.menuItems' => function (MenuItemQuery $query) {
+                $query->orderByOrdering();
+            }])
+            ->with(['categories.menuItems.image'])
+            ->one();
+
         if (!$model) {
             throw new NotFoundHttpException('Restaurant not found');
         }

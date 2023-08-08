@@ -5,6 +5,7 @@ namespace common\models\AR;
 use common\base\model\AR;
 use common\enums\AppParams;
 use common\enums\RestaurantStatus;
+use common\models\AQ\CategoryQuery;
 use common\models\AQ\RestaurantQuery;
 use yii\db\ActiveQuery;
 
@@ -124,5 +125,13 @@ class Restaurant extends AR
     {
         $this->_qrCodeLink = $link;
         return $this;
+    }
+
+    /**
+     * @return ActiveQuery|CategoryQuery
+     */
+    public function getCategories(): ActiveQuery|CategoryQuery
+    {
+        return $this->hasMany(Category::class, ['restaurant_id' => 'id']);
     }
 }

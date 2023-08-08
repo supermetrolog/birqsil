@@ -4,6 +4,7 @@ namespace common\models\AR;
 
 use common\base\model\AR;
 use common\models\AQ\CategoryQuery;
+use common\models\AQ\MenuItemQuery;
 use common\models\AQ\RestaurantQuery;
 use yii\db\ActiveQuery;
 
@@ -83,5 +84,13 @@ class Category extends AR
     public function generateOrdering(): void
     {
         $this->ordering = self::find()->byRestaurantId($this->restaurant_id)->lastOrdering() + 1;
+    }
+
+    /**
+     * @return ActiveQuery|MenuItemQuery
+     */
+    public function getMenuItems():ActiveQuery|MenuItemQuery
+    {
+        return $this->hasMany(MenuItem::class, ['category_id' => 'id']);
     }
 }
