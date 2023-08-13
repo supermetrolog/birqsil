@@ -9,22 +9,5 @@ use frontend\tests\ApiTester;
 
 class MenuCest
 {
-    private string $restaurantUniqueName;
 
-    public function _before(ApiTester $I): void
-    {
-        $I->haveFixtures([
-           'restaurant' => [
-               'class' => RestaurantFixture::class,
-               'dataFile' => codecept_data_dir('restaurant.php')
-           ]
-        ]);
-
-        $this->restaurantUniqueName = Restaurant::find()->one()->unique_name;
-    }
-    public function index(ApiTester $I): void
-    {
-        $I->sendGet('menu/' . $this->restaurantUniqueName);
-        $I->seeResponseCodeIs(HttpCode::OK->value);
-    }
 }

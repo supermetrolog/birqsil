@@ -96,4 +96,21 @@ class RestaurantQuery extends ActiveQuery
     {
         return $this->andWhere(['unique_name' => $unique_name]);
     }
+
+    /**
+     * @param RestaurantStatus $status
+     * @return self
+     */
+    public function byStatus(RestaurantStatus $status): self
+    {
+        return $this->andWhere([Restaurant::tableName() . '.status' => $status->value]);
+    }
+
+    /**
+     * @return self
+     */
+    public function published(): self
+    {
+        return $this->byStatus(RestaurantStatus::PUBLISHED);
+    }
 }

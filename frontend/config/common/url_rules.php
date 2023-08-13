@@ -15,10 +15,10 @@ return [
     ],
     [
         'class' => UrlRule::class,
-        'controller' => ['menu' => 'menu'],
+        'controller' => ['restaurant' => 'restaurant'],
         'prefix' => 'v1',
-        'extraPatterns' => [
-            'GET <restaurant_unique_name>' => 'index',
+        'patterns' => [
+            'GET unique/<unique_name>' => 'unique-view',
         ]
     ],
 ];

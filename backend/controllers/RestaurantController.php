@@ -127,31 +127,6 @@ class RestaurantController extends AppController
     }
 
     /**
-     * @param string $unique_name
-     * @return Restaurant
-     * @throws NotFoundHttpException
-     */
-    public function actionUniqueView(string $unique_name): Restaurant
-    {
-        $model = Restaurant::find()
-            ->byUniqueName($unique_name)
-            ->with(['categories' => function (CategoryQuery $query) {
-                $query->orderByOrdering();
-            }])
-            ->with(['categories.menuItems' => function (MenuItemQuery $query) {
-                $query->orderByOrdering();
-            }])
-            ->with(['categories.menuItems.image'])
-            ->one();
-
-        if (!$model) {
-            throw new NotFoundHttpException('Restaurant not found');
-        }
-
-        return $model->setQrCodeLink(sprintf('%s/v1/restaurant/%d/qrcode', Url::base(true), $model->id));
-    }
-
-    /**
      * @param int $id
      * @return void
      * @throws NotFoundHttpException
