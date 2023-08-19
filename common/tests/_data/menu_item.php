@@ -9,6 +9,7 @@ return [
         'title' => 'Test',
         'status' => Status::Active->value,
         'ordering' => 1,
+        'price' => 125,
         'category_id' => 1
     ]
 ];

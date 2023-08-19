@@ -2,6 +2,7 @@
 
 namespace common\services;
 
+use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
 use common\components\FileUploader;
 use common\enums\Status;
@@ -15,6 +16,10 @@ use yii\db\Exception;
 
 readonly class MenuItemService
 {
+    /**
+     * @param Connection $db
+     * @param FileUploader $fileUploader
+     */
     public function __construct(private Connection $db, private FileUploader $fileUploader)
     {
     }
@@ -38,6 +43,9 @@ readonly class MenuItemService
             $model->status = $form->status;
             $model->title = $form->title;
             $model->description = $form->description;
+            $model->price = $form->price;
+            $model->sale_price = $form->sale_price;
+            $model->unit_id = $form->unit_id;
             $model->generateOrdering();
 
             $model->saveOrThrow();
@@ -54,6 +62,7 @@ readonly class MenuItemService
      * @param MenuItemForm $form
      * @param MenuItem $model
      * @return void
+     * @throws SaveModelException
      * @throws ValidateException
      */
     public function update(MenuItemForm $form, MenuItem $model): void
@@ -64,6 +73,9 @@ readonly class MenuItemService
         $model->title = $form->title;
         $model->description = $form->description;
         $model->status = $form->status;
+        $model->price = $form->price;
+        $model->sale_price = $form->sale_price;
+        $model->unit_id = $form->unit_id;
 
         $model->saveOrThrow();
     }
@@ -71,7 +83,7 @@ readonly class MenuItemService
     /**
      * @param MenuItem $model
      * @return void
-     * @throws ValidateException
+     * @throws SaveModelException
      */
     public function delete(MenuItem $model): void
     {

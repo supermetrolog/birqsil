@@ -21,10 +21,16 @@ use yii\helpers\ArrayHelper;
  * @property string|null $deleted_at
  * @property int|null $file_id
  * @property int $category_id
+ * @property int|null $unit_id
+ * @property int $price
+ * @property int|null $sale_price
+ *
  *
  * @property Restaurant $restaurant
  * @property File $image
  * @property Category $category
+ * @property Unit $unit
+ *
  */
 class MenuItem extends AR
 {
@@ -42,12 +48,13 @@ class MenuItem extends AR
     public function rules(): array
     {
         return [
-            [['restaurant_id', 'title', 'ordering', 'category_id'], 'required'],
-            [['restaurant_id', 'status', 'ordering', 'file_id', 'category_id'], 'integer'],
+            [['restaurant_id', 'title', 'ordering', 'category_id', 'price'], 'required'],
+            [['restaurant_id', 'status', 'ordering', 'file_id', 'category_id', 'price', 'sale_price', 'unit_id'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['title', 'description'], 'string', 'max' => 255],
             [['ordering'], 'unique'],
             [['restaurant_id'], 'exist', 'skipOnError' => true, 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
+            [['unit_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unit::class, 'targetAttribute' => ['unit_id' => 'id']],
             [['file_id'], 'exist', 'skipOnError' => true, 'targetClass' => File::class, 'targetAttribute' => ['file_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id', 'restaurant_id' => 'restaurant_id']],
         ];
@@ -129,5 +136,13 @@ class MenuItem extends AR
     public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getUnit(): ActiveQuery
+    {
+        return $this->hasOne(Unit::class, ['id' => 'unit_id']);
     }
 }

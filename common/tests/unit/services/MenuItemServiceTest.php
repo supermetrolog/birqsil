@@ -65,6 +65,7 @@ class MenuItemServiceTest extends Unit
         $form->load([
             'restaurant_id' => 1,
             'category_id' => 1,
+            'price' => 125,
             'title' => 'Test',
         ]);
 
@@ -81,6 +82,7 @@ class MenuItemServiceTest extends Unit
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
+            'price' => 125,
             'restaurant_id' => 22,
             'category_id' => 1,
             'title' => 'Test',
@@ -97,6 +99,7 @@ class MenuItemServiceTest extends Unit
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_CREATE);
         $form->load([
+            'price' => 125,
             'restaurant_id' => 1,
             'category_id' => 1,
             'title' => 'Test',
@@ -117,6 +120,7 @@ class MenuItemServiceTest extends Unit
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
         $form->load([
+            'price' => 125,
             'restaurant_id' => 1,
             'category_id' => 1,
             'title' => 'Test2',
@@ -137,6 +141,7 @@ class MenuItemServiceTest extends Unit
         $form = new MenuItemForm();
         $form->setScenario(MenuItemForm::SCENARIO_UPDATE);
         $form->load([
+            'price' => 125,
             'category_id' => 1,
             'title' => null,
             'description' => 'Test2'

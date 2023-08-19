@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
 use common\helpers\HttpCode;
 use common\models\AR\MenuItem;
@@ -43,7 +44,7 @@ class MenuController extends AppController
             ->byUserId($this->user->getId())
             ->byRestaurantId($restaurant_id)
             ->notDeleted()
-            ->with(['image', 'category']);
+            ->with(['image', 'category', 'unit']);
 
         return new ActiveDataProvider([
            'query' => $query,
@@ -75,6 +76,7 @@ class MenuController extends AppController
      * @return MenuItem
      * @throws NotFoundHttpException
      * @throws ValidateException
+     * @throws SaveModelException
      */
     public function actionUpdate(int $id): MenuItem
     {

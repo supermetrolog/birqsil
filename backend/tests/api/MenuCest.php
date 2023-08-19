@@ -34,6 +34,7 @@ class MenuCest extends Auth
         $this->auth($I);
         $I->sendPost('/menu', [
             'restaurant_id' => 1,
+            'price' => 125,
             'title' => 'Test',
             'category_id' => 1
         ]);
@@ -47,6 +48,7 @@ class MenuCest extends Auth
         $I->sendPut('/menu/1', [
             'restaurant_id' => 2,
             'title' => 'Test2',
+            'price' => 125,
             'description' => 'Test2',
             'category_id' => 2
         ]);

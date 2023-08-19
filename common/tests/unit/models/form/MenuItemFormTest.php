@@ -38,6 +38,7 @@ class MenuItemFormTest extends Unit
                 'data' => [
                     'restaurant_id' => 1,
                     'category_id' => 1,
+                    'price' => 125,
                     'title' => 'Test',
                     'description' => 'Desc',
                     'status' => Status::Active->value
@@ -50,6 +51,7 @@ class MenuItemFormTest extends Unit
                 'data' => [
                     'id' => 1,
                     'restaurant_id' => 1,
+                    'price' => 125,
                     'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
@@ -62,6 +64,7 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Invalid status',
                 'data' => [
                     'restaurant_id' => 1,
+                    'price' => 125,
                     'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
@@ -74,6 +77,7 @@ class MenuItemFormTest extends Unit
                 'desc' => 'Invalid restaurant ID',
                 'data' => [
                     'restaurant_id' => 55,
+                    'price' => 125,
                     'category_id' => 1,
                     'title' => 'Test',
                     'description' => 'Desc',
@@ -84,6 +88,7 @@ class MenuItemFormTest extends Unit
             [
                 'desc' => 'Invalid title',
                 'data' => [
+                    'price' => 125,
                     'restaurant_id' => 1,
                     'category_id' => 1,
                     'title' => 'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
@@ -95,6 +100,7 @@ class MenuItemFormTest extends Unit
             [
                 'desc' => 'Invalid description',
                 'data' => [
+                    'price' => 125,
                     'restaurant_id' => 1,
                     'category_id' => 1,
                     'title' => 'title',
@@ -106,6 +112,7 @@ class MenuItemFormTest extends Unit
             [
                 'desc' => 'Invalid category. Category belong restaurant with id = 2',
                 'data' => [
+                    'price' => 125,
                     'restaurant_id' => 1,
                     'category_id' => 2,
                     'title' => 'title',
@@ -117,6 +124,7 @@ class MenuItemFormTest extends Unit
             [
                 'desc' => 'Invalid category. Category required',
                 'data' => [
+                    'price' => 125,
                     'restaurant_id' => 1,
                     'title' => 'title',
                     'description' => 'test',
