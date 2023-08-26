@@ -4,6 +4,7 @@ namespace common\services;
 
 use backend\models\form\SignInForm;
 use backend\models\form\SignUpForm;
+use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
 use common\base\interfaces\notifier\NotifierInterface;
 use common\components\Param;
@@ -91,9 +92,8 @@ readonly class UserService
      * @param int $userId
      * @param int $expire
      * @return UserAccessToken
-     * @throws ValidateException
      * @throws Exception
-     * @throws Exception
+     * @throws SaveModelException
      */
     public function createAccessToken(int $userId, int $expire): UserAccessToken
     {

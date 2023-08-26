@@ -2,35 +2,47 @@
 
 namespace backend\controllers;
 
+use backend\models\form\MenuItemOrderForm;
 use common\base\exception\SaveModelException;
 use common\base\exception\ValidateException;
+use common\factories\OrderingServiceFactory;
 use common\helpers\HttpCode;
 use common\models\AR\MenuItem;
 use common\models\form\MenuItemForm;
 use common\models\form\MenuItemImageUploadForm;
+use common\repositories\MenuItemRepository;
+use common\services\MenuItemOrderingService;
 use common\services\MenuItemService;
 use Throwable;
 use yii\base\Module;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
+use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\web\User;
 
 class MenuController extends AppController
 {
-    private MenuItemService $service;
-
     /**
      * @param string $id
      * @param Module $module
      * @param User $user
      * @param MenuItemService $service
+     * @param OrderingServiceFactory $orderingServiceFactory
+     * @param MenuItemRepository $menuItemRepository
      * @param array $config
      */
-    public function __construct(string $id, Module $module, User $user, MenuItemService $service, array $config = [])
+    public function __construct(
+        string $id,
+        Module $module,
+        User $user,
+        private readonly MenuItemService $service,
+        private readonly OrderingServiceFactory $orderingServiceFactory,
+        private readonly MenuItemRepository $menuItemRepository,
+        array $config = []
+    )
     {
-        $this->service = $service;
         parent::__construct($id, $module, $user, $config);
     }
 
@@ -94,7 +106,7 @@ class MenuController extends AppController
      * @param int $id
      * @return void
      * @throws NotFoundHttpException
-     * @throws ValidateException
+     * @throws SaveModelException
      */
     public function actionDelete(int $id): void
     {
@@ -130,6 +142,34 @@ class MenuController extends AppController
     }
 
     /**
+     * @return void
+     * @throws NotFoundHttpException
+     * @throws Throwable
+     */
+    public function actionOrder(): void
+    {
+        $form = new MenuItemOrderForm($this->user->identity, $this->menuItemRepository);
+        $form->load($this->request->post());
+        $form->ifNotValidThrow();
+
+        $currentModel = $this->findModel($form->current_id);
+
+        $afterOrdering = null;
+
+        if ($form->after_id) {
+            $afterModel = $this->findModel($form->after_id);
+            $afterOrdering = $afterModel->ordering;
+        }
+
+        $menuItemOrdering = new MenuItemOrderingService($this->menuItemRepository, $currentModel);
+        $service = $this->orderingServiceFactory->create($menuItemOrdering);
+
+        $service->order($afterOrdering);
+
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+
+    /**
      * @param int $id
      * @param array $with
      * @return MenuItem
@@ -137,13 +177,7 @@ class MenuController extends AppController
      */
     private function findModel(int $id, array $with = []): MenuItem
     {
-        if ($model = MenuItem::find()
-            ->byId($id)
-            ->byUserId($this->user->getId())
-            ->notDeleted()
-            ->with($with)
-            ->one()
-        ) {
+        if ($model = $this->menuItemRepository->findNotDeletedByIdAndUserId($id, $this->user->getId(), $with)) {
             return $model;
         }
 

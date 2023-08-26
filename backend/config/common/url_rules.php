@@ -58,6 +58,7 @@ return [
             'GET <restaurant_id>' => 'index',
             'GET item/<id>' => 'view',
             'POST' => 'create',
+            'POST order' => 'order',
             'PUT <id>' => 'update',
             'DELETE <id>' => 'delete',
             'POST <id>/upload-file' => 'upload-file',

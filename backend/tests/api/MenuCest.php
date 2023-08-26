@@ -8,6 +8,7 @@ use common\fixtures\CategoryFixture;
 use common\fixtures\MenuItemFixture;
 use common\helpers\HttpCode;
 use common\models\AR\Category;
+use common\models\AR\MenuItem;
 use common\models\AR\Restaurant;
 use Yii;
 
@@ -98,5 +99,55 @@ class MenuCest extends Auth
         $this->auth($I);
         $I->sendGet('/menu/item/1');
         $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
+
+    public function orderAfterGreatestCurrent(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPost('/menu/order', [
+            'current_id' => 2,
+            'after_id' => 3,
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+        $I->seeRecord(MenuItem::class, [
+            'id' => 2,
+            'ordering' => 4,
+        ]);
+    }
+
+    public function orderAfterLeastCurrent(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPost('/menu/order', [
+            'current_id' => 3,
+            'after_id' => 2,
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+        $I->seeRecord(MenuItem::class, [
+            'id' => 3,
+            'ordering' => 2,
+        ]);
+
+        $I->seeRecord(MenuItem::class, [
+            'id' => 2,
+            'ordering' => 3,
+        ]);
+    }
+
+    public function orderAfterNull(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendPost('/menu/order', [
+            'current_id' => 2,
+            'after_id' => null,
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+        $I->seeRecord(MenuItem::class, [
+            'id' => 2,
+            'ordering' => 4,
+        ]);
     }
 }
