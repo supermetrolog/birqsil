@@ -38,6 +38,7 @@ return [
         'controller' => ['restaurant' => 'restaurant'],
         'prefix' => 'v1',
         'patterns' => [
+            'GET check-exists' => 'check-exists',
             'GET' => 'index',
             'GET <id>' => 'view',
             'GET unique/<unique_name>' => 'unique-view',

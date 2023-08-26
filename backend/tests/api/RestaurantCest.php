@@ -111,4 +111,11 @@ class RestaurantCest
         $I->seeResponseCodeIs(HttpCode::OK->value);
         $I->seeHttpHeader('Content-type', 'image/png');
     }
+
+    public function checkExists(ApiTester $I): void
+    {
+        $this->auth($I);
+        $I->sendGet('/restaurant/check-exists', ['unique_name' => 'sdad']);
+        $I->seeResponseCodeIs(HttpCode::OK->value);
+    }
 }

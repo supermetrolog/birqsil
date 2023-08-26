@@ -185,6 +185,19 @@ class RestaurantController extends AppController
     }
 
     /**
+     * @return array
+     */
+    public function actionCheckExists(): array
+    {
+        $query = Restaurant::find();
+        $query->byUniqueName($this->request->get('unique_name', ''));
+
+        return [
+            'exists' => $query->exists()
+        ];
+    }
+
+    /**
      * @param int $id
      * @return Restaurant
      * @throws NotFoundHttpException
