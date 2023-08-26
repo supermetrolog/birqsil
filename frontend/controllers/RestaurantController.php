@@ -20,13 +20,16 @@ class RestaurantController extends AppController
         $model = Restaurant::find()
             ->byUniqueName($unique_name)
             ->published()
-            ->with(['categories' => function (CategoryQuery $query) {
-                $query->orderByOrdering();
-            }])
-            ->with(['categories.menuItems' => function (MenuItemQuery $query) {
-                $query->orderByOrdering();
-            }])
-            ->with(['categories.menuItems.image'])
+            ->with([
+                'categories' => function (CategoryQuery $query) {
+                    $query->orderByOrdering();
+                },
+                'categories.menuItems' => function (MenuItemQuery $query) {
+                    $query->orderByOrdering();
+                },
+                'categories.menuItems.image',
+                'categories.menuItems.unit'
+            ])
             ->one();
 
         if (!$model) {

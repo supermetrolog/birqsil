@@ -21,12 +21,12 @@ class m230819_145410_create_unit_table extends Migration
             'unit',
             ['value'],
             [
-                ['мл'],
-                ['л'],
-                ['мг'],
-                ['г'],
-                ['кг'],
-                ['шт'],
+                ['ml'],
+                ['l'],
+                ['mg'],
+                ['g'],
+                ['kg'],
+                ['pc'],
             ]
         );
     }
