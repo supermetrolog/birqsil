@@ -74,4 +74,12 @@ return [
             'DELETE <id>' => 'delete',
         ]
     ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['unit' => 'unit'],
+        'prefix' => 'v1',
+        'patterns' => [
+            'GET' => 'index',
+        ]
+    ],
 ];

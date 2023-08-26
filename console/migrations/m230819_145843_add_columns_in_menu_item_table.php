@@ -43,6 +43,12 @@ class m230819_145843_add_columns_in_menu_item_table extends Migration
             'sale_price',
             $this->integer()
         );
+
+        $this->addColumn(
+            'menu_item',
+            'amount',
+            $this->integer()
+        );
     }
 
     /**
@@ -50,6 +56,7 @@ class m230819_145843_add_columns_in_menu_item_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropColumn('menu_item', 'amount');
         $this->dropColumn('menu_item', 'sale_price');
         $this->dropColumn('menu_item', 'price');
 

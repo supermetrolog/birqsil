@@ -21,6 +21,7 @@ class MenuItemForm extends Form
     public int|null $unit_id = null;
     public int|null $price = null;
     public int|null $sale_price = null;
+    public int|null $amount = null;
 
     /**
      * @return array
@@ -29,7 +30,7 @@ class MenuItemForm extends Form
     {
         return [
             [['restaurant_id', 'title', 'status', 'category_id', 'price'], 'required'],
-            [['restaurant_id', 'status', 'category_id', 'unit_id', 'price', 'sale_price'], 'integer'],
+            [['restaurant_id', 'status', 'category_id', 'unit_id', 'price', 'sale_price', 'amount'], 'integer'],
             [['title', 'description'], 'string', 'max' => 255],
             ['status', 'in', 'range' => Status::asArray()],
             [['restaurant_id'], 'exist', 'skipOnError' => true, 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
@@ -51,7 +52,8 @@ class MenuItemForm extends Form
             'restaurant_id',
             'price',
             'sale_price',
-            'unit_id'
+            'unit_id',
+            'amount'
         ];
 
         return [

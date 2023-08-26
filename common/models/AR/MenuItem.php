@@ -24,7 +24,7 @@ use yii\helpers\ArrayHelper;
  * @property int|null $unit_id
  * @property int $price
  * @property int|null $sale_price
- *
+ * @property int|null $amount
  *
  * @property Restaurant $restaurant
  * @property File $image
@@ -49,7 +49,7 @@ class MenuItem extends AR
     {
         return [
             [['restaurant_id', 'title', 'ordering', 'category_id', 'price'], 'required'],
-            [['restaurant_id', 'status', 'ordering', 'file_id', 'category_id', 'price', 'sale_price', 'unit_id'], 'integer'],
+            [['restaurant_id', 'status', 'ordering', 'file_id', 'category_id', 'price', 'sale_price', 'unit_id', 'amount'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
             [['title', 'description'], 'string', 'max' => 255],
             [['ordering'], 'unique'],

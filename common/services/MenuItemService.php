@@ -46,6 +46,7 @@ readonly class MenuItemService
             $model->price = $form->price;
             $model->sale_price = $form->sale_price;
             $model->unit_id = $form->unit_id;
+            $model->amount = $form->amount;
             $model->generateOrdering();
 
             $model->saveOrThrow();
@@ -76,6 +77,7 @@ readonly class MenuItemService
         $model->price = $form->price;
         $model->sale_price = $form->sale_price;
         $model->unit_id = $form->unit_id;
+        $model->amount = $form->amount;
 
         $model->saveOrThrow();
     }
