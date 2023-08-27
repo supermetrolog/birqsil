@@ -26,7 +26,7 @@ class CategoryRepository
      */
     public function getLastOrdering(): int|null
     {
-        return Category::find()->orderByOrdering()->one()?->ordering;
+        return Category::find()->orderByOrdering(SORT_DESC)->one()?->ordering;
     }
 
     /**

@@ -36,11 +36,12 @@ class CategoryQuery extends ActiveQuery
     }
 
     /**
+     * @param int $method
      * @return self
      */
-    public function orderByOrdering(): self
+    public function orderByOrdering(int $method): self
     {
-        return $this->orderBy([Category::tableName() . '.ordering' => SORT_DESC]);
+        return $this->orderBy([Category::tableName() . '.ordering' => $method]);
     }
 
     /**
@@ -48,7 +49,7 @@ class CategoryQuery extends ActiveQuery
      */
     public function lastOrdering(): int
     {
-        return $this->orderByOrdering()->one()?->ordering ?? 0;
+        return $this->orderByOrdering(SORT_DESC)->one()?->ordering ?? 0;
     }
 
     /**

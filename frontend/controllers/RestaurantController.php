@@ -22,10 +22,10 @@ class RestaurantController extends AppController
             ->published()
             ->with([
                 'categories' => function (CategoryQuery $query) {
-                    $query->orderByOrdering();
+                    $query->orderByOrdering(SORT_ASC);
                 },
                 'categories.menuItems' => function (MenuItemQuery $query) {
-                    $query->orderByOrdering();
+                    $query->orderByOrdering(SORT_ASC);
                 },
                 'categories.menuItems.image',
                 'categories.menuItems.unit'

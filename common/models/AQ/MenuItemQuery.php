@@ -38,11 +38,12 @@ class MenuItemQuery extends AQ
     }
 
     /**
+     * @param int $method
      * @return self
      */
-    public function orderByOrdering(): self
+    public function orderByOrdering(int $method): self
     {
-        return $this->orderBy([MenuItem::tableName() . '.ordering' => SORT_DESC]);
+        return $this->orderBy([MenuItem::tableName() . '.ordering' => $method]);
     }
 
     /**
@@ -50,7 +51,7 @@ class MenuItemQuery extends AQ
      */
     public function lastOrdering(): int
     {
-        return $this->orderByOrdering()->one()?->ordering ?? 0;
+        return $this->orderByOrdering(SORT_DESC)->one()?->ordering ?? 0;
     }
 
     /**

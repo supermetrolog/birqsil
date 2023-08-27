@@ -32,7 +32,7 @@ class MenuItemRepository
      */
     public function getModelBeforeOrdering(int $ordering): MenuItem|null
     {
-        return MenuItem::find()->orderByOrdering()->andWhere(['<', 'ordering', $ordering])->one();
+        return MenuItem::find()->orderByOrdering(SORT_DESC)->andWhere(['<', 'ordering', $ordering])->one();
     }
 
     /**
@@ -51,6 +51,6 @@ class MenuItemRepository
      */
     public function getLastOrdering(): int|null
     {
-        return MenuItem::find()->orderByOrdering()->one()?->ordering;
+        return MenuItem::find()->orderByOrdering(SORT_DESC)->one()?->ordering;
     }
 }

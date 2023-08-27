@@ -61,8 +61,10 @@ class MenuController extends AppController
         return new ActiveDataProvider([
            'query' => $query,
             'sort' => [
+                'enableMultiSort' => true,
                 'defaultOrder' => [
-                    'ordering' => SORT_ASC
+                    'category_id' => SORT_ASC,
+                    'ordering' => SORT_ASC,
                 ]
             ]
         ]);
