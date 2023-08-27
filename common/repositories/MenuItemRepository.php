@@ -11,13 +11,18 @@ class MenuItemRepository
 {
     /**
      * @param int $ordering
+     * @param int $restaurant_id
      * @return int
      */
-    public function indexAfterNewCurrentOrdering(int $ordering): int
+    public function indexAfterNewCurrentOrdering(int $ordering, int $restaurant_id): int
     {
         return MenuItem::updateAll(
             ['ordering' => new Expression('ordering + 1')],
-            ['>=', 'ordering', $ordering]
+            [
+                'AND',
+                ['>=', 'ordering', $ordering],
+                'restaurant_id' => $restaurant_id
+            ]
         );
     }
 

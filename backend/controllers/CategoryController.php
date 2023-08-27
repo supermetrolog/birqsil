@@ -3,17 +3,43 @@
 namespace backend\controllers;
 
 use backend\models\form\CategoryForm;
+use backend\models\form\CategoryOrderForm;
 use common\base\exception\ValidateException;
+use common\factories\OrderingServiceFactory;
 use common\helpers\HttpCode;
 use common\models\AR\Category;
+use common\repositories\CategoryRepository;
+use common\services\CategoryOrderingService;
 use Exception;
 use Throwable;
+use yii\base\Module;
 use yii\data\ActiveDataProvider;
 use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
+use yii\web\User;
 
 class CategoryController extends AppController
 {
+    /**
+     * @param string|null $id
+     * @param Module $module
+     * @param User $user
+     * @param CategoryRepository $repository
+     * @param OrderingServiceFactory $orderingServiceFactory
+     * @param array $config
+     */
+    public function __construct(
+        ?string $id,
+        Module $module,
+        User $user,
+        private readonly CategoryRepository $repository,
+        private readonly OrderingServiceFactory $orderingServiceFactory,
+        array $config = []
+    )
+    {
+        parent::__construct($id, $module, $user, $config);
+    }
+
     /**
      * @param int $restaurant_id
      * @return ActiveDataProvider
@@ -28,7 +54,7 @@ class CategoryController extends AppController
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
-                    'created_at' => SORT_DESC
+                    'ordering' => SORT_ASC
                 ]
             ]
         ]);
@@ -91,6 +117,36 @@ class CategoryController extends AppController
         $this->findModel($id)->delete();
         $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
     }
+
+    /**
+     * @return void
+     * @throws NotFoundHttpException
+     * @throws Throwable
+     * @throws ValidateException
+     */
+    public function actionOrder(): void
+    {
+        $form = new CategoryOrderForm($this->user->identity, $this->repository);
+        $form->load($this->request->post());
+        $form->ifNotValidThrow();
+
+        $currentModel = $this->findModel($form->current_id);
+
+        $afterOrdering = null;
+
+        if ($form->after_id) {
+            $afterModel = $this->findModel($form->after_id);
+            $afterOrdering = $afterModel->ordering;
+        }
+
+        $menuItemOrdering = new CategoryOrderingService($this->repository, $currentModel);
+        $service = $this->orderingServiceFactory->create($menuItemOrdering);
+
+        $service->order($afterOrdering);
+
+        $this->response->setStatusCode(HttpCode::NO_CONTENT->value);
+    }
+
 
     /**
      * @param int $id

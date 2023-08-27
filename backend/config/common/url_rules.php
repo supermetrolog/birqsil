@@ -69,6 +69,7 @@ return [
         'controller' => ['category' => 'category'],
         'prefix' => 'v1',
         'patterns' => [
+            'POST order' => 'order',
             'GET <restaurant_id>' => 'index',
             'GET item/<id>' => 'view',
             'POST' => 'create',

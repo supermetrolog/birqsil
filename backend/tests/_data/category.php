@@ -11,12 +11,12 @@ return [
         'id' => 2,
         'name' => 'test',
         'restaurant_id' => 2,
-        'ordering' => 1
+        'ordering' => 2
     ],
     [
         'id' => 3,
         'name' => 'test2',
         'restaurant_id' => 2,
-        'ordering' => 2
+        'ordering' => 3
     ]
 ];

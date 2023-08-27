@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace common\services;
 
 use common\base\exception\SaveModelException;
-use common\models\AR\MenuItem;
-use common\repositories\MenuItemRepository;
+use common\models\AR\Category;
+use common\repositories\CategoryRepository;
 
-class MenuItemOrderingService implements ordering\OrderingServiceInterface
+class CategoryOrderingService implements ordering\OrderingServiceInterface
 {
     public function __construct(
-        private readonly MenuItemRepository $repository,
-        private readonly MenuItem $model
+        private readonly CategoryRepository $repository,
+        private readonly Category $model
     )
     {
     }
