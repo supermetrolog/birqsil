@@ -62,7 +62,7 @@ class MenuController extends AppController
            'query' => $query,
             'sort' => [
                 'defaultOrder' => [
-                    'ordering' => SORT_DESC
+                    'ordering' => SORT_ASC
                 ]
             ]
         ]);
