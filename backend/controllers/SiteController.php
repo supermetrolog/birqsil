@@ -9,27 +9,43 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Writer\PngWriter;
 use yii\db\Connection;
 use yii\web\Response;
+use function Psy\bin;
 
 class SiteController extends AppController
 {
     protected array $exceptAuthActions = ['*'];
 
-    public function actionIndex(): string
+    public function actionIndex(): void
     {
-        $this->response->format = Response::FORMAT_RAW;
-        $this->response->headers->set('Content-type', 'image/png');
+//        dd(openssl_get_curve_names());
+        $privateKey = openssl_pkey_new([
+            'private_key_bits' => 2048,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+        ]);
 
-        $result = Builder::create()
-            ->writer(new PngWriter())
-            ->writerOptions([])
-            ->data('https://clients.supermetrolog.ru')
-            ->encoding(new Encoding('UTF-8'))
-            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-            ->size(1000)
-            ->margin(30)
-            ->build();
+        openssl_pkey_export($privateKey, $privateKeyPem);
 
-        return $result->getString();
+        $publicKeyPem = openssl_pkey_get_details($privateKey)['key'];
+        $publicKey = openssl_get_publickey($publicKeyPem);
+
+        $address = hash('ripemd160', hash('sha256', $publicKeyPem));
+        dd($privateKey, $privateKeyPem, $publicKey, $publicKeyPem, $address);
+
+        $data = 'Hello world!';
+        openssl_public_encrypt($data, $encryptedData, $publicKey);
+
+        openssl_private_decrypt($encryptedData, $decryptedData, $privateKey);
+
+//        dd($data, $encryptedData, $decryptedData);
+
+        $data = 'Hello world!';
+        openssl_private_encrypt($data, $encryptedData, $privateKey);
+
+        openssl_public_decrypt($encryptedData, $decryptedData, $publicKey);
+
+        openssl_sign($data, $signature, $privateKey, OPENSSL_ALGO_SHA256);
+        $verify = openssl_verify($data, $signature, $publicKey, OPENSSL_ALGO_SHA256);
+        dd($data, unpack('A', $encryptedData), $encryptedData, $decryptedData, $signature, base64_encode($signature), $verify);
     }
 
     /**
