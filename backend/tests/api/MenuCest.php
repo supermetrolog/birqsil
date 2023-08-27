@@ -110,9 +110,10 @@ class MenuCest extends Auth
         ]);
 
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT->value);
+
         $I->seeRecord(MenuItem::class, [
             'id' => 2,
-            'ordering' => 4,
+            'ordering' => 3,
         ]);
     }
 
