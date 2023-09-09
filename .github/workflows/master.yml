@@ -16,14 +16,6 @@ jobs:
         with:
           php-version: "8.2"
 
-      - name: 📂 Sync files with PROD server
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: 31.129.96.24
-          username: ${{ secrets.ssh_username }}
-          password: ${{ secrets.ssh_username }}
-          remote_path: '/home/server/birqsil'
-
       - name: multiple command in PROD server
         uses: appleboy/ssh-action@master
         with:
@@ -32,6 +24,7 @@ jobs:
           password: ${{ secrets.ssh_password }}
           script: >-
             cd /home/server/birqsil &&
+            git pull &&
             composer install &&
             php yii migrate --interactive=0 &&
             chmod u+x ./init.sh &&
