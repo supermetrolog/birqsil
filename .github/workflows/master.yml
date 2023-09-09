@@ -8,14 +8,6 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v2
-
-      - name: Setup Enviroment
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2"
-
       - name: multiple command in PROD server
         uses: appleboy/ssh-action@master
         with:
